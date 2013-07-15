@@ -37,13 +37,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         ,
         desc: "Clears the ban list"
         ,
-        /** Must be level 2 or higher to use unbanall */
         perm: function (src)
         {
             return sys.auth(src) >= 2;
         }
         ,
-        /** Unbans everyone */
         code: function (src, cmd)
         {
             if (!(cmd.flags.force))
@@ -60,13 +58,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     ,
     unban:
     {
+        server: true
+        ,
         desc: "Removes bans from users"
         ,
         perm: function (src)
         {
             return sys.auth(src) >= 2;
         }
-
         ,
         code: function (src, cmd, chan)
         {
@@ -175,7 +174,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 
-            for (var x in profbanlst)
+            for (x in profbanlst)
             {
                 var o =  {
                     expires: exp,
@@ -191,6 +190,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     ,
     banlist:
     {
+        server: true
+        ,
         desc: "Lists banned users"
         ,
         perm: function (src)

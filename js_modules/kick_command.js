@@ -20,10 +20,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /////////////////////// END LEGAL NOTICE /////////////////////////////// */
 ({
-    require: ["commands", "com", "theme"]
+    require: ["commands", "com", "theme", "user"]
     ,
-    kick: 
+    kick:
     {
+        server: true
+        ,
         desc: "Kicks user(s) off the server"
         ,
         options:
@@ -42,12 +44,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         {
             var kicklist = [];
             var kicknameslist = [];
-            var sys_auth$src = sys.auth(src);
+            var sys_auth$src = (src == 0 ? 3 : sys.auth(src));
 
             for (var x in cmd.args)
             {
                 var i = sys.id(cmd.args[x]);
-                
+
                 if (!i)
                 {
                     this.com.message([src], "Cant find user: " + cmd.args[x], this.theme.WARN);
@@ -59,17 +61,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     this.com.message([src], "Auth is immune to kick.", this.theme.WARN);
                     continue;
                 }
-                
+
                 kicklist.push(i);
                 kicknameslist.push(cmd.args[x]);
             }
 
             if (kicklist.length == 0) return;
 
-            if (!cmd.flags.silent || sys_auth$src != 3) 
+            if (!cmd.flags.silent || sys_auth$src != 3)
             {
-                this.com.broadcast(sys.name(src) + " kicked " + kicknameslist.join(", ") + "!", this.theme.CRITICAL);
-            }           
+                this.com.broadcast(this.user.name(src) + " kicked " + kicknameslist.join(", ") + "!", this.theme.CRITICAL);
+            }
 
             for (var x in kicklist)
             {

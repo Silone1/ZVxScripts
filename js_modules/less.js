@@ -38,7 +38,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         var lines;
 
         if (src == 0) {
-            print (msg); // for the moment this is not supported with server :(
+            this.com.message(src, msg, this.theme.INFO, html); // for the moment this is not supported with server :(
             return;
         }
 

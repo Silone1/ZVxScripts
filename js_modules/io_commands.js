@@ -38,6 +38,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             ,
             backup: "Back-up databases(s)"
             ,
+            close: "Closes databases"
+            ,
             all: "Apply actions to all open databases as well"
         }
         ,
@@ -58,7 +60,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 return;
             }
 
-            
+
 
             if (cmd.flags.all)
             {
@@ -66,28 +68,36 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 for (var x in dblist2) if (dblist.indexOf(dblist2[x]) === -1) dblist.push(dblist2[x]);
             }
 
-            if (cmd.flags.sync) for (var x in dblist) 
+            if (cmd.flags.sync) for (var x in dblist)
             {
                 var start = +new Date;
                 this.io.flushDB(dblist[x]);
                 var end = +new Date;
-               
+
             }
 
-            if (cmd.flags.commit) for (var x in dblist) 
+            if (cmd.flags.commit) for (var x in dblist)
             {
                 var start = +new Date;
                 this.io.commitDB(dblist[x]);
                 var end = +new Date;
-                
+
             }
 
-            if (cmd.flags.backup) for (var x in dblist) 
+            if (cmd.flags.backup) for (var x in dblist)
             {
                 var start = +new Date;
                 this.io.backupDB(dblist[x]);
                 var end = +new Date;
-                
+
+            }
+
+            if (cmd.flags.close) for (var x in dblist)
+            {
+                var start = +new Date;
+                this.io.closeDB(dblist[x]);
+                var end = +new Date;
+
             }
 
             if (cmd.flags.purge) for (var x in dblist)

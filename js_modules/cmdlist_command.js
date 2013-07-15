@@ -33,6 +33,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
      * */
     cmdlist:
     {
+        server: true
+        ,
         aliases: ["commands", "commandlist"]
         ,
         desc: "Lists the commands available to the user."
@@ -59,7 +61,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             {
 
                 if (cmds[x].name != x) continue;
-                var canuse = sys_auth$src == 3 || cmds[x].perm.apply(cmds[x].bind, [src]);
+                var canuse = (src == 0? cmds[x].server : sys_auth$src == 3 || cmds[x].perm.apply(cmds[x].bind, [src]));
                 if (!cmd.flags.all && sys_auth$src != 3 && !canuse) continue;
 
                 msg.push("<b>/" + text.escapeHTML(x) +"</b>" + (canuse?"":" (NO PERMISSION)") + (cmds[x].desc?" "+cmds[x].desc:"") );

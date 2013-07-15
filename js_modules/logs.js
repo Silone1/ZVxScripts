@@ -28,7 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     ,
     logMessage: function (level,msg)
     {
-        
+
         if (level != 0) print("logmsg lv" + level + ": " +msg);
         this.logs.push([level, msg]);
 
@@ -37,25 +37,25 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             sys.playerIds().forEach(function(i) { if (sys.auth(i) >= 1) auths.push(i); });
 
             this.com.message(auths, msg, this.theme.CRITICAL);
-        } 
+        }
         else if (level >= 2)
         {
             var auths = [];
             sys.playerIds().forEach(function(i) { if (sys.auth(i) >= 1) auths.push(i); });
 
             this.com.message(auths, msg, this.theme.INFO);
-        } 
+        }
         else if (1 || level == 1)
         {
             var auths = [];
             sys.playerIds().forEach(function(i) { if (sys.auth(i) == 3) auths.push(i); });
 
-            this.com.message(auths, msg, this.theme.INFO);   
+            this.com.message(auths, msg, this.theme.INFO);
         }
-        
-        try 
+
+        try
         {
-            sys.append("logs.txt", JSON.stringify([level, msg, (new Date).toString()]) + "\n");
+            sys.append("logs.txt", JSON.stringify([level, msg, (new Date).toString(), sys.backtrace()]) + "\n");
         } catch (_) {}
     }
     ,
