@@ -42,6 +42,27 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * @type Number
  * @class
  */
+/**
+ * @name rpgSkillComponent
+ * @class
+ */
+/** Target of the component, either "self", "opp", "ally" or combinations of such (in array)
+ * @name target
+ * @memberOf rpgSkillComponent.prototype
+ */
+/** How many enemies to strike
+ * @name count
+ * @memberOf rpgSkillComponent.prototype
+ */
+/** Type of component, e.g., 'physical', 'magical', 'heal' etc.
+ * @name move
+ * @memberOf rpgSkillComponent.prototype
+ */
+/** The base damage done.
+ * @name base
+ * @memberOf rpgSkillComponent.prototype
+ */
+
 
 /** @scope script.modules.rpg_game */
 ({
