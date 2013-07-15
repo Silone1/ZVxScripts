@@ -25,6 +25,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     ,
     eval:
     {
+        server: true
+        ,
         desc: "Executes code on the server"
         ,
         perm: function (src)
@@ -34,10 +36,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         ,
         code: function (src, cmd, chan)
         {
-            try 
+            try
             {
                 this.less.less(src, this.util.inspect(eval(cmd.input), true), false);
-            } 
+            }
             catch (e)
             {
                 this.com.message([src], e.toString(), this.theme.CRITICAL);
