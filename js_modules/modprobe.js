@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /////////////////////// END LEGAL NOTICE /////////////////////////////// */
 /** Modprobe
- * @memberof script.modules
+ * @memberOf script.modules
  * @name modprobe
  * @namespace
  */
@@ -38,6 +38,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
      */
     modprobe:
     {
+        server: true
+        ,
         desc: "Manages loadable modules"
         ,
         options :

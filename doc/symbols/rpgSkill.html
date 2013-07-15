@@ -5,7 +5,7 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
 		
-		<title>JsDoc Reference - rpgEquip</title>
+		<title>JsDoc Reference - rpgSkill</title>
 
 		<style type="text/css">
 			/* default.css */
@@ -246,7 +246,7 @@ ul.inheritsList
 <!-- ============================== class title ============================ -->
 			<h1 class="classTitle">
 				
-				Class rpgEquip
+				Class rpgSkill
 			</h1>
 
 <!-- ============================== class summary ========================== -->			
@@ -257,13 +257,13 @@ ul.inheritsList
 				
 				
 				
-					<br /><i>Defined in: </i> <a href="../symbols/src/js_modules_rpg_equips.js.html">rpg_equips.js</a>.
+					<br /><i>Defined in: </i> <a href="../symbols/src/js_modules_rpg_skills.js.html">rpg_skills.js</a>.
 				
 			</p>
 
 <!-- ============================== constructor summary ==================== -->			
 			
-			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class rpgEquip.">
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class rpgSkill.">
 				<caption>Class Summary</caption>
 				<thead>
 					<tr>
@@ -276,9 +276,9 @@ ul.inheritsList
 						<td class="attributes">&nbsp;</td>
 						<td class="nameDescription" >
 							<div class="fixedFont">
-								<b><a href="../symbols/rpgEquip.html#constructor">rpgEquip</a></b>()
+								<b><a href="../symbols/rpgSkill.html#constructor">rpgSkill</a></b>()
 							</div>
-							<div class="description">This type of object contains the definitions of equips.</div>
+							<div class="description">This type of object contains the definitions of skills</div>
 						</td>
 					</tr>
 				</tbody>
@@ -289,7 +289,7 @@ ul.inheritsList
 			
 				
 				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class rpgEquip.">
+				<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class rpgSkill.">
 					<caption>Field Summary</caption>
 					<thead>
 						<tr>
@@ -303,9 +303,9 @@ ul.inheritsList
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">
-								<b><a href="../symbols/rpgEquip.html#amount">amount</a></b>
+								<b><a href="../symbols/rpgSkill.html#cost">cost</a></b>
 								</div>
-								<div class="description">How much of the material is needed to make the item.</div>
+								<div class="description">The cost of using the skill.</div>
 							</td>
 						</tr>
 					
@@ -313,9 +313,9 @@ ul.inheritsList
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">
-								<b><a href="../symbols/rpgEquip.html#base">base</a></b>
+								<b><a href="../symbols/rpgSkill.html#level">level</a></b>
 								</div>
-								<div class="description">How much protection or damage the item provides.</div>
+								<div class="description">Skill level.</div>
 							</td>
 						</tr>
 					
@@ -323,39 +323,9 @@ ul.inheritsList
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">
-								<b><a href="../symbols/rpgEquip.html#hands">hands</a></b>
+								<b><a href="../symbols/rpgSkill.html#name">name</a></b>
 								</div>
-								<div class="description">How many hands, for equips of class hand, either 1 or 2.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								<b><a href="../symbols/rpgEquip.html#materials">materials</a></b>
-								</div>
-								<div class="description">An array of all the different types of materials that can be used to make this item.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								<b><a href="../symbols/rpgEquip.html#name">name</a></b>
-								</div>
-								<div class="description">The human readable version of the name of this equip.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								<b><a href="../symbols/rpgEquip.html#type">type</a></b>
-								</div>
-								<div class="description">Either 'head' 'body' 'feet' 'hand' or 'back'.</div>
+								<div class="description">The name of the skill</div>
 							</td>
 						</tr>
 					
@@ -379,11 +349,11 @@ ul.inheritsList
 				</div>
 				
 				<div class="fixedFont">
-						<b>rpgEquip</b>()
+						<b>rpgSkill</b>()
 				</div>
 				
 				<div class="description">
-					This type of object contains the definitions of equips.
+					This type of object contains the definitions of skills
 					
 				</div>
 				
@@ -407,15 +377,15 @@ ul.inheritsList
 					Field Detail
 				</div>
 				
-					<a name="amount"> </a>
+					<a name="cost"> </a>
 					<div class="fixedFont">
 					
-					
-					<b>amount</b>
+					<span class="light">{rpgCost}</span>
+					<b>cost</b>
 					
 					</div>
 					<div class="description">
-						How much of the material is needed to make the item.
+						The cost of using the skill.
 						
 						
 					</div>
@@ -429,59 +399,15 @@ ul.inheritsList
 
 					<hr />
 				
-					<a name="base"> </a>
+					<a name="level"> </a>
 					<div class="fixedFont">
 					
-					
-					<b>base</b>
+					<span class="light">{<a href="../symbols/rpgSkillLevel.html">rpgSkillLevel</a>}</span>
+					<b>level</b>
 					
 					</div>
 					<div class="description">
-						How much protection or damage the item provides.
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name="hands"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{Number}</span>
-					<b>hands</b>
-					
-					</div>
-					<div class="description">
-						How many hands, for equips of class hand, either 1 or 2.
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name="materials"> </a>
-					<div class="fixedFont">
-					
-					
-					<b>materials</b>
-					
-					</div>
-					<div class="description">
-						An array of all the different types of materials that can be used to make this item.
+						Skill level.
 						
 						
 					</div>
@@ -503,29 +429,7 @@ ul.inheritsList
 					
 					</div>
 					<div class="description">
-						The human readable version of the name of this equip.
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name="type"> </a>
-					<div class="fixedFont">
-					
-					
-					<b>type</b>
-					
-					</div>
-					<div class="description">
-						Either 'head' 'body' 'feet' 'hand' or 'back'.
+						The name of the skill
 						
 						
 					</div>
