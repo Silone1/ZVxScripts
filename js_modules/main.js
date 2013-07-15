@@ -24,7 +24,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * @fileOverview This file is the main modloader.
  * @author <a href="mailto:archzombielord@gmail.com">ArchZombie0x</a>
  */
-
+/** Scripts are loaded using modules.
+ * @class
+ * @name Module
+ */
+/** Called when a module is loaded. Should initialize the internal state of the module.
+ * @name loadModule
+ * @function
+ * @memberOf Module.prototype
+ */
+/** Called when a module is unloaded. Should deinitialize the internal state of the module, at least saving to disk.
+ * @name unloadModule
+ * @function
+ * @memberOf Module.prototype
+ */
 /** The module loader object
  *  @name script
  *  @namespace
