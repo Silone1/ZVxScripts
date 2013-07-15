@@ -40,7 +40,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         ,
         code: function(src, cmd, chan)
         {
-            this.com.broadcast("<font color=blue><timestamp /><i>" + this.text.escapeHTML(this.user.name(src) + " " + cmd.input) + "</i></font>", -1, true, (chan == -1?void0:chan));
+            this.com.broadcast("<font color=blue><timestamp /><i>" + this.text.escapeHTML(this.user.name(src) + " " + cmd.input) + "</i></font>", -1, true, (chan == -1?void 0:chan));
         }
     }
 });
