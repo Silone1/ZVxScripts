@@ -63,10 +63,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         var text = [];
         if (1)// || test !== "ZScripts Web Module: Confirming source distributed via webserver. /s/ zscriptswebsource");
         {
-            for (var x in this.script.modules)
+            var flist = sys.filesForDirectory("js_modules");
+            for (var x in flist) if (!flist[x].match(/^#.+#$/) && !flist[x].match(/~$/))
             {
-                text.push("<b>File: " + x + ".js</b>");
-                text.push("<code>" + this.text.escapeHTML(sys.read("js_modules/" + x + ".js")) + "</code>");
+                text.push("<b>File: " + flist[x] + "</b>");
+                text.push("<code>" + this.text.escapeHTML(sys.read("js_modules/" + flist[x] )) + "</code>");
             }
             sys.sendHtmlMessage(src, "<hr/>" + text.join("<hr/>")+ "<hr/>");
         }
