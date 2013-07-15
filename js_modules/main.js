@@ -30,12 +30,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 /** Called when a module is loaded. Should initialize the internal state of the module.
  * @name loadModule
- * @function
+ * @event
  * @memberOf Module.prototype
  */
 /** Called when a module is unloaded. Should deinitialize the internal state of the module, at least saving to disk.
  * @name unloadModule
+ * @event
+ * @memberOf Module.prototype
+ */
+/** Sets up a call to activate during the unload module event.
+ * @name onUnloadModule
  * @function
+ * @param callback Function to be called.
  * @memberOf Module.prototype
  */
 /** The module loader object
