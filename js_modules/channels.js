@@ -26,57 +26,50 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 /** @scope script.modules.channels */
 ({
-    require: ["io", "user"]
+     require: ["io", "user", "logs"]
     ,
-    /** The chans property stores channel databases */
+    /** The chans property stores channel databases. Key is channel permanent ID. */
     chans: null
     ,
     /** ChanDB keeps track of the file names of channel databases */
     chanDB: null
     ,
+    /** Active channels associates channel IDs with channel objects, currently unused. */
+    activeChannels: null
+    ,
     loadModule: function ()
     {
         this.chanDB = this.io.openDB("channels");
         this.chans = new Object;
-        this.chanDB.counter || (this.chanDB.counter = 0);
-        this.chanDB.chans || (this.chanDB.chans = 0);
+        this.chanDB.counter || (this.chanDB.counter = 1);
+        this.chanDB.chans || (this.chanDB.chans = new Object);
+        this.activeChannels = new Object;
+        this.script.registerHandler("beforeChannelCreated", this);
+        this.script.registerHandler("beforeChannelDestroyed", this);
     }
     ,
+    unloadModule: function ()
+    {
+        for (var x in this.chanDB.chans) if (this.chans[this.chanDB.chans[x]])
+        {
+            this.io.closeDB("channels$c" + this.chanDB.chans[x]);
+        }
+
+        this.io.closeDB("channels");
+    }
+    ,
+    /** Opens a chan DB if it exists
+     * @event
+     */
     beforeChannelCreated: function (id, name, src)
     {
-        var chanNameLw = sys.channel(id).toLowerCase();
-
-        if (!this.chanDB.chans[chanNameLw])
-        {
-            this.chanDB.chans[chanNameLw] = this.chanDB.counter++;
-            this.io.markDB("channels");
-        }
-
-        var chanID = this.chanDB.chans[chanNameLw];
-
-        var cdb = this.chans[chanid] || this.io.openDB("chanels$c" + chanid);
-
-        this.chans[name.toLowerCase()] = cdb;
-
-        if (cdb.banned)
-        {
-            sys.stopEvent();
-            return;
-        }
-
-
-        cdb.owner = this.user.name(src).toLowerCase();
-
-        cdb.auth = new Object;
-        cdb.bans = new Object;
-        cdb.auth = new Object;
-
-        cdb.auth[cdb.owner] = 3;
-
-        cdb.motd = null;
+        this.activeChannels[id] = this.channelObj(id, name);
     }
     ,
-    channelObj: function(chan)
+    /** Registers the channel. Primitive at the moment.
+     * @param id Channel to register
+     */
+    channelRegister: function (id)
     {
         var chanNameLw = sys.channel(id).toLowerCase();
 
@@ -88,15 +81,48 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         var chanid = this.chanDB.chans[chanNameLw];
 
-        var cdb = this.chans[chanid] || this.io.openDB("chanels$c" + chanid);
+        this.chans[chanid] = this.io.openDB("channels$c" + chanid);
 
-        return cdb;
+        return;
     }
     ,
-    afterChannelDestroyed: function (chan)
+    /** Returns a channel object for chan, or null if not registered.
+     * @param {Number} chan The channel ID.
+     * @return {Object|Null} The associated channel database.
+     */
+    channelObj: function (chan, name)
     {
-        this.io.closeDB(sys.channel(chan).toLowerCase());
+        this.logs.logMessage(this.logs.DEBUG, "chan1");
+        var chanNameLw = (name || sys.channel(chan)).toLowerCase();
 
-        delete this.chans[sys.channel(chan).toLowerCase()];
+        if (!this.chanDB.chans[chanNameLw]) return null;
+
+        this.logs.logMessage(this.logs.DEBUG, "chan1");
+        var chanid = this.chanDB.chans[chanNameLw];
+
+        this.chans[chanid] || (this.chans[chanid] = this.io.openDB("channels$c" + chanid));;
+
+        return this.chans[chanid];
+    }
+    ,
+    /** Close the channel from the channel databases
+     * @event
+     * @param {Number} chan Channel ID.
+     *  */
+    beforeChannelDestroyed: function (chan)
+    {
+        var chanNameLw = sys.channel(chan).toLowerCase();
+
+        var chanid = this.chanDB.chans[chanNameLw];
+
+        if (!chanid) return;
+
+        if (this.chans[chanid])
+        {
+            this.io.closeDB("channels$c" + chanid);
+            delete this.chans[chanid];
+
+            return;
+        }
     }
 });
