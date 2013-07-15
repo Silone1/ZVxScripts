@@ -33,6 +33,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         this.script.registerHandler("beforeServerMessage", this);
     }
     ,
+    /** This event catches commands and executes them.
+     * @event
+     * */
     beforeServerMessage: function (msg)
     {
         if (msg.match(/^\//))

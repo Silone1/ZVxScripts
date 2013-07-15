@@ -33,7 +33,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         this.commands.registerCommand("modprobe", this);
     }
     ,
-    /**
+    /** The modprobe command loads and unloads modules. See the user manual.
      * @type commandDescriptor
      */
     modprobe:
