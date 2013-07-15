@@ -49,6 +49,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * @memberOf rpgEquip.prototype
  */
 ({
+    /** Names of equips and the corresponding equip.
+     * @type {Object.<rpgEquip>}
+     */
     equips:
     {
         shoes:
