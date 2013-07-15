@@ -25,19 +25,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     ,
     parseArgs: function (args)
     {
-	var retval = {
-	    profs: []
-	    ,
-	    uids: []
-	};
+    var retval = {
+        profs: []
+        ,
+        uids: []
+    };
 
-	for (var x in args)
-	{
-	    if (args[x].length == 0) continue;
+    for (var x in args)
+    {
+        if (args[x].length == 0) continue;
 
-	    if (args[x][0] == ":")
-	    {
-		    var m = args[x].match(/^\?(\w+):(.+)$/);
+        if (args[x][0] == ":")
+        {
+            var m = args[x].match(/^\?(\w+):(.+)$/);
             
             if (!m) continue;
             
@@ -50,6 +50,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             }
         }
         return retval;
-	}
+    }
 });
 */
