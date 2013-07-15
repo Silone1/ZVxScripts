@@ -220,7 +220,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
      * @param {string} modname Name of module to remove.
      * @return {string[]} List of all modules that were removed, includes others due to dependencies.
      */
-    unloadModule : function unloadModule (modname)
+    unloadModule: function unloadModule (modname)
     {
         if ( !(modname in this.modules)) return [modname];
         if (this.modules[modname] instanceof Error) return [modname];
@@ -258,7 +258,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         }
 
-        if ("unloadModule" in thisModule) thisModule.unloadModule();
+
+        if ("unloadModule" in thisModule) try
+        {
+            thisModule.unloadModule();
+        }
+        catch (e)
+        {
+            this.log("[[ERROR:]]" + e.toString() + "\n" + e.backtracetext);
+        }
+
 
         delete this.modules[modname];
 
