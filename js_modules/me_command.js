@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /////////////////////// END LEGAL NOTICE /////////////////////////////// */
 ({
-    require: ["commands", "text", "security", "profile"]
+    require: ["commands", "text", "security", "profile", "com"]
     ,
     loadModule: function ()
     {
