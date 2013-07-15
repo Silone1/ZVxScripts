@@ -48,6 +48,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * @name base
  * @memberOf rpgEquip.prototype
  */
+/** @scope script.modules.rpg_game */
 ({
     /** Names of equips and the corresponding equip.
      * @type {Object.<rpgEquip>}
