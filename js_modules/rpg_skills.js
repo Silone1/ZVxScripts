@@ -19,6 +19,28 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /////////////////////// END LEGAL NOTICE /////////////////////////////// */
+/** This type of object contains the definitions of skills
+ * @name rpgSkill
+ * @class
+ */
+/** The name of the skill
+ * @name name
+ * @memberOf rpgSkill.prototype
+ */
+/** The cost of using the skill.
+ * @name cost
+ * @type rpgCost
+ */
+/** Skill level.
+ * @name level
+ * @type rpgSkillLevel
+ * @memberOf rpgSkill.prototype
+ */
+/** The rpg skill levels: 0-F, 1-E, 2-D, 3-C, 4-B, 5-A, 6-S, 7-X, 8-O
+ * @name rpgSkillLevel
+ * @desc 1
+ */
+
 /** @scope script.modules.rpg_game */
 ({
     skills:
