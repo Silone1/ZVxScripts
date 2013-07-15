@@ -200,7 +200,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             amount: 3,
             materials: ["bone", "wood", "metal"],
             base: 5,
-            magic: 50,
+            magic: 50
         }
         ,
         staff:
