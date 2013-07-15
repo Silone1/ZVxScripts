@@ -80,7 +80,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 return;
             }
 
-            bind.com.message([src], "<span style='color:white;background-color:black'>UNKNOWN COMMAND.</span>", -1, true);
+            bind.com.message([src], "<span style='color:white;background-color:black'>YOU ARE IN VIEW MODE. TYPE 'NEXT' TO GO TO THE NEXT PAGE, OR 'EXIT' TO EXIT VIEW MODE.</span>", -1, true);
             bind.chat.registerCapture(src, handle, bind);
         }
 
