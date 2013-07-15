@@ -31,10 +31,10 @@
 <span class='line'> 24</span> </span><span class="WHIT">    </span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'> 25</span> </span><span class="WHIT">    </span><span class="NAME">loadModule</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
 <span class='line'> 26</span> </span><span class="WHIT">    </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 27</span> </span><span class="WHIT">        </span><span class="NAME">script.log</span><span class="PUNC">(</span><span class="NAME">JSON.stringify</span><span class="PUNC">(</span><span class="NAME">this.profile.database</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 28</span> </span><span class="WHIT">        </span><span class="COMM">//script.log ("testing!");</span><span class="WHIT">
+<span class='line'> 27</span> </span><span class="WHIT">        </span><span class="NAME">this.script.log</span><span class="PUNC">(</span><span class="NAME">JSON.stringify</span><span class="PUNC">(</span><span class="NAME">this.profile.database</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 28</span> </span><span class="WHIT">        </span><span class="COMM">//this.script.log ("testing!");</span><span class="WHIT">
 <span class='line'> 29</span> </span><span class="WHIT">        
-<span class='line'> 30</span>         </span><span class="COMM">//script.broadcast(JSON.stringify(script.module));</span><span class="WHIT">
+<span class='line'> 30</span>         </span><span class="COMM">//this.script.broadcast(JSON.stringify(this.script.module));</span><span class="WHIT">
 <span class='line'> 31</span> </span><span class="WHIT">        
 <span class='line'> 32</span>         </span><span class="NAME">this.com.broadcast</span><span class="PUNC">(</span><span class="STRN">"Hello world!!! &lt;a> &lt;/a> :)"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> 
 <span class='line'> 33</span> 

@@ -68,8 +68,8 @@
 <span class='line'> 61</span> </span><span class="WHIT">    </span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'> 62</span> </span><span class="WHIT">    </span><span class="NAME">loadModule</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
 <span class='line'> 63</span> </span><span class="WHIT">    </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 64</span> </span><span class="WHIT">        </span><span class="NAME">this.savedLogFunction</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">script.log</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 65</span> </span><span class="WHIT">        </span><span class="NAME">script.log</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.util.bind</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'> 64</span> </span><span class="WHIT">        </span><span class="NAME">this.savedLogFunction</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.script.log</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 65</span> </span><span class="WHIT">        </span><span class="NAME">this.script.log</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.util.bind</span><span class="PUNC">(</span><span class="WHIT">
 <span class='line'> 66</span> </span><span class="WHIT">            </span><span class="KEYW">this</span><span class="WHIT">
 <span class='line'> 67</span> </span><span class="WHIT">            </span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'> 68</span> </span><span class="WHIT">            </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">msg</span><span class="PUNC">)</span><span class="WHIT">
@@ -81,7 +81,7 @@
 <span class='line'> 74</span> </span><span class="WHIT">    </span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'> 75</span> </span><span class="WHIT">    </span><span class="NAME">unloadModule</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
 <span class='line'> 76</span> </span><span class="WHIT">    </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 77</span> </span><span class="WHIT">        </span><span class="NAME">script.log</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.savedLogFunction</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 77</span> </span><span class="WHIT">        </span><span class="NAME">this.script.log</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.savedLogFunction</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'> 78</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
 <span class='line'> 79</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'> 80</span> </span></pre></body></html>

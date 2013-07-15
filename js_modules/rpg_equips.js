@@ -19,6 +19,35 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /////////////////////// END LEGAL NOTICE /////////////////////////////// */
+/** This type of object contains the definitions of equips.
+ * @name rpgEquip
+ * @class
+ */
+/** The human readable version of the name of this equip.
+ * @name name
+ * @memberOf rpgEquip
+ */
+/** Either 'head' 'body' 'feet' 'hand' or 'back'.
+ * @name type
+ * @memberOf rpgEquip
+ */
+/** How many hands, for equips of class hand, either 1 or 2.
+ * @name hands
+ * @memberOf rpgEquip
+ * @type Number
+ */
+/** An array of all the different types of materials that can be used to make this item.
+ * @name materials
+ * @memberOf rpgEquip
+ */
+/** How much of the material is needed to make the item.
+ * @name amount
+ * @memberOf rpgEquip
+ */
+/** How much protection or damage the item provides.
+ * @name base
+ * @memberOf rpgEquip
+ */
 ({
     equips:
     {
@@ -206,13 +235,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         else return 1 - (1 / Math.log(e.quality/100 + Math.E));
     }
     ,
-    equipAtk: function (e) 
+    equipAtk: function (e)
     {
         if (!e) return 0;
         return Math.max(20, (this.equips[e.type].base || 20) * (this.materials[e.material].sharpness || 20) * this.equipQMult(e));
     }
     ,
-    equipDef: function (e) 
+    equipDef: function (e)
     {
         if (!e) return 0;
         return Math.max(20, (this.equips[e.type].base || 20) * (this.materials[e.material].strength || 20) * this.equipQMult(e));
@@ -238,7 +267,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         for (var x in qdt) if (qm >= qdt[x][0]) qs = qdt[x][1];
 
-        
+
         return qs.replace(/\%/, (this.materials[e.material].name + " " + this.equips[e.type].name));
     }
 });
