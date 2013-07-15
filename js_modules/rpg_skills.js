@@ -20,8 +20,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /////////////////////// END LEGAL NOTICE /////////////////////////////// */
 ({
-({
-
     skills:
     {
 
@@ -31,23 +29,24 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             name: "Great Punch",
             // The name of the skill
 
-            cost: 
+            cost:
             // Cost to use the skill
             {
                 sp: 100
                 // Costs 100 stamina points
             }
+            ,
 
             level: 1,
             // Level Class of the skill, has no effect on damage but serves to classify skills by strength
 
             threshold: 0,
             // Exp required for first use
-            
+
             use: "none",
             // Item subclass required to use. "none" means empty hand.
 
-            components: 
+            components:
             // Multiple components are supported, for example to damage the opponent and the user.
             [{
                 target: "opp",
@@ -71,14 +70,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         spunch:
         {
             name: "Super Punch",
-            cost: 
+            cost:
             {
                 sp: 150
             }
+            ,
             level: 2,
             threshold: 0,
             use: "none",
-            components: 
+            components:
             [{
                 target: "opp",
                 count: 1,
@@ -92,19 +92,23 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         upunch:
         {
             name: "Ultra Punch",
-            cost: 
+            cost:
             {
                 sp: 350
             }
-            level: 3,
-            threshold: 0,
-            use: "none",
-            components: 
+            ,
+            level: 3
+            ,
+            threshold: 0
+            ,
+            use: "none"
+            ,
+            components:
             [{
                 target: "opp",
                 count: 1,
                 move: "physical",
-                base: 45,
+                base: 45
             }]
             ,
             related: { spunch: 0.5 }
@@ -114,19 +118,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         epunch:
         {
             name: "Hyper Punch",
-            cost: 
+            cost:
             {
                 sp: 1750
             }
+            ,
             level: 4,
             threshold: 0,
             use: "none",
-            components: 
+            components:
             [{
                 target: "opp",
                 count: 1,
                 move: "physical",
-                base: 150,
+                base: 150
             }]
             ,
             related: { spunch: 0.5 }
@@ -135,20 +140,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         barrage:
         {
             name: "Hyper Barrage",
-            cost: 
+            cost:
             {
                 sp: 1575
             }
+            ,
             level: 4,
             threshold: 0,
             use: "none",
-            components: 
+            components:
             [{
                 target: "opp",
                 count: 1,
                 hits: 5,
                 move: "physical",
-                base: 20,
+                base: 20
             }]
             ,
             related: { spunch: 0.5 }
@@ -157,15 +163,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         epunch:
         {
             name: "Epic Punch",
-            cost: 
+            cost:
             {
                 sp: 6250,
-                mp: 300,
+                mp: 300
             }
+            ,
             level: 5,
             threshold: 0,
             use: "none",
-            components: 
+            components:
             [{
                 target: "opp",
                 count: 1,
@@ -179,20 +186,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         opunch:
         {
             name: "Obilteratory Punch",
-            cost: 
+            cost:
             {
                 sp: 12000,
-                mp: 800,
+                mp: 800
             }
+            ,
             level: 6,
             threshold: 0,
             use: "none",
-            components: 
+            components:
             [{
                 target: "opp",
                 count: 1,
                 move: "physical",
-                base: 3000,
+                base: 3000
             }]
             ,
             related: { spunch: 0.5 }
@@ -204,7 +212,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             cost:
             {
                 sp: 100000,
-                mp: 10000,
+                mp: 10000
             },
             level: 7,
             threshold: null,
@@ -267,8 +275,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 target: ["self", "ally"],
                 count: 1,
                 move: ["defmult", "spdmult", "stamult"],
-                base [1.1, 1.2, 1.5],
-                duration: 5                
+                base: [1.1, 1.2, 1.5],
+                duration: 5
             }]
         }
         ,
@@ -284,9 +292,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 count: 1
             }]
         }
+        ,
         spark:
         {
-            name: "Sparks",
+            name: "Sparks"
+            ,
             cost:
             {
                 mp: 10
@@ -297,13 +307,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             threshold: null,
             use: "wand"
         }
-        ,
-        
-        
-    
+
+
     }
-
-
-});
-    
 });
