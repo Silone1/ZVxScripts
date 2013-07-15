@@ -33,6 +33,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     ,
     stripHTML: function (html)
     {
-        return html.replace(/<\/?[^>]+>/g, "").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&").replace(/&nbsp;/g, " ");
+        return html.replace(/<br ?\/?>/g, "\n").replace(/<\/?[^>]+>/g, "").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&").replace(/&nbsp;/g, " ");
     }
 });
