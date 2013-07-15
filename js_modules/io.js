@@ -166,6 +166,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         return db;
     }
     ,
+    /** Writes all changes to file */
     flushDB: function (dbname)
     {
         var metadb = this.openDBs[dbname];
@@ -182,6 +183,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         this.script.log("Synchronized database " + dbname + ", took " + (end - start) + "ms.");
     }
     ,
+    /** Commits all changes to file, this may be slower or faster than flush depending on the computer. Fast CPU: Use commit; Fast disk: Use flush. */
     commitDB: function (dbname)
     {
 
@@ -200,11 +202,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         this.script.log("Commited database " + dbname + ", took " + (end - start) + "ms.");
     }
     ,
+    /** Marks a database as changed */
     markDB: function (dbname)
     {
         this.openDBs[dbname].hasChanges = true;
     }
     ,
+    /** Closes an open database */
     closeDB: function (dbname)
     {
         var metadb = this.openDBs[dbname];
@@ -221,6 +225,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         this.script.log("Closed database " + dbname + ", took " + (end - start) + "ms.");
     }
     ,
+    /** Erase database */
     purgeDB: function (dbname)
     {
         if (dbname in this.openDBs) return;
