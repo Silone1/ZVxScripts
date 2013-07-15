@@ -25,28 +25,28 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 /** The human readable version of the name of this equip.
  * @name name
- * @memberOf rpgEquip
+ * @memberOf rpgEquip.prototype
  */
 /** Either 'head' 'body' 'feet' 'hand' or 'back'.
  * @name type
- * @memberOf rpgEquip
+ * @memberOf rpgEquip.prototype
  */
 /** How many hands, for equips of class hand, either 1 or 2.
  * @name hands
- * @memberOf rpgEquip
+ * @memberOf rpgEquip.prototype
  * @type Number
  */
 /** An array of all the different types of materials that can be used to make this item.
  * @name materials
- * @memberOf rpgEquip
+ * @memberOf rpgEquip.prototype
  */
 /** How much of the material is needed to make the item.
  * @name amount
- * @memberOf rpgEquip
+ * @memberOf rpgEquip.prototype
  */
 /** How much protection or damage the item provides.
  * @name base
- * @memberOf rpgEquip
+ * @memberOf rpgEquip.prototype
  */
 ({
     equips:
