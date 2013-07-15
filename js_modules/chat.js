@@ -58,21 +58,28 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
             return;
         }
-        
+
         if (msg[0] == "/")
         {
-            this.logs.logMessage(this.logs.USER, "" + sys.name(src) + "["+chan+"] " + msg);
+            this.logs.logMessage(this.logs.USER, "[#"+chan+"] " + sys.name(src) + ": " + msg);
             sys.stopEvent();
             this.commands.issueCommand(src, msg, chan);
             return;
         }
 
+        if (chan == -1)
+        {
+            sys.stopEvent();
+            return;
+            // can't write outside of all channels here >_<
+        }
+
         var prof = this.profile.profileID(src);
-        
+
         if (sys.auth(src) != 3 && this.security.profIsMuted(prof))
         {
             var mute = this.security.getMute(prof);
-            
+
             this.com.message(
                 [src],
                 "You are muted. "+
@@ -82,10 +89,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 ,
                 this.theme.WARN
             );
-            
+
             this.logs.logMessage(this.logs.INFO, "Muted message from "+sys.name(src)+": " + msg);
             sys.stopEvent();
-            
+
             return;
         }
 
@@ -98,13 +105,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             if (!m) break;
         }
 
-        if (m) 
+        if (m)
         {
             sys.broadcast(m, chan, src, false, -1);
             //this.com.broadcast("<timestamp /><b>" +sys.name(src) + ":</b> " + this.text.escapeHTML(m), -1, true, [chan]);
         }
         sys.stopEvent();
-        
+
     }
     ,
     registerFilter: function (filter, object)

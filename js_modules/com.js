@@ -39,6 +39,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     message: function (usrs, msg, type, html, chans, servercode )
     {
         usrs = this.util.arrayify(usrs);
+        chans = this.util.arrayify(chans);
         var fmt_msg = this.theme.formatAs(this.escapeHtmlBool(msg, html), type || 0);
         if (!chans)
         {

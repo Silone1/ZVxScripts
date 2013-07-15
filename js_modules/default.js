@@ -20,5 +20,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /////////////////////// END LEGAL NOTICE /////////////////////////////// */
 ({
-    require: ["gateway", "chat", "greeting", "common_commands", "admin_commands"]
+     // legal note: if you remove sourcedist, you are legally required to ensure users have another way to download the source.
+     require: ["gateway", "chat", "greeting", "server", "common_commands", "admin_commands", "sourcedist"]
 });

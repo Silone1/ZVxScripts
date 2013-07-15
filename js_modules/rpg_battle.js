@@ -19,31 +19,38 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /////////////////////// END LEGAL NOTICE /////////////////////////////// */
+/** An rpg battle descriptor. Note the format is subject to change.
+ * @name rpgBattle
+ * @class
+ */
+/** The players in the battle. Note this is an array of player /names/ not objects. This is done so as not to have duiplicates of player objects in the database.
+ * @name players
+ * @type {Array.<String>}
+ * @memberOf rpgBattle.prototype
+ */
+/** The mobs in the battle.
+ * @name mobs
+ * @type {Array.<rpgMob>}
+ * @memberOf rpgBattle.prototype
+ */
+/** @scope script.modules.rpg_game */
 ({
+    /** Battle step will cause a turn in a battle to take place
+     * @event
+     * @param {rpgCtx} ctx
+     * @param {rpgBattle} ctx.battleid The id of the specific battle this should step.
+     * @param {rpgClass} ctx.rpg The current rpg we are in.
+     */
     battleStep: function (ctx)
     {
         var rpg = ctx.rpg;
         var id = ctx.battleid;
 
-        var battle = ctx.battle = this.battles[id];
+        var battle = rpg.battles[id];
 
-
-	/*
-	  A battle object might look like this:
-
-	  {
-	      players: [ "Player1", "Player2" ]
-	      ,
-	      mobs: [ {... mob ...} ]
-
-	  }
-
-	  // Turns are atomic, so there is no turn information
-
-	  
-	 */
-
-        var team_players = []; // Do not save!
+        // team_players is an array of all the players that are playing
+        // we make it from battle.players
+        var team_players = [];
         for (var x in battle.players)
         {
             team_players.push(this.players[battle.players[x]]);
@@ -55,7 +62,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         {
             team_mobs.push(battle.mobs[x]);
         }
-        
+
         var entities = []; // Do not save!
 
 
@@ -69,7 +76,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             entities.push({type: "mob", e: team_mobs[x]});
         }
 
-        entities.sort( 
+        entities.sort(
             function _sorting_function_ (a, b)
             {
                 return a.speed - b.speed;
@@ -84,13 +91,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
             if (ctx.move.cost) for (var x2 in ctx.move.cost)
             {
-                if (ctx.attacker[(x2 === "mp"? "mana" : x)] -= ctx.move.cost[x2] < 0) 
+                if (ctx.attacker[(x2 === "mp"? "mana" : x)] -= ctx.move.cost[x2] < 0)
                 {
                     ctx.out(ctx.attacker.name + " tried to use "  + ctx.move.name + " but didn't have enough " + this.longStatName[x2 === "mp" ? "mana" : "mp"]);
                     continue battleLoop;
-                }           
+                }
             }
-            
+
             for (var x2 in ctx.move.components)
             {
                 var cmp = ctx.move.components[x2];
@@ -113,16 +120,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 }
 
                 this.util.shuffle(targets);
-                
+
                 if (count !== 0) for (var x3 in targets)
                 {
                     if (count-- === 0) break;
-                }                
+                }
             }
-            
+
             this.moves[ctx.move.type]
         }
-        
+
     }
-    
+
 });

@@ -396,7 +396,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             "<timestamp /><b>License:</b> Scripts Copyright © 2013 Ryan P. Nicholl \"ArchZombie0x\" &lt;archzombielord@gmail.com&gt;<br/>"+
                 // "This server uses scripts that are available under the GNU Affero General Public License as published by the Free Software Foundation, "+
                 // "either version 3 or (at your option) any later version of the license.<br/>"+
-                "Source code for these scripts is available at <a href=https://github.com/ArchZombie/zscripts>https://github.com/ArchZombie/zscripts</a>"//+"<br/>"
+                "Source code for these scripts is available at <a href=https://github.com/ArchZombie/zscripts>https://github.com/ArchZombie/zscripts</a><br/>"+
+                "If this is not correct, you may be able to get the source directly from the server using /getsource."
         );
     }
     ,

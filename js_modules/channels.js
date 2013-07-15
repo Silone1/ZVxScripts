@@ -26,7 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 /** @scope script.modules.channels */
 ({
-     require: ["io", "user", "logs"]
+     require: ["io", "user", "logs", 'theme', "com", "chat"]
     ,
     /** The chans property stores channel databases. Key is channel permanent ID. */
     chans: null
@@ -46,6 +46,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         this.activeChannels = new Object;
         this.script.registerHandler("beforeChannelCreated", this);
         this.script.registerHandler("beforeChannelDestroyed", this);
+        this.chat.registerFilter(this.chanMuteFilter, this);
     }
     ,
     unloadModule: function ()
@@ -124,5 +125,45 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
             return;
         }
+    }
+    ,
+    beforeChannelJoin: function (src, chan)
+    {
+        var co = this.channelObj(chan);
+
+        var uname = this.user.name(src).toLowerCase();
+
+        var pid = this.profile.profileID(src);
+
+        if (sys.auth(src) == 0 && uname !== co.owner && !(uname in co.auth) && uname in co.bans)
+        {
+            this.com.message(src, "You are banned from that channel.", this.theme.CRITICAL);
+            sys.stopEvent();
+            return;
+        }
+
+        if (co.motd)
+        {
+            this.com.message(src, "MOTD: " + co.motd, this.theme.INFO, false, chan);
+        }
+
+    }
+    ,
+    chanMuteFilter: function (src, msg, chan)
+    {
+        var cobj = this.channelObj(chan);
+        var uname = this.user.name(src).toLowerCase();
+
+        if (!cobj) return msg;
+
+        if (sys.auth(src) > 0 || uname === cobj.owner || uname in cobj.auth) return msg;
+
+        if (uname in cobj.mutes)
+        {
+            this.com.message(src, "You are muted in that channel.");
+            return "";
+        }
+
+        return msg;
     }
 });
