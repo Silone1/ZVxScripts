@@ -29,7 +29,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     ,
     ioctrl:
     {
-        desc: "Controls I/O Layer",
+        server: true
+        ,
+        desc: "Controls I/O Layer"
+        ,
         options:
         {
             purge: "Delete database(s)"
