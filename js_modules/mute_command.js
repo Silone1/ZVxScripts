@@ -20,13 +20,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /////////////////////// END LEGAL NOTICE /////////////////////////////// */
 ({
-    require: ["commands", "security", "profile", "text", "com", "theme", "time"]
+     require: ["commands", "security", "profile", "text", "com", "theme", "time", "user"]
     ,
     unmuteall:
     {
+        server:true,
         desc: "Clear the mute list"
         ,
-        perm: function (src) 
+        perm: function (src)
         {
             return sys.auth(src) >= 2;
         }
@@ -38,35 +39,37 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 this.com.message([src], "Are you sure you want to do this? Retry with --force option.", this.theme.WARN);
                 return;
             }
-            
-            this.com.broadcast(sys.name(src) + " has cleared the server's mute list.");
+
+            this.com.broadcast(this.user.name(src) + " has cleared the server's mute list.");
 
             this.security.database.mutes = new Object;
         }
     }
     ,
-    unmute: 
+    unmute:
     {
+        server: true
+        ,
         desc: "Remove mute(s) from user(s)"
         ,
-        perm: function (src) 
+        perm: function (src)
         {
             return sys.auth(src) >= 1;
-        } 
+        }
 
         ,
         code: function (src, cmd, chan)
         {
             var b = new Object;
-            
+
             var profmutelst = [];
             var profnamelst = [];
 
             for (var x in cmd.args)
             {
                 var prof = this.profile.profileByName(cmd.args[x]);
-                
-                if (prof != -1) 
+
+                if (prof != -1)
                 {
                     profmutelst.push (prof);
                     profnamelst.push(cmd.args[x]);
@@ -85,7 +88,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 return;
             }
 
-            this.com.broadcast(sys.name(src) + " has unmuted " + profnamelst.join(", ") + ".");
+            this.com.broadcast(this.user.name(src) + " has unmuted " + profnamelst.join(", ") + ".");
 
             for (var x in profmutelst)
             {
@@ -94,8 +97,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         }
     }
     ,
-    mute: 
+    mute:
     {
+        server:true,
         desc: "Mute user(s)"
         ,
         options:
@@ -105,7 +109,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             time: "Duration to mute for"
         }
         ,
-        perm: function (src) 
+        perm: function (src)
         {
             return sys.auth(src) >= 1;
         }
@@ -113,15 +117,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         code: function (src, cmd, chan)
         {
             var b = new Object;
-            
+
             var profmutelst = [];
             var profnamelst = [];
 
             for (var x in cmd.args)
             {
                 var prof = this.profile.profileByName(cmd.args[x]);
-                
-                if (prof != -1) 
+
+                if (prof != -1)
                 {
                     profmutelst.push (prof);
                     profnamelst.push(cmd.args[x]);
@@ -152,7 +156,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             }
 
             this.com.broadcast(
-                sys.name(src) + " muted " + profnamelst.join(", ") + "!" +
+                this.user.name(src) + " muted " + profnamelst.join(", ") + "!" +
                     (typeof cmd.flags.reason == "string" ? " Reason: \"" + cmd.flags.reason + "\"" : "")+
                     (t ? " Duration: " + this.time.diffToStr(t) + "" : "")
                 ,
@@ -165,16 +169,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 var o =  {
                     expires: exp,
                     reason: cmd.flags.reason,
-                    author: sys.name(src)
+                    author: this.user.name(src)
                 };
 
                 this.security.setMute(profmutelst[x], o);
-            } 
+            }
         }
     }
     ,
-    mutelist: 
+    mutelist:
     {
+        server:true,
         perm: function (src)
         {
             return sys.auth(src) >= 2;
@@ -193,7 +198,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         "Expires: <i>" + (mutelist[x].expires ? new Date(mutelist[x].expires).toString():"indefinite") + "</i><br/>" +
                         "Reason: <i>" + this.text.escapeHTML(mutelist[x].reason || "") + "</i><br/>" +
                         "Author: <i>"+ this.text.escapeHTML(mutelist[x].author || "") + "</i>"
-                );                                        
+                );
             }
 
             this.com.message([src], "Mute list:<br/>" + mutes.join("<br/>"), this.theme.INFO, true);
