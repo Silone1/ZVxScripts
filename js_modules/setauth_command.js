@@ -37,7 +37,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         ,
         perm: function (src)
         {
-            return sys.auth(src) == 3;
+            return sys.auth(src) >= 2;
         }
         ,
         code: function (src, cmd, chan)
@@ -54,6 +54,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             if (!cmd.flags.level)
             {
                 this.com.message(src, "Enter a --level= option");
+                return;
             }
 
             if (cmd.flags.level.toLowerCase() in levels)
@@ -79,6 +80,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     this.com.message([src], "User unregistered", this.theme.WARN);
                     continue;
                 }
+
+                if (src != 0 && sys.auth(src) != 3 &&
+                    (
+                        ((sys.id(cmd.args[x]) ? sys.auth(sys.id(cmd.args[x])) : sys.dbAuth(cmd.args[x])) > sys.auth(src))
+                        ||
+                        (+level > sys.auth(src))
+                    )
+                )
+                {
+                    this.com.message(src, "Not high enough level for that.");
+                    continue;
+                }
+
                 var i = sys.id(cmd.args[x]);
 
                 if (i)
