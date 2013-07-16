@@ -20,17 +20,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /////////////////////// END LEGAL NOTICE /////////////////////////////// */
 ({
-    require: ["commands", "com", "theme"]
+     require: ["commands", "com", "theme", "user"]
     ,
     setauth:
     {
+        server: true
+        ,
         aliases: ["auth"]
         ,
         desc: "Set user auth level"
         ,
         options:
         {
-            level: "What level to set the user to"
+            level: "What level to set the user to."
         }
         ,
         perm: function (src)
@@ -40,7 +42,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         ,
         code: function (src, cmd, chan)
         {
-            var levels = 
+            var levels =
                 {
                     "3":3, "owner":3, "root":3,
                     "2":2, "admin":2, "administrator":2,
@@ -49,6 +51,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 };
             var level = null;
 
+            if (!cmd.flags.level)
+            {
+                this.com.message(src, "Enter a --level= option");
+            }
 
             if (cmd.flags.level.toLowerCase() in levels)
             {
@@ -68,14 +74,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     this.com.message([src], "User unknown", this.theme.WARN);
                     continue;
                 }
-                if (! sys.dbRegistered(cmd.args[x])) 
+                if (! sys.dbRegistered(cmd.args[x]))
                 {
                     this.com.message([src], "User unregistered", this.theme.WARN);
                     continue;
                 }
                 var i = sys.id(cmd.args[x]);
 
-                if (i) 
+                if (i)
                 {
                      sys.changeAuth(i, level);
                 }
@@ -84,7 +90,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     sys.changeDbAuth(cmd.args[x], level);
                 }
 
-                this.com.broadcast(sys.name(src) + " set " + cmd.args[x] + " to level " + level, this.theme.INFO);
+                this.com.broadcast(this.user.name(src) + " set " + cmd.args[x] + " to level " + level, this.theme.INFO);
             }
         }
     }
