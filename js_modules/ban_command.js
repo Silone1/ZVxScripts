@@ -179,7 +179,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 var o =  {
                     expires: exp,
                     reason: cmd.flags.reason,
-                    author: this.user.name
+                    author: this.user.name(src)
                 };
 
                 this.security.setBan(profbanlst[x], o);
