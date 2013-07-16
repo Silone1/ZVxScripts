@@ -43,23 +43,20 @@
         physical: function (ctx)
         {
             var offense = ctx.attacker.offense;
-            var base = ctx.movepower;
+            var base = ctx.component.base;
 
+            var defense = target.defense;
 
-            for (var x in targets)
-            {
-                var defense = targets[x].defense;
+            var damage = base + base * Math.min(Math.max(-0.90, Math.log(offense/defense)), 9);
 
-                var damage = base + base * Math.min(Math.max(-0.90, Math.log(offense/defense)), 9);
-
-                targets[x].hp -= damage | 0;
+            target.hp -= damage | 0;
             }
         }
         ,
         /** Heal reverses damage.
          * @param {rpgContext} ctx
          */
-        heal: function (ctx, source, targets)
+        heal: function (ctx)
         {
             var base = ctx.movepower;
 
@@ -73,14 +70,18 @@
     ,
     pickMove: function (e)
     {
+        return {
+            name: "attack",
+            components:[{ target: "opp", base:20, move: "physical", desc: "%s attacked %t!"}]
+        };
+
         var plan = e.plan;
 
-         var list = plan.list;
-         var total = plan.total;
-         var idx = Math.floor(Math.random()*(plan.total));
+        var list = plan.list;
+        var total = plan.total;
+        var idx = Math.floor(Math.random()*(plan.total));
+        for (var i = 0; list[i].pri <= idx; i++, idx -= list[i].pri) {}
 
-         for (var i = 0; list[i].pri <= idx; i++, idx -= list[i].pri) {}
-
-         return list[i];
+        return list[i];
      }
- });
+});

@@ -28,5 +28,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             material: "iron",
             base: 2
         }
+        ,
+        shroomcap:
+        {
+            name: "Mushroom Cap"
+        }
     }
 });

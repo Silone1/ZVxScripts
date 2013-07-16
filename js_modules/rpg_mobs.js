@@ -25,9 +25,33 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         eshroom:
         {
             name: "Evil Mushroom",
-            desc: "A strange mushroom that came to life.",
+            desc: "A strange mushroom that turned into a monster. It didn't get any larger when that happened.",
             offense: 100,
-            defense: 100
+            maxhp: 20,
+            defense: 100,
+            drops: [{
+                prob: 1,
+                item: "shroomcap",
+                count: 1
+            }]
+        }
+        ,
+        dkfrog:
+        {
+            name: "Dark Frog",
+            desc: "A frog that is controled by the powers of evil.",
+            maxhp: 30,
+            offense: 450,
+            defense: 200
+        }
+        ,
+        dsquirl:
+        {
+            name: "Deadly Squirl",
+            desc: "Nuts with evil, this squirl is as fierce as squirls get!",
+            maxhp: 40,
+            offense: 1300,
+            defense: 1600
         }
     }
 });

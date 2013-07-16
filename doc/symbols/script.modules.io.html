@@ -201,6 +201,8 @@ ul.inheritsList
 	
 	<li><a href="../symbols/parsedCommand.html">parsedCommand</a></li>
 	
+	<li><a href="../symbols/rpgBattle.html">rpgBattle</a></li>
+	
 	<li><a href="../symbols/rpgEquip.html">rpgEquip</a></li>
 	
 	<li><a href="../symbols/rpgSkill.html">rpgSkill</a></li>
@@ -339,9 +341,54 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
+								<div class="fixedFont">script.modules.io.<b><a href="../symbols/script.modules.io.html#.closeDB">closeDB</a></b>(dbname)
+								</div>
+								<div class="description">Closes an open database</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">script.modules.io.<b><a href="../symbols/script.modules.io.html#.commitDB">commitDB</a></b>(dbname)
+								</div>
+								<div class="description">Commits all changes to file, this may be slower or faster than flush depending on the computer.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">script.modules.io.<b><a href="../symbols/script.modules.io.html#.flushDB">flushDB</a></b>(dbname)
+								</div>
+								<div class="description">Writes all changes to file</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">script.modules.io.<b><a href="../symbols/script.modules.io.html#.markDB">markDB</a></b>(dbname)
+								</div>
+								<div class="description">Marks a database as changed</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
 								<div class="fixedFont">script.modules.io.<b><a href="../symbols/script.modules.io.html#.openDB">openDB</a></b>(dbname)
 								</div>
 								<div class="description">Opens a database</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">script.modules.io.<b><a href="../symbols/script.modules.io.html#.purgeDB">purgeDB</a></b>(dbname)
+								</div>
+								<div class="description">Erase database</div>
 							</td>
 						</tr>
 					
@@ -438,6 +485,150 @@ ul.inheritsList
 					Method Detail
 				</div>
 				
+					<a name=".closeDB"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">script.modules.io.</span><b>closeDB</b>(dbname)
+					
+					</div>
+					<div class="description">
+						Closes an open database
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>dbname</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".commitDB"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">script.modules.io.</span><b>commitDB</b>(dbname)
+					
+					</div>
+					<div class="description">
+						Commits all changes to file, this may be slower or faster than flush depending on the computer. Fast CPU: Use commit; Fast disk: Use flush.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>dbname</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".flushDB"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">script.modules.io.</span><b>flushDB</b>(dbname)
+					
+					</div>
+					<div class="description">
+						Writes all changes to file
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>dbname</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".markDB"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">script.modules.io.</span><b>markDB</b>(dbname)
+					
+					</div>
+					<div class="description">
+						Marks a database as changed
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>dbname</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
 					<a name=".openDB"> </a>
 					<div class="fixedFont">&lt;static&gt; 
 					
@@ -475,6 +666,42 @@ ul.inheritsList
 								<dd><span class="light fixedFont">{IOdatabase}</span> </dd>
 							
 							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".purgeDB"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">script.modules.io.</span><b>purgeDB</b>(dbname)
+					
+					</div>
+					<div class="description">
+						Erase database
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>dbname</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
 						
 						
 						
@@ -591,7 +818,7 @@ ul.inheritsList
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Mon Jul 15 2013 00:48:25 GMT-0400 (EDT)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Mon Jul 15 2013 22:55:53 GMT-0400 (EDT)
 		</div>
 	</body>
 </html>

@@ -43,22 +43,22 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
      */
     battleStep: function (ctx)
     {
+        var x;
         var rpg = ctx.rpg;
-        var id = ctx.battleid;
 
-        var battle = rpg.battles[id];
+        var battle = ctx.battle;
 
         // team_players is an array of all the players that are playing
         // we make it from battle.players
         var team_players = [];
         for (var x in battle.players)
         {
-            team_players.push(this.players[battle.players[x]]);
+            team_players.push(rpg.players[battle.players[x]]);
             // Battle players contains NAMES of players, not the player objects!
         }
 
         var team_mobs = []; // Do not save!
-        for (var x in battle.mobs)
+        for ( x in battle.mobs)
         {
             team_mobs.push(battle.mobs[x]);
         }
@@ -66,12 +66,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         var entities = []; // Do not save!
 
 
-        for (var x in team_players)
+        for (x in team_players)
         {
             entities.push({type: "player", e: team_players[x]});
         }
 
-        for (var x in team_players)
+        for (x in team_mobs)
         {
             entities.push({type: "mob", e: team_mobs[x]});
         }
@@ -83,7 +83,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             }
         );
 
-        battleLoop: for (var x in entities)
+        var pids = [];
+
+        for ( x in battle.players) pids.push(sys.id(battle.players[x]));
+
+        battleLoop: for ( x in entities)
         {
             var attacker = ctx.attacker = entities[x].e;
             //ctx.attackerIsPlayer = entities[x].type == "player";
@@ -91,9 +95,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
             if (ctx.move.cost) for (var x2 in ctx.move.cost)
             {
-                if (ctx.attacker[(x2 === "mp"? "mana" : x)] -= ctx.move.cost[x2] < 0)
+                ctx.attacker[(x2 === "mp"? "mana" : x)] -= ctx.move.cost[x2];
+                if (ctx.attacker[(x2 === "mp"? "mana" : x)] < 0)
                 {
-                    ctx.out(ctx.attacker.name + " tried to use "  + ctx.move.name + " but didn't have enough " + this.longStatName[x2 === "mp" ? "mana" : "mp"]);
+                    this.com.message(pids, ctx.attacker.name + " tried to use "  + ctx.move.name + " but didn't have enough " + this.longStatName[x2 === "mp" ? "mana" : x2],
+                                    this.theme.GAME);
                     continue battleLoop;
                 }
             }
@@ -124,10 +130,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 if (count !== 0) for (var x3 in targets)
                 {
                     if (count-- === 0) break;
+
+
+
                 }
             }
-
-            this.moves[ctx.move.type]
         }
 
     }

@@ -42,11 +42,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ({
     require: []
     ,
-    loadModule: function()
-    {
-
-    }
-    ,
     /** Parses a command.
      * @param {String} text The text to parse.
      * @return {parsedCommand} The parsed command.
@@ -71,7 +66,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         if (!input) return cmd;
 
         while (input != (input =
-                         input.replace(/^\s*(?:\-{1,2}((?:\w|\\ )+)(?:\=(?:\"((?:\\.|[^\"])+)\"|((?:\w|\\ )+)))?)|(?:(?:\"((?:\\.|[^\"])+)\")|((?:\w|\\ )+))/, cl_next))
+                         input.replace(/^\s*(?:\-{1,2}((?:\S|\\ )+)(?:\=(?:\"((?:\\.|[^\"])+)\"|((?:\w|\\ )+)))?)|(?:(?:\"((?:\\.|[^\"])+)\")|((?:\w|\\ )+))/, cl_next))
                //                                      ^flagname              ^flagvalstr        ^flagvalueraw             ^argvalstr         ^argvalraw
               ) {};
 

@@ -32,19 +32,19 @@
 <span class='line'> 25</span>     ,
 <span class='line'> 26</span>     parseArgs: function (args)
 <span class='line'> 27</span>     {
-<span class='line'> 28</span> 	var retval = {
-<span class='line'> 29</span> 	    profs: []
-<span class='line'> 30</span> 	    ,
-<span class='line'> 31</span> 	    uids: []
-<span class='line'> 32</span> 	};
+<span class='line'> 28</span>     var retval = {
+<span class='line'> 29</span>         profs: []
+<span class='line'> 30</span>         ,
+<span class='line'> 31</span>         uids: []
+<span class='line'> 32</span>     };
 <span class='line'> 33</span> 
-<span class='line'> 34</span> 	for (var x in args)
-<span class='line'> 35</span> 	{
-<span class='line'> 36</span> 	    if (args[x].length == 0) continue;
+<span class='line'> 34</span>     for (var x in args)
+<span class='line'> 35</span>     {
+<span class='line'> 36</span>         if (args[x].length == 0) continue;
 <span class='line'> 37</span> 
-<span class='line'> 38</span> 	    if (args[x][0] == ":")
-<span class='line'> 39</span> 	    {
-<span class='line'> 40</span> 		    var m = args[x].match(/^\?(\w+):(.+)$/);
+<span class='line'> 38</span>         if (args[x][0] == ":")
+<span class='line'> 39</span>         {
+<span class='line'> 40</span>             var m = args[x].match(/^\?(\w+):(.+)$/);
 <span class='line'> 41</span>             
 <span class='line'> 42</span>             if (!m) continue;
 <span class='line'> 43</span>             
@@ -57,7 +57,7 @@
 <span class='line'> 50</span>             }
 <span class='line'> 51</span>         }
 <span class='line'> 52</span>         return retval;
-<span class='line'> 53</span> 	}
+<span class='line'> 53</span>     }
 <span class='line'> 54</span> });
 <span class='line'> 55</span> */</span><span class="WHIT">
 <span class='line'> 56</span> </span></pre></body></html>

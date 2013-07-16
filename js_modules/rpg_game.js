@@ -37,7 +37,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
      * @type {string[]}
      */
     include: ["rpg_areas", "rpg_player", "rpg_entity", "rpg_actions",
-              "rpg_mobs", "rpg_equips", "rpg_materials", "rpg_moves"]
+              "rpg_mobs", "rpg_equips", "rpg_materials", "rpg_moves",
+             "rpg_battle"]
     ,
     /** I/O database that keeps track of games etc.
      * @type {IOdatabase}
@@ -45,7 +46,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     database: null
     // database stores the permanent data, games, etc.
     ,
-    /** */
+    /** channel */
     channels: null
     // channels is used to associate databases with channels, it doesn't keep between reloads
     ,
