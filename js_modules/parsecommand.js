@@ -66,8 +66,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         if (!input) return cmd;
 
         while (input != (input =
-                         input.replace(/^\s*(?:\-{1,2}((?:\S|\\ )+)(?:\=(?:\"((?:\\.|[^\"])+)\"|((?:\w|\\ )+)))?)|(?:(?:\"((?:\\.|[^\"])+)\")|((?:\w|\\ )+))/, cl_next))
-               //                                      ^flagname              ^flagvalstr        ^flagvalueraw             ^argvalstr         ^argvalraw
+                         input.replace(/^\s*(?:\-{1,2}((?:\S|\\ )+)(?:\=(?:\"((?:\\.|[^\"])+)\"|((?:[^\s"]\|\\ )+)))?)|(?:(?:\"((?:\\.|[^\"])+)\")|((?:[^\s"]|\\ )+))/, cl_next))
+               //                                      ^flagname              ^flagvalstr        ^flagvalueraw                 ^argvalstr          ^argvalraw
               ) {};
 
         function cl_next (text, flagname, flagvaluestr, flagvalueraw, argvaluestr, argvalueraw)
