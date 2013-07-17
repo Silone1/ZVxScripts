@@ -26,48 +26,87 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 /** @scope script.modules.server */
 ({
-    require: ["commands", "parsecommand"]
+    require: ["commands", "parsecommand", "com", "theme", "logs", "user"]
+    ,
+    serverChan: null
+    ,
+    SERVER: 0
     ,
     loadModule: function ()
     {
         this.script.registerHandler("beforeServerMessage", this);
+        this.commands.registerCommand("srvchan", this);
+        this.serverChan = -1;
     }
     ,
     /** This event catches commands and executes them.
      * @event
-     * */
+     */
     beforeServerMessage: function (msg)
     {
+        sys.stopEvent();
         if (msg.match(/^\//))
         {
-            sys.stopEvent();
-            //var command = msg.match(/^\/([^s]+](?:\s+(.+)?)?)?/);
-            //var commandName = command[1];
-            //var commandInput = command[2];
-
             var cmdObj = this.parsecommand.parseCommand(msg);
             var cmdName = cmdObj.name;
 
             if (!cmdName)
             {
-                print("[[~Script~]]: Please enter a command.");
+                this.com.message(this.SERVER, "Please enter a command.", this.theme.WARN);
                 return;
             }
 
             if (!this.commands.commands_db[cmdName])
             {
-                print("[[~Script~]]: Command does not exist.");
+                this.com.message(this.SERVER, "Command does not exist.", this.theme.WARN);
                 return;
             }
 
             if (!this.commands.serverCanUseCmd(cmdName))
             {
-                print("[[~Script~]]: Sorry, but that command can't be used in the server console.");
+                this.com.message(this.SERVER, "Sorry, but that command can't be used in the server console.", this.theme.WARN);
                 return;
             }
 
             var cd = this.commands.commands_db[cmdName];
-            cd.code.call(cd.bind, 0, cmdObj, -1);
+
+            cd.code.call(cd.bind, 0, cmdObj, this.serverChan);
+        }
+
+        else
+        {
+            sys.broadcast(msg, this.serverChan, this.SERVER, false, -1);
+        }
+    }
+    ,
+    srvchan:
+    {
+        server:true,
+        desc: "Sets the channel used by the server messages.",
+        perm: function(src) {return sys.auth(src) == 3; },
+        code: function (src, cmd, chan)
+        {
+            if (!cmd.input)
+            {
+                this.serverChan = -1;
+                this.logs.logMessage(this.logs.INFO, this.user.name(src) + " unset the server channel.", this.theme.INFO);
+                return;
+            }
+
+            var c = cmd.input;
+
+            var ch = sys.channelId(c);
+
+            if (ch == undefined)
+            {
+                this.com.message(src, "Unknown channel.", this.theme.WARN);
+                return;
+            }
+
+            this.logs.logMessage(this.logs.INFO, this.user.name(src) + " set the server channel to #" + sys.channel(ch) + ".", this.theme.INFO);
+            this.serverChan = ch;
+
+            return;
         }
     }
 });
