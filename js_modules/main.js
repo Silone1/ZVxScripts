@@ -140,13 +140,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         switch (typeof newMod.hotswap)
         {
         case "function":
-            if (newMod.hotswap(oldmod))
+            if (newMod.hotswap(this.modules[modname]))
             {
                 this.modules[modname] = newMod;
 
-                if (oldmod.submodules) for (var x in oldmod.submodules)
+                if (this.modules[modname].submodules) for (var x in this.modules[modname].submodules)
                 {
-                    Object.defineProperty(this.modules[oldmod.submodules[x]], modname, {value: newMod, configurable: true});
+                    Object.defineProperty(this.modules[this.modules[modname].submodules[x]], modname, {value: newMod, configurable: true});
                 }
 
                 return true;
