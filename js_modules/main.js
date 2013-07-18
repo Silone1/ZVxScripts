@@ -423,6 +423,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         {
             this.unloadModule(mods[x]);
         }
+
+        this.config.modules = Object.keys(this.modules);
+
+        sys.write("main.json", JSON.stringify(this.config));
     }
     ,
     /** Sends a license message to src
