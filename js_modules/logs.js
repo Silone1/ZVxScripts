@@ -34,6 +34,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     ERROR: "scripterror",
     CRITICAL: "scripterror",
     SCRIPTERROR: "scripterror",
+    INFO: "info",
     CHAT: "chat",
     IO: "io",
 
@@ -68,7 +69,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
             this.com.message(auths, msg, this.theme.INFO);
         }
-        else if (level == this.USER || level == this.COMMAND)
+        else if (level == this.USER || level == this.COMMAND || level == this.INFO)
         {
             var auths = [];
             sys.playerIds().forEach(function(i) { if (sys.auth(i) == 3) auths.push(i); });
