@@ -58,28 +58,28 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         }
         else if (level == this.SCRIPT || level == this.IO)
         {
-            this.com.message(sys.playerIds(), msg, -1);
+            this.com.message(sys.playerIds(), msg, this.theme.INFO);
         }
         else if (level == this.SCRIPTERROR)
         {
             var auths = [];
             sys.playerIds().forEach(function(i) { if (sys.auth(i) >= 1) auths.push(i); });
 
-            this.com.message(auths, msg, -1);
+            this.com.message(auths, msg, this.theme.CRITICAL);
         }
         else if (level == this.WARN)
         {
             var auths = [];
             sys.playerIds().forEach(function(i) { if (sys.auth(i) >= 1) auths.push(i); });
 
-            this.com.message(auths, msg, -1);
+            this.com.message(auths, msg, this.theme.INFO);
         }
         else if (level == this.USER || level == this.COMMAND || level == this.INFO)
         {
             var auths = [];
             sys.playerIds().forEach(function(i) { if (sys.auth(i) == 3) auths.push(i); });
 
-            this.com.message(auths, msg, -1);
+            this.com.message(auths, msg, this.theme.INFO);
         }
 
         try
