@@ -25,21 +25,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     loadModule: function ()
     {
         this.script.registerHandler("afterLogIn", this);
+        this.script.registerHandler("beforeLogOut", this);
     }
     ,
-    afterLogIn: function (src, msg, chan)
+    afterLogIn: function (src)
     {
-        var os = sys.os(src);
-        this.com.broadcast("Hello " + sys.name(src) +"! Script uptime is " + this.uptime.uptime() + "!", this.theme.INFO );
+        this.com.broadcast("Hello " + sys.name(src) +"!", this.theme.INFO );
+    },
 
-
-        this.com.message([src], "If you need help, type /help , also note it's \"/commands --all\" not \"/commands all\"", this.theme.INFO);
-        
-        if (os === "linux")
-        {
-            this.com.broadcast(sys.name(src) +", I see you are a linux user! You are enlightened!");
-        }
-
-        
+    beforeLogOut: function (src)
+    {
+        this.com.broadcast("Goodbye " + sys.name(src)+ "!");
     }
 });
