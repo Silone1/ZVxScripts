@@ -58,7 +58,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
      * @namespace
      * @memberOf script
      */
-    modules: new Object
+    modules: null
+    ,
+    modInfo: null
     ,
     /** Logs a message to the console or the logging module*/
     log: function log (msg)
@@ -119,12 +121,60 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     }
     ,
+    hotswapModule: function (modname)
+    {
+        if (!this.modules[modname].hotswap) return false;
+
+        var newMod = sys.exec("js_modules/" + modname + ".js");
+
+        if (!newMod.hotswap) return false;
+
+        this.log("Hotswapping module: " + modname);
+
+        Object.defineProperty(newMod, "script", {value: this, configurable: true});
+
+        for (var x in newMod.require) Object.defineProperty(newMod, newMod.require[x], {value: this.loadModule(newMod.require[x]), configurable: true});
+
+        function nil(){};
+
+        switch (typeof newMod.hotswap)
+        {
+        case "function":
+            if (newMod.hotswap(oldmod))
+            {
+                this.modules[modname] = newMod;
+
+                if (oldmod.submodules) for (var x in oldmod.submodules)
+                {
+                    Object.defineProperty(this.modules[oldmod.submodules[x]], modname, {value: newMod, configurable: true});
+                }
+
+                return true;
+            }
+            else return false;
+        case "boolean":
+            (this.modules[modname].unloadModule || nil) ();
+
+            if (this.modules[modname].submodules) for (var x in this.modules[modname].submodules)
+            {
+                Object.defineProperty(this.modules[this.modules[modname].submodules[x]], modname, {value: newMod, configurable: true});
+            }
+            this.modules[modname] = newMod;
+            (newMod.loadModule || nil)();
+            return true;
+        default:
+            return false;
+        }
+    }
+    ,
     /** Reloads a module
      * @param {string} modname
      * @throws Error When the module can't be loaded.
      * */
-    reloadModule : function reloadModule (modname)
+    reloadModule: function reloadModule (modname)
     {
+        if(this.hotswapModule(modname)) return; // try hotswap if possible
+
         var unloads = this.unloadModule(modname);
 
         for (var x in unloads)
@@ -138,7 +188,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     /** Loads a module
      * @param {string} modname Name of the module to be loaded.
      */
-    loadModule : function loadModule (modname)
+    loadModule: function loadModule (modname)
     {
         if (this.modules[modname] && !(this.modules[modname] instanceof Error)) return;
         this.log("Loading module: " + modname);
@@ -239,7 +289,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
      * @param {string} modname Name of module to remove.
      * @return {string[]} List of all modules that were removed, includes others due to dependencies.
      */
-    unloadModule: function unloadModule (modname)
+     unloadModule: function unloadModule (modname, hot)
     {
         if ( !(modname in this.modules)) return [modname];
         if (this.modules[modname] instanceof Error) return [modname];
@@ -298,39 +348,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
      */
     loadScript: function loadScript ()
     {
-        /*
-        if (!( sys.readObject && sys.os && sys.enableStrict))
-        {
-            print("WARNING: Missing required functions.");
-
-            if (!sys.writeObject)
-            {
-                sys.stopEvent();
-                return;
-            }
-
-            if (!sys.write)
-            {
-                sys.write = sys.writeToFile;
-                sys.read = sys.readFromFile;
-            }
-
-            if (!sys.fileExists)
-            {
-                sys.fileExists = function (fname)
-                {
-                    return sys.getFileContent(fname) == undefined;
-                };
-            }
-
-            if (!sys.exec) sys.exec = function (fname) { try { sys.eval(sys.read(fname)); } catch (e) { e.fileName = fname; throw e; }};
-
-            if (!sys.os) sys.os = function () {return "unknown";};
-
-            if (!sys.enableStrict) sys.enableStrict = function(){};
-        }
-         */
-
+        this.modules = new Object;
         sys.enableStrict();
 
         print(sys.read("ZSCRIPTS_COPYING"));

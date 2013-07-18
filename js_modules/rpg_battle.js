@@ -127,9 +127,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                 this.util.shuffle(targets);
 
-                if (count !== 0) for (var x3 in targets)
+                if (count > 0) for (var x3 in targets)
                 {
                     if (count-- === 0) break;
+
+
+                    this.moves[cmp.move]({attacker: entities[x], targets:targets, component:cmp});
 
 
 

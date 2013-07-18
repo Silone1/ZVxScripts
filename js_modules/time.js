@@ -20,6 +20,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /////////////////////// END LEGAL NOTICE /////////////////////////////// */
 ({
+    hotswap: true
+    ,
     conversionFactors:
     {
         milisecond:1,
@@ -105,13 +107,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         return s.join(", ");
     }
-        
+
     ,
     strToDiff: function (str)
     {
         var chunks = str.replace(/\.|\!/g,"").split(/\s*(?:,\s*and|and|,)\s*/g);
         var total = 0;
-        
+
         for (var x in chunks)
         {
             var subchunks = chunks[x].split(/\s+/g);
@@ -132,7 +134,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             else continue;
 
             var other = subchunks[1].toLowerCase();
-            
+
             if (other.charAt(other.length - 1) == "s" && !(other in this.conversionFactors))
             {
                 other = other.slice(0, -1);
@@ -143,12 +145,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 mod = this.conversionFactors[other];
             }
             else continue;
-            
+
             total += mod*intv;
         }
-        
+
 
         return total;
-        
+
     }
 });

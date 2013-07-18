@@ -61,7 +61,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         if (msg[0] == "/")
         {
-            this.logs.logMessage(this.logs.USER, "[#"+chan+"] " + sys.name(src) + ": " + msg);
+            this.logs.logMessage(this.logs.COMMAND, "[#"+chan+"] " + sys.name(src) + ": " + msg);
             sys.stopEvent();
             this.commands.issueCommand(src, msg, chan);
             return;
@@ -109,6 +109,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         {
             sys.broadcast(m, chan, src, false, -1);
             //this.com.broadcast("<timestamp /><b>" +sys.name(src) + ":</b> " + this.text.escapeHTML(m), -1, true, [chan]);
+            this.logs.logMessage(this.logs.CHAT, "[#"+sys.channel(chan)+"] " + sys.name(src) + ": " + msg);
         }
         sys.stopEvent();
 

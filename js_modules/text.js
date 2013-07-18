@@ -26,6 +26,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 /** @scope script.modules.text */
 ({
+    hotswap: true
+    ,
     escapeHTML: function (html)
     {
         return html.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\n/g,"<br/>").replace(/ /g, "&nbsp;");

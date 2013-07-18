@@ -20,10 +20,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /////////////////////// END LEGAL NOTICE /////////////////////////////// */
 ({
-    require: ["com", "theme", "logs", "commands"]
+    require: ["com", "theme", "logs", "commands", "less", "text"]
     ,
     readlogs:
     {
+        options:
+        {
+            count: "How many entries to read.",
+            trace: "Show backtraces if available.",
+            types: "Comma separated types of log messages to show"
+        },
+
         perm: function (src)
         {
             return sys.auth(src) >= 3;
@@ -31,10 +38,30 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         ,
         code: function (src, cmd, chan)
         {
-            for (var x in this.logs.logs)
+            var count = (+cmd.flags.count) || 35;
+            var types = cmd.flags.types;
+            if (types) types = types.split(/,/g);
+            else types = ["chat", "script", "io", "scripterror", "user", "command", "security"];
+            var trace = cmd.flags.trace;
+
+            var msgs = [];
+
+
+            print(JSON.stringify(types));
+            for (var i = this.logs.logs.length - 1; i >= 0 && count > 0; i--)
             {
-                this.com.message([src], "LV" + this.logs.logs[x][0]+" "+this.logs.logs[x][1], this.theme.INFO);
+                if (types.indexOf(this.logs.logs[i].level) !== -1)
+                {
+
+                    msgs.push(
+                        "<b>Type " + this.logs.logs[i].level + "</b> at <em>" + (this.logs.logs[i].time||"?") + "</em>: " + this.logs.logs[i].msg +
+                            ( !trace || !this.logs.logs[i].trace ? "" : "<br/><code>" + this.text.escapeHTML(this.logs.logs[i].trace) + "</code>")
+                    );
+                    count--;
+                }
             }
+
+            this.less.less(src, "<b>Logs:</b><hr/>" + msgs.join("<br/>") + "<hr/>", true);
         }
     }
     ,

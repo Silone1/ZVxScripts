@@ -94,6 +94,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         {
             this.playerStep(rpg.players[x], {rpg: rpg});
         }
+
+        for (x in rpg.battles)
+        {
+            this.rpgStep( {rpg:rpg, battle: rpg.battles[x] });
+        }
     }
     ,
     RPG: function (rpgname)

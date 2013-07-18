@@ -40,15 +40,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     {
         server: true
         ,
-        desc: "Manages loadable modules"
+        desc: "Manages loadable modules."
         ,
         options :
         {
-            "load": "Loads modules"
+            "load": "Loads modules."
             ,
-            "unload": "Unloads modules"
+            "unload": "Unloads modules."
             ,
-            "reload": "Reloads modules"
+            "reload": "Reloads modules, will attempt to hotswap if possible."
+            ,
+            "hotswap": "Hotswaps modules (does not reload if hotswapping is not possible.)"
         }
         ,
         perm: function (src, cmd, chan)
@@ -59,77 +61,67 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         /** The modprobe command will list all the modules, or --load, --unload, or --reload them */
         code: function (src, cmd, chan)
         {
-            if (cmd.flags.load || cmd.flags.l)
+            var flags = Object.keys(cmd.flags);
+
+            if (flags.length > 1)
             {
-                if (cmd.flags.unload || cmd.flags.u || cmd.flags.reload || cmd.flags.r) throw new Error("Modprobe is confused.");
+                this.com.message(src, "Must provide one flag to modprobe only.");
+                return;
+            }
+
+            if (flags.length === 0)
+            {
+                if (cmd.args.length === 0)
+                {
+                    this.com.message([src], "Loaded modules:", this.theme.INFO);
+                    var modlist = [];
+                    for (var x in this.script.modules)
+                    {
+                        modlist.push(x);
+                    }
+
+                    this.less.less(src, modlist.join("\n"), false);
+                    return;
+                }
+
+                var str = [];
 
                 for (var x in cmd.args)
                 {
-                    //  this.com.message([src], "Loading module " +
-                    this.script.loadModule(cmd.args[x]);
+
+                    var test = this.script.modules[cmd.args[x]];
+
+                    str.push("<b>Module " + cmd.args[x] + ":</b>");
+                    if (!test)
+                    {
+                        str.push("Module not loaded.");
+                        continue;
+                    }
+
+                    str.push("Requires: " + this.script.modules[cmd.args[x]].require.join(", "));
+                    str.push("Required by: " + this.script.modules[cmd.args[x]].submodules.join(", "));
+                    str.push("Contains: " + Object.keys(this.script.modules[cmd.args[x]]).join (", "));
+
                 }
+
+                this.less.less(src, str.join("<br/>"), true);
+
                 return;
             }
 
+            if (cmd.flags.load || cmd.flags.l) for (var x in cmd.args) this.script.loadModule(cmd.args[x]);
 
-            if (cmd.flags.unload || cmd.flags.u)
+            if (cmd.flags.unload || cmd.flags.u) for (var x in cmd.args) this.script.unloadModule(cmd.args[x]);
+
+            if (cmd.flags.reload || cmd.flags.r) for (var x in cmd.args) this.script.reloadModule(cmd.args[x]);
+
+            if (cmd.flags.hotswap || cmd.flags.h) for (var x in cmd.args)
             {
-                if (cmd.flags.load || cmd.flags.l || cmd.flags.reload || cmd.flags.r) throw new Error("Modprobe is confused.");
-
-                for (var x in cmd.args)
+                if (!this.script.hotswapModule(cmd.args[x]))
                 {
-                    this.script.unloadModule(cmd.args[x]);
+                    this.com.message(src, "Failed to hotswap module: " + cmd.args[x], this.theme.WARN);
                 }
-                return;
             }
-
-            if (cmd.flags.reload || cmd.flags.r)
-            {
-                if (cmd.flags.unload || cmd.flags.u || cmd.flags.load || cmd.flags.l) throw new Error("Modprobe is confused.");
-
-                for (var x in cmd.args)
-                {
-                    this.script.reloadModule(cmd.args[x]);
-                }
-                return;
-            }
-
-            if (cmd.args.length == 0)
-            {
-                this.com.message([src], "Loaded modules:", this.theme.INFO);
-                var modlist = [];
-                for (var x in this.script.modules)
-                {
-                    modlist.push(x);
-                }
-
-                this.less.less(src, modlist.join("\n"), false);
-                return;
-            }
-
-            var str = [];
-
-            for (var x in cmd.args)
-            {
-
-                var test = this.script.modules[cmd.args[x]];
-
-                str.push("<b>Module " + cmd.args[x] + ":</b>");
-                if (!test)
-                {
-                    str.push("Module not loaded.");
-                    continue;
-                }
-
-                str.push("Requires: " + this.script.modules[cmd.args[x]].require.join(", "));
-                str.push("Required by: " + this.script.modules[cmd.args[x]].submodules.join(", "));
-                str.push("Contains: " + Object.keys(this.script.modules[cmd.args[x]]).join (", "));
-
-            }
-            this.less.less(src, str.join("<br/>"), true);
-
-
-
         }
     }
 });

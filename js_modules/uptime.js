@@ -31,7 +31,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     ,
     unloadModule: function()
     {
-        
+
+    }
+    ,
+
+    hotswap: function (old)
+    {
+        this.start = old.start;
+
+        return true;
     }
     ,
     uptimeRaw: function ()

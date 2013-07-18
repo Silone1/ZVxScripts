@@ -20,32 +20,55 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /////////////////////// END LEGAL NOTICE /////////////////////////////// */
 ({
-    require: ["com", "theme", "text", "util"]
-    ,
-    logs: []
-    ,
-    DEBUG: 0, USER:1, INFO: 2, WARN: 3, ERROR: 4, CRITICAL: 5
-    ,
+    require: ["com", "theme", "text", "util"],
+
+
+    logs: [],
+
+
+    DEBUG: "debug",
+    USER: "user",
+    COMMAND: "command",
+    SCRIPT: "script",
+    WARN: "security",
+    ERROR: "scripterror",
+    CRITICAL: "scripterror",
+    SCRIPTERROR: "scripterror",
+    CHAT: "chat",
+    IO: "io",
+
+
     logMessage: function (level,msg)
     {
+        var log = {level: level, msg:msg, time: (new Date).toString(), trace: sys.backtrace()};
 
-        if (level != 0) print("logmsg lv" + level + ": " +msg);
-        this.logs.push([level, msg]);
+        if (level != this.DEBUG && level != this.CHAT) print("Logs level " + level + ": " +msg);
 
-        if (level >= 3){
+        this.logs.push(log);
+
+        if (level == this.CHAT)
+        {
+            // ignore
+        }
+        else if (level == this.SCRIPT || level == this.IO)
+        {
+            this.com.message(sys.playerIds(), msg, this.theme.INFO);
+        }
+        else if (level == this.SCRIPTERROR)
+        {
             var auths = [];
             sys.playerIds().forEach(function(i) { if (sys.auth(i) >= 1) auths.push(i); });
 
             this.com.message(auths, msg, this.theme.CRITICAL);
         }
-        else if (level >= 2)
+        else if (level == this.WARN)
         {
             var auths = [];
             sys.playerIds().forEach(function(i) { if (sys.auth(i) >= 1) auths.push(i); });
 
             this.com.message(auths, msg, this.theme.INFO);
         }
-        else if (1 || level == 1)
+        else if (level == this.USER || level == this.COMMAND)
         {
             var auths = [];
             sys.playerIds().forEach(function(i) { if (sys.auth(i) == 3) auths.push(i); });
@@ -55,7 +78,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         try
         {
-            sys.append("logs.txt", JSON.stringify([level, msg, (new Date).toString(), sys.backtrace()]) + "\n");
+            sys.append("logs.txt", JSON.stringify(log) + "\n");
         } catch (_) {}
     }
     ,
@@ -67,7 +90,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             ,
             function(msg)
             {
-                this.logMessage(this.INFO, msg);
+                this.logMessage(this.SCRIPT, msg);
             }
         );
     }

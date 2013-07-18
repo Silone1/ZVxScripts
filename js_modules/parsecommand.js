@@ -42,6 +42,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ({
     require: []
     ,
+    hotswap: true
+    ,
     /** Parses a command.
      * @param {String} text The text to parse.
      * @return {parsedCommand} The parsed command.

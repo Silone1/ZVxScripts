@@ -26,6 +26,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 /** @scope script.modules.util */
 ({
+    hotswap: true
+    ,
     /** Binds a function and object together.
      * @param {Object} obj The object to be used as "this" when calling func.
      * @param {Function} func The function to be called.
