@@ -23,6 +23,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     require: ["com", "theme", "text", "util"],
     hotswap: function (old)
     {
+        this.savedLogFunction = old.savedLogFunction;
+        this.script.log = this.util.bind(
+            this
+            ,
+            function(msg)
+            {
+                this.logMessage(this.SCRIPT, msg);
+            }
+        );
         this.logs = old.logs;
 
         return true;

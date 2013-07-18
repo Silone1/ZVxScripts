@@ -123,7 +123,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     ,
     hotswapModule: function (modname)
     {
-        if (!this.modules[modname].hotswap) return false;
+        var oldmod = this.modules[modname];
+
+        if (!oldmod.hotswap) return false;
 
         var newMod = sys.exec("js_modules/" + modname + ".js");
 
@@ -133,32 +135,43 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         Object.defineProperty(newMod, "script", {value: this, configurable: true});
 
-        for (var x in newMod.require) Object.defineProperty(newMod, newMod.require[x], {value: this.loadModule(newMod.require[x]), configurable: true});
+        for (var x in newMod.require)
+        {
+            this.loadModule(newMod.require[x]);
+            Object.defineProperty(newMod, newMod.require[x], {value: this.modules[newMod.require[x]], configurable: true});
+        }
 
         function nil(){};
 
         switch (typeof newMod.hotswap)
         {
         case "function":
-            if (newMod.hotswap(this.modules[modname]))
+            if (newMod.hotswap(oldmod))
             {
+                if (oldmod.submodules) for (var x in oldmod.submodules)
+                {
+                    delete this.modules[oldmod.submodules[x]][modname];
+                    Object.defineProperty(this.modules[oldmod.submodules[x]], modname, {value: newMod, configurable: true});
+                }
+
+                newMod.submodules = this.modules[modname].submodules;
+
                 this.modules[modname] = newMod;
 
-                if (this.modules[modname].submodules) for (var x in this.modules[modname].submodules)
-                {
-                    Object.defineProperty(this.modules[this.modules[modname].submodules[x]], modname, {value: newMod, configurable: true});
-                }
 
                 return true;
             }
             else return false;
         case "boolean":
-            (this.modules[modname].unloadModule || nil) ();
+            (oldmod.unloadModule || nil) ();
 
-            if (this.modules[modname].submodules) for (var x in this.modules[modname].submodules)
+            if (oldmod.submodules) for (var x in oldmod.submodules)
             {
-                Object.defineProperty(this.modules[this.modules[modname].submodules[x]], modname, {value: newMod, configurable: true});
+                delete this.modules[oldmod.submodules[x]][modname];
+                Object.defineProperty(this.modules[oldmod.submodules[x]], modname, {value: newMod, configurable: true});
             }
+
+            newMod.submodules = oldmod.submodules;
             this.modules[modname] = newMod;
             (newMod.loadModule || nil)();
             return true;
@@ -266,7 +279,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 }
 
                 this.modules[reqmodname].submodules.push(modname);
-                Object.defineProperty(this.modules[modname], reqmodname, {configurable : true, value: this.modules[reqmodname]});
+                Object.defineProperty(this.modules[modname], reqmodname, {configurable: true, value: this.modules[reqmodname]});
             }
 
             Object.defineProperty(this.modules[modname], "script", {configurable : true, value: this});
