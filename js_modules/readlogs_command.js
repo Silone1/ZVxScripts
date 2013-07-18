@@ -46,8 +46,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
             var msgs = [];
 
-
-            print(JSON.stringify(types));
             for (var i = this.logs.logs.length - 1; i >= 0 && count > 0; i--)
             {
                 if (types.indexOf(this.logs.logs[i].level) !== -1)
