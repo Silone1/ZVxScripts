@@ -53,6 +53,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     IO: "io",
 
 
+
+
     logMessage: function (level,msg)
     {
         var log = {level: level, msg:msg, time: (new Date).toString(), trace: sys.backtrace()};
@@ -64,10 +66,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         if (level == this.CHAT)
         {
             // ignore
-        }
-        else if (level == this.SCRIPT || level == this.IO)
-        {
-            this.com.message(sys.playerIds(), msg, this.theme.INFO);
         }
         else if (level == this.SCRIPTERROR)
         {
@@ -83,7 +81,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
             this.com.message(auths, msg, this.theme.INFO);
         }
-        else if (level == this.USER || level == this.COMMAND || level == this.INFO)
+        else if (level == this.USER || level == this.COMMAND || level == this.INFO || level == this.SCRIPT || level == this.IO)
         {
             var auths = [];
             sys.playerIds().forEach(function(i) { if (sys.auth(i) == 3) auths.push(i); });

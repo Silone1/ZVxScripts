@@ -353,6 +353,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         delete this.modules[modname];
 
+        for (var x in this.modules)
+        {
+            if (this.modules[x].submodules.indexOf(modname) !== -1)
+            {
+                this.modules[x].submodules.splice(this.modules[x].submodules.indexOf(modname), 1);
+            }
+        }
+
         return unloads;
     }
     ,
