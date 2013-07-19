@@ -139,6 +139,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         {
             this.loadModule(newMod.require[x]);
             Object.defineProperty(newMod, newMod.require[x], {value: this.modules[newMod.require[x]], configurable: true});
+            if (this.modules[newMod.require[x]].submodules.indexOf(modname) == -1) this.modules[newMod.require[x]].submodules.push(modname);
         }
 
         function nil(){};
