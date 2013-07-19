@@ -41,7 +41,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             }
         ));
 
-        // sys.sendHtmlMessage(src, "<span style=\"background-color:#000000; color:white\">&nbsp;INTERACTIVE MODE ACTIVE&nbsp;</span>");
     }
     ,
     beforeChatMessage: function beforeChatMessage (src, msg, chan)
@@ -50,7 +49,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         if (this.capture[src] && this.capture[src].length >= 1)
         {
-            sys.sendHtmlMessage(src, "<span style=\"background-color:#000000; color:white\">:"+ this.text.escapeHTML(msg));
             sys.stopEvent();
             var f = this.capture[src].pop();
 
@@ -108,7 +106,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         if (m)
         {
             sys.broadcast(m, chan, src, false, -1);
-            //this.com.broadcast("<timestamp /><b>" +sys.name(src) + ":</b> " + this.text.escapeHTML(m), -1, true, [chan]);
             this.logs.logMessage(this.logs.CHAT, "[#"+sys.channel(chan)+"] " + sys.name(src) + ": " + msg);
         }
         sys.stopEvent();

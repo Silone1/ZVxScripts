@@ -60,7 +60,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
             if (p*20 >= lines.length)
             {
-                bind.com.message([src], "<span style='color:white;background-color:black'>END OF TEXT.</span>", -1, true);
+                bind.com.message([src], "<span style='color:white;background-color:black'>END OF TEXT. EXITED VIEW MODE.</span>", -1, true);
                 return;
             }
 
@@ -72,7 +72,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         function handle (_, msg)
         {
-            if (msg.toLowerCase() == "exit") return;
+            if (msg.toLowerCase() == "exit")
+            {
+                bind.com.message([src], "<span style='color:white;background-color:black'>EXITED VIEW MODE.</span>", -1, true);
+                return;
+            }
 
             if (msg.toLowerCase() == "next" || msg.toLowerCase() == "n")
             {
