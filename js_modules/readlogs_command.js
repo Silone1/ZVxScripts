@@ -39,7 +39,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         code: function (src, cmd, chan)
         {
             var count = (+cmd.flags.count) || 35;
-            var types = cmd.flags.types;
+            var types = cmd.flags.types || cmd.flags.type;
             if (types) types = types.split(/,/g);
             else types = ["chat", "script", "io", "scripterror", "user", "command", "security"];
             var trace = cmd.flags.trace;
