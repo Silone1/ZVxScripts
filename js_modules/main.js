@@ -303,7 +303,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
      * @param {string} modname Name of module to remove.
      * @return {string[]} List of all modules that were removed, includes others due to dependencies.
      */
-     unloadModule: function unloadModule (modname, hot)
+    unloadModule: function unloadModule (modname, hot)
     {
         if ( !(modname in this.modules)) return [modname];
         if (this.modules[modname] instanceof Error) return [modname];
@@ -316,11 +316,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         if (thisModule.submodules) for (var x in thisModule.submodules)
         {
+            unloads.push(thisModule.submodules[x]);
             var u = this.unloadModule(thisModule.submodules[x]);
-            for (var x2 in u)
-            {
-                unloads.push(u[x2]);
-            }
+            unloads = unloads.concat(u);
+
         }
 
         if (thisModule.require) for (x in thisModule.require)
@@ -341,7 +340,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         }
 
-
         if ("unloadModule" in thisModule) try
         {
             thisModule.unloadModule();
@@ -351,16 +349,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             this.log("[[ERROR:]]" + e.toString() + "\n" + e.backtracetext);
         }
 
-
         delete this.modules[modname];
-
-        for (var x in this.modules)
-        {
-            if (this.modules[x].submodules.indexOf(modname) !== -1)
-            {
-                this.modules[x].submodules.splice(this.modules[x].submodules.indexOf(modname), 1);
-            }
-        }
 
         return unloads;
     }
@@ -384,8 +373,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             if (sys.fileExists("main.json")) f = sys.read("main.json");
 
             else f = "{}";
-
-
 
             var o = JSON.parse(f);
 
@@ -420,14 +407,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     {
         var mods = Object.keys (this.modules);
 
+        //this.config.modules = Object.keys(this.modules);
+
+        //sys.write("main.json", JSON.stringify(this.config));
+
         for (var x in mods)
         {
             this.unloadModule(mods[x]);
         }
-
-        this.config.modules = Object.keys(this.modules);
-
-        sys.write("main.json", JSON.stringify(this.config));
     }
     ,
     /** Sends a license message to src
@@ -460,6 +447,33 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             if (!this.unloadModuleHooks) this.unloadModuleHooks = [];
 
             this.unloadModuleHooks.push(f);
+        }
+
+    }
+    ,
+    debugInspector: function ()
+    {
+        function assert (cond)
+        {
+            if (!cond)
+            {
+                print("ASSERT FALURE");
+                print(sys.backtrace());
+                throw new Error("assert fail");
+            }
+        }
+
+        for (var x in this.modules)
+        {
+            for (var x2 in this.modules[x].require)
+            {
+                (function(x, x2) {
+
+                     var name = this.modules[x].require[x2];
+                     assert(this.modules[name].submodules.indexOf(x) !== -1);
+
+                 }).call(this, x, x2);
+            }
         }
 
     }
