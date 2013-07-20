@@ -143,7 +143,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
             for (var x in patches)
             {
-                dataText = this.dmp.patch_apply(JSON.parse(patches[x]), dataText)[0];
+                dataText = this.dmp.def.patch_apply(JSON.parse(patches[x]), dataText)[0];
             }
 
             db = JSON.parse(dataText);
@@ -193,7 +193,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         if (newData === this.openDBs[dbname].dataText) return;
 
 
-        var patch = this.dmp.patch_make(this.openDBs[dbname].dataText, this.dmp.diff_lineMode_(this.openDBs[dbname].dataText, newData));
+        var patch = this.dmp.def.patch_make(this.openDBs[dbname].dataText, this.dmp.def.diff_main(this.openDBs[dbname].dataText, newData));
 
         sys.append("js_databases/" + dbname + ".jsqz.transactions", JSON.stringify(patch) + "\n");
 

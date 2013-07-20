@@ -63,7 +63,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 /** @scope script.modules.commands */
 ({
-    require: ["com", "theme", "parsecommand", "util", "logs", "io"]
+    require: ["com", "theme", "parsecommand", "util", "logs", "io", "dmp"]
+    ,
+    dmpO: null
     ,
     /** A list of all the command object descriptors loaded
      * @type {Object.<commandDescriptor>}
@@ -73,7 +75,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     /** @event */
     loadModule: function ()
     {
+        this.dmpO = new this.dmp.constructor();
 
+        this.dmpO.Match_Threshold = 0.5;
+
+        this.dmpO.Match_Distance = 0;
     }
     ,
     /** Registeres command.
@@ -168,6 +174,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         if (!cmd_obj)
         {
             this.com.message([src], "Command does not exist.", this.theme.WARN);
+            if (!script.config.fast)
+            {
+
+                var matches = [];
+
+                for (var x in this.commands_db) if (this.dmpO.match_main(x, cmd.name, 0) != -1)
+                {
+                     matches.push(x);
+                }
+
+                if (matches.length) this.com.message(src, "Did you mean one of these?: " + matches.join(", ") + "?");
+
+            }
             return;
         }
 
