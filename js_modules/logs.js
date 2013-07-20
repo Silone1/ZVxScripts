@@ -21,6 +21,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /////////////////////// END LEGAL NOTICE /////////////////////////////// */
 ({
     require: ["com", "theme", "text", "util"],
+
+
     hotswap: function (old)
     {
         this.savedLogFunction = old.savedLogFunction;
@@ -79,14 +81,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             var auths = [];
             sys.playerIds().forEach(function(i) { if (sys.auth(i) >= 1) auths.push(i); });
 
-            this.com.message(auths, msg, this.theme.INFO);
+            this.com.message(auths, msg, this.theme.LOG);
         }
         else if (level == this.USER || level == this.COMMAND || level == this.INFO || level == this.SCRIPT || level == this.IO)
         {
             var auths = [];
             sys.playerIds().forEach(function(i) { if (sys.auth(i) == 3) auths.push(i); });
 
-            this.com.message(auths, msg, this.theme.INFO);
+            this.com.message(auths, msg, this.theme.LOG);
         }
 
         try
