@@ -1,15 +1,39 @@
 (
 {
-    require: ["com", "theme", "commands"],
+    require: ["com", "theme", "commands", "user"],
+
 
     activeTours: null,
+
+
+    tourOf: null,
+
+
+    matchIDs: null,
+
+
+    version: 1,
+
 
     loadModule: function()
     {
         this.activeTours = new Object;
+        this.tourOf = new Object;
+        this.matchIDs = new Object;
     },
 
-    version: 1,
+
+    tourAdd: function (tour, src)
+    {
+        var lowname = this.user.name(src).toLowerCase();
+
+        if (tour.players.indexOf(lowname) !== -1) return false;
+
+        tour.players.push(lowname);
+
+        return true;
+    },
+
 
     hotswap: function ()
     {
@@ -19,6 +43,7 @@
         this.activeTours = old.activeTours;
         return true;
     },
+
 
     newRound: function (tour)
     {
@@ -31,35 +56,115 @@
         }
     },
 
-    beforeBattleStarted: function ()
+
+    beforeBattleStarted: function (source, target, clauses, rated, mode, battleid, team1, team2)
     {
+        if (!this.tourOf[source] && !this.tourOf[target]) return;
 
+        var tour = this.tourOf[source];
 
-    }
-
-    battleEnded: function (tour, winner, loser)
-    {
-        var wname = this.user.name(winner).toLowerCase();
-        var lname = this.user.name(loser).toLowerCase();
-
-        loop0: for (var x in tour.matchups) if (tour.matchups[x].indexOf(wname) !== -1 && tour.matchups[x].indexOf(lname) !== -1)
+        if (tour != this.tourOf[target])
         {
-            this.com.broadcast(this.user.name(winner) + " defeated " + this.user.name(loser) + "!");
-
-            loop1: for (var x3 in tour.players) if (tour.players[x3].toLowerCase() == lname) { tour.players.splice(x3, 1); break loop1; }
-
-
-
-
+            this.com.message([source, target], "Players in a tournament may only battle their opponent!", this.theme.WARN);
+            sys.stopEvent();
+            return;
         }
 
+        var matchup_id;
+
+        matchup_check:
+        {
+            var matchups = tour.matchups;
+
+            for (var x in matchups) if (matchups[x].indexOf(this.user.name(source).toLowerCase()) != -1 && matchups[x].indexOf(this.user.name(target).toLowerCase()) !== -1)
+            {
+                matchup_id = x;
+                break matchup_check;
+            }
+
+            this.com.message([source, target], "Players in a tournament may only battle their opponent!", this.theme.WARN);
+            sys.stopEvent();
+            return;
+        }
+
+        var tier = tour.tier;
+
+        if (tier)
+        {
+            if (sys.tier(source, team1) !== tier)
+            {
+                this.com.message([source, target], this.user.name(source) + " is in the wrong tier!");
+                sys.stopEvent();
+                return;
+            }
+
+            if (sys.tier(target, team2) !== tier)
+            {
+                this.com.message([source, target], this.user.name(target) + " is in the wrong tier!");
+                sys.stopEvent();
+                return;
+            }
+        }
+
+        this.matchIDs[source] =
+        this.matchIDs[target] =
+                                battleid;
+
+        return;
+
+    },
+
+    afterBattleEnded: function (winner, loser, result, battle_id)
+    {
+
+        if (this.matchIDs[battleid])
+        {
+            var tour = this.tourOf[winner];
+
+            if (result === "tie")
+            {
+                this.com.broadcast(this.user.name(winner) + " and " + this.user.name(loser) + " tied!");
+            }
+            else
+            {
+                this.com.broadcast(this.user.name(winner) + " defeated " + this.user.name(loser) + "!");
+                var lname = this.user.name(loser).toLowerCase();
+
+                for (var x in tour.players) if (tour.players[x].toLowerCase() == lname)
+                {
+                    tour.players.splice(x, 1);
+                    break;
+                }
+            }
+
+            this.tour.matchups[this.matchIDs[battleid]] = []; // Don't want to delete
+
+            this.checkTour(tour);
+
+            return;
+        }
+    },
 
 
+    checkTour: function (tour)
+    {
+        var players = tour.players;
 
+        if (players.length <= 1)
+        {
+            if (players.length == 1)
+            {
+                this.com.broadcast(this.user.name(sys.id(tour.players[0])) + " won the tournament!");
 
+                for (var x in this.activeTours) if (this.activeTours[x] === tour)
+                {
+                    delete this.activeTours[x];
+                }
 
+                
+            }
+        }
     }
 
 
-}
-);
+});
