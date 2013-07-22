@@ -193,7 +193,7 @@
          if (newData === this.openDBs[dbname].dataText) return;
 
 
-         var patch = this.dmp.def.patch_make(this.openDBs[dbname].dataText, this.dmp.def.diff_main(this.openDBs[dbname].dataText, newData));
+         var patch = this.dmp.def.patch_make(this.openDBs[dbname].dataText, this.dmp.def.diff_lineMode_(this.openDBs[dbname].dataText, newData));
 
          sys.append("js_databases/" + dbname + ".jsqz.transactions", JSON.stringify(patch) + "\n");
 
