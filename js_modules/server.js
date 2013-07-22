@@ -51,7 +51,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             var cmdObj = this.parsecommand.parseCommand(msg);
             var cmdName = cmdObj.name;
 
-            this.logs.logMessage(this.logs.COMMAND, "[#"+chan+"] " + this.user.name(this.SERVER) + ": " + msg);
+            this.logs.logMessage(this.logs.COMMAND, (this.serverChan ? "[#"+sys.channel(this.serverChannel)+"] " : "") + this.user.name(this.SERVER) + ": " + msg);
 
             if (!cmdName)
             {
