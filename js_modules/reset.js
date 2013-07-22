@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
      loadModule: function ()
      {
-         this.commands.registerCommand("resetscript");
+         this.commands.registerCommand("resetscript", this);
 
      },
 
