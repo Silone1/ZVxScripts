@@ -130,11 +130,8 @@
                 this.com.broadcast(this.user.name(winner) + " defeated " + this.user.name(loser) + "!");
                 var lname = this.user.name(loser).toLowerCase();
 
-                for (var x in tour.players) if (tour.players[x].toLowerCase() == lname)
-                {
-                    tour.players.splice(x, 1);
-                    break;
-                }
+                tour.players[lname]--;
+                if (tour.players[lname] <= 0) delete tour.players[x];
             }
 
             this.tour.matchups[this.matchIDs[battleid]] = []; // Don't want to delete
@@ -161,7 +158,7 @@
                     delete this.activeTours[x];
                 }
 
-                
+
             }
         }
     }
