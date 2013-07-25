@@ -80,8 +80,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         this.dmpO.Match_Threshold = 0.5;
 
         this.dmpO.Match_Distance = 0;
-    }
-    ,
+    },
     /** Registeres command.
      * @param {String} name Name of command.
      * @param {Module} object Module object.
@@ -136,9 +135,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     serverCanUseCmd: function (name)
     {
         return this.commands_db[name].server;
-    }
-    ,
-    /** Checks if player has permission to use a command
+    },    /** Checks if player has permission to use a command
      * @param {Number} src Player ID.
      * @param {parsedCommand} cmd
      * @param {Number} chan Channel ID.
@@ -157,8 +154,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         {
             return (cmdobj.perm || cmdobj.perm2).call(cmdobj.bind, src, cmd, chan);
         }
-    }
-    ,
+    },
     /** Parses text from a user as a command, checks relevant permissions etc.
      * @event
      * @param src User ID

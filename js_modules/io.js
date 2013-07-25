@@ -143,8 +143,20 @@
 
              for (var x in patches)
              {
-                 dataText = this.dmp.def.patch_apply(JSON.parse(patches[x]), dataText)[0];
+                 var parsed = JSON.parse(patches[x]);
+                 if (typeof parsed == "string")
+                     // fast c++ version
+                 {
+                     dataText = sys.patchApply(dataText, parsed);
+                 }
+                 else
+                     // slow javascript version
+                 {
+                     dataText = this.dmp.def.patch_apply(parsed, dataText)[0];
+                 }
              }
+
+
 
              db = JSON.parse(dataText);
 
@@ -192,8 +204,15 @@
 
          if (newData === this.openDBs[dbname].dataText) return;
 
-
-         var patch = this.dmp.def.patch_make(this.openDBs[dbname].dataText, this.dmp.def.diff_lineMode_(this.openDBs[dbname].dataText, newData));
+         var patch;
+         if (sys.patchMake)
+         {
+             patch = sys.patchMake(this.openDBs[dbname].dataText, newData);
+         }
+         else
+         {
+             patch = this.dmp.def.patch_make(this.openDBs[dbname].dataText, this.dmp.def.diff_lineMode_(this.openDBs[dbname].dataText, newData));
+         }
 
          sys.append("js_databases/" + dbname + ".jsqz.transactions", JSON.stringify(patch) + "\n");
 

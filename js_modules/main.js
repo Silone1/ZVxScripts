@@ -210,7 +210,7 @@
          loadModule: function loadModule (modname)
          {
              if (this.modules[modname] && !(this.modules[modname] instanceof Error)) return;
-             
+
 
              try {
                  var mod = sys.exec("js_modules/" + modname +".js");
@@ -317,13 +317,13 @@
              if (this.modules[modname] instanceof Error) return [modname];
              this.log("Unloading module: " + modname);
 
-             try 
+             try
              {
-                 
-                 
-                 
+
+
+
                  var unloads = [modname];
-                 
+
                  var thisModule = this.modules[modname];
 
                  var q = [];
@@ -368,7 +368,7 @@
                  }
              } catch (e2)
              {
-                 
+
              }
              finally
              {
@@ -376,7 +376,7 @@
                  return unloads;
              }
 
-             
+
 
 
          }
@@ -386,10 +386,27 @@
           */
          loadScript: function loadScript ()
          {
-             this.modules = new Object;
+
+             var test1 = ["print","gc","version","global","sys","SESSION","Qt","script"];
+
+             var test2 = Object.keys(global);
+
+             var poisoned = false;
+
              sys.enableStrict();
 
+             this.modules = new Object;
+
              print(sys.read("ZSCRIPTS_COPYING"));
+
+             for (var x in test2) if (test1.indexOf(test2[x]) === -1)
+             {
+                 print("WARNING: Global object poisoned. Removing property: " + test2[x]);
+                 delete global[test2[x]];
+                 poisoned = true;
+             }
+
+             if (poisoned) gc();
 
              this.registerHandler("beforeLogIn", this, "AGPL");
 
