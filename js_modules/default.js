@@ -21,5 +21,5 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /////////////////////// END LEGAL NOTICE /////////////////////////////// */
 ({
      // legal note: if you remove sourcedist, you are legally required to ensure users have another way to download the source.
-     require: ["logs",  "iologger", "logmessager", "gateway", "chat", "greeting", "server", "serverimp", "common_commands", "admin_commands", "sourcedist"]
+     require: ["logs",  "iologger", "logmessager", "gateway", "chat", "automute", "reset", "greeting", "server", "serverimp", "common_commands", "admin_commands", "sourcedist"]
 });

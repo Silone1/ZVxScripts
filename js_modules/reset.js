@@ -32,6 +32,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
      resetscript:
      {
+         server: true,
          perm: function(src)
          {
              return sys.auth(src) == 3;
