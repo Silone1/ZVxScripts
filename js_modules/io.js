@@ -26,17 +26,34 @@
  * */
 /** @scope script.modules.io */
 ({
-     require: ["dmp", "logs"]
-     ,
+     require: ["dmp", "logs", "util"],
+
+
+     // IOPS
+     OPEN: 1,
+     CLOSE: 2,
+     COMMIT: 3,
+     SYNC: 4,
+     BACKUP: 5,
+     PURGE: 6,
+     MARK: 7,
+
+     // DB types
+     IODB: 1,
+     IOCFG: 2,
+
      /** Object that contains all databases
       * @type {Object}
       */
-     openDBs: null
-     ,
-     diskRO: false
-     ,
-     configs: null
-     ,
+     openDBs: null,
+
+
+     diskRO: false,
+
+
+     configs: null,
+
+
      loadModule: function ()
      {
          this.openDBs = new Object;
@@ -46,6 +63,8 @@
          this.config = this.readConfig("io", {autosave:60000, autosavemethod: "commit"});
 
          if (!sys.fileExists("js_databases")) sys.mkdir("js_databases");
+
+         this.registerIOWatcher = this.util.generateRegistor(this, this.util.UNARY_REGISTOR, "IOWatchers");
      }
      ,
      /** Reads file data
@@ -173,7 +192,11 @@
 
          end = +new Date;
 
-         this.logs.logMessage(this.logs.IO, "Opened database " + dbname + ", took " + (end - start) + "ms.");
+         
+         for (var x in this.IOWatchers) try {
+             this.IOWatchers[x](dbname, this.OPEN, (end-start));
+         } catch (_) {}
+         // this.logs.logMessage(this.logs.IO, "Opened database " + dbname + ", took " + (end - start) + "ms.");
 
          return db;
      }
@@ -192,7 +215,9 @@
 
          metadb.lastSave = +new Date;
          var end = +new Date;
-         this.logs.logMessage(this.logs.IO, "Synchronized database " + dbname + ", took " + (end - start) + "ms.");
+         for (var x in this.IOWatchers) try {
+             this.IOWatchers[x](dbname, this.SYNC, (end-start));
+         } catch (_) {}
      }
      ,
      /** Commits all changes to file, this may be slower or faster than flush depending on the computer. Fast CPU: Use commit; Fast disk: Use flush. */
@@ -218,13 +243,18 @@
 
          this.openDBs[dbname].dataText = newData;
          var end = +new Date;
-         this.logs.logMessage(this.logs.IO, "Commited database " + dbname + ", took " + (end - start) + "ms.");
+         for (var x in this.IOWatchers) try {
+             this.IOWatchers[x](dbname, this.COMMIT, (end-start));
+         } catch (_) {}
      }
      ,
      /** Marks a database as changed */
      markDB: function (dbname)
      {
          this.openDBs[dbname].hasChanges = true;
+         for (var x in this.IOWatchers) try {
+             this.IOWatchers[x](dbname, this.MARK, 1);
+         } catch (_) {}
      }
      ,
      /** Closes an open database */
@@ -242,7 +272,10 @@
          delete this.openDBs[dbname];
          var end = +new Date;
 
-         this.logs.logMessage(this.logs.IO, "Closed database " + dbname + ", took " + (end - start) + "ms.");
+         for (var x in this.IOWatchers) try {
+             this.IOWatchers[x](dbname, this.CLOSE, (end-start));
+         } catch (_) {}
+
      }
      ,
      /** Erase database */
@@ -265,7 +298,9 @@
          var backupname = dbname + ".backup."+start+".jsqz.bak";
          sys.writeObject("js_databases/" + backupname, db, 9);
          var end = +new Date;
-         this.logs.logMessage(this.logs.IO, "Backed up database " + dbname + " to " + backupname + ", took " + (end - start) + "ms.");
+         for (var x in this.IOWatchers) try {
+             this.IOWatchers[x](dbname, this.BACKUP, (end-start));
+         } catch (_) {}
      }
      ,
      step: function ()

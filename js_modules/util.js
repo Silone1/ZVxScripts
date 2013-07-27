@@ -175,12 +175,13 @@
          return serialize(variant);
      },
      
-     UNARY_REGISTOR: 1,
+     UNARY_REGISTOR: 1, LIST_REGISTOR: 1,
+     BINARY_REGISTOR: 2, ASSOCIATIVE_REGISTOR: 2,
+     TERITARY_REGISTOR: 3,
 
-
-     generateRegistor: function (host, type, storename, direct) 
+     generateRegistor: function (host, type, storename, direct, onRegister) 
      {
-         if (type === this.UNARY_REGISTOR) return function (applicant, module)
+         if (type === this.LIST_REGISTOR) return function (module, applicant)
          {
              host[storename] || (host[storename] = []);
 
@@ -190,7 +191,12 @@
              {
                  Object.defineProperty(registrant, "module", {value: module, configurable: true});
              }
-             
+                          
+             if (typeof registrant === "function")
+             {
+                 registrant = this.util.bind(module, registrant);
+             }
+
              host[storename].push(registrant);
 
              module.onUnloadModule(
@@ -202,8 +208,41 @@
                      }
                  )
              );
+
+             if (onRegister) return onRegister(module, registrant);
+
+             else return void 0;
              
          };
+
+         else if (this.ASSOCIATIVE_REGISTOR === type) return function (module, applicant, propname)
+         {
+             host[storename] || (host[storename] = new Object);
+
+             var registrant = module[propnamme||applicant];
+
+             if (typeof registrant === "function" || typeof registrant === "object")
+             {
+                 Object.defineProperty(registrant, "module", {value: module, configurable: true});
+             }
+ 
+             if (typeof registrant === "function")
+             {
+                 registrant = this.util.bind(module, registrant);
+             }
+
+             host[storename][applicant] = registrant;
+
+             module.onUnloadModule(
+                 function ()
+                 {
+                     host[storename].splice(host[storename].indexOf(registrant), 1);
+                 }
+             );  
+             
+             
+         };
+
 
          else return null; // unimplemented
      } 

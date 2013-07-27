@@ -36,6 +36,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         );
         this.logs = old.logs;
 
+        this.registerLogHandler = this.util.generateRegistor(this, this.util.UNARY_REGISTOR, "logHandlers", false);
+
         return true;
     },
 
@@ -57,46 +59,24 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    logMessage: function (level,msg)
+    logMessage: function (level, msg)
     {
         var log = {level: level, msg:msg, time: (new Date).toString(), trace: sys.backtrace()};
-
-        if (level != this.DEBUG && level != this.CHAT) print("Logs level " + level + ": " +msg);
-
-        this.logs.push(log);
-
-        if (level == this.CHAT)
-        {
-            // ignore
-        }
-        else if (level == this.SCRIPTERROR)
-        {
-            var auths = [];
-            sys.playerIds().forEach(function(i) { if (sys.auth(i) >= 1) auths.push(i); });
-
-            this.com.message(auths, msg, this.theme.CRITICAL);
-        }
-        else if (level == this.WARN)
-        {
-            var auths = [];
-            sys.playerIds().forEach(function(i) { if (sys.auth(i) >= 1) auths.push(i); });
-
-            this.com.message(auths, msg, this.theme.LOG);
-        }
-        else if (level == this.USER || level == this.COMMAND || level == this.INFO || level == this.SCRIPT || level == this.IO)
-        {
-            var auths = [];
-            sys.playerIds().forEach(function(i) { if (sys.auth(i) == 3) auths.push(i); });
-
-            this.com.message(auths, msg, this.theme.LOG);
-        }
 
         try
         {
             sys.append("logs.txt", JSON.stringify(log) + "\n");
         } catch (_) {}
-    }
-    ,
+
+        this.logs.push(log);
+
+        for (var x in this.logHandlers)
+        {
+            this.logHandlers[x].apply(this.logHandlers[x].module, [log]);
+        }
+    },
+
+
     loadModule: function ()
     {
         this.savedLogFunction = this.script.log;
@@ -108,8 +88,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 this.logMessage(this.SCRIPT, msg);
             }
         );
-    }
-    ,
+
+        this.registerLogHandler = this.util.generateRegistor(this, this.util.UNARY_REGISTOR, "logHandlers", false);
+    },
+
+
     unloadModule: function ()
     {
         this.script.log = this.savedLogFunction;

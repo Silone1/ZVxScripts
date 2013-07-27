@@ -73,6 +73,11 @@
              print ("SCRIPT: " + msg);
          }
          ,
+         error: function _err_ (e)
+         {
+             print("SCRIPTERROR: " + e);
+         }
+         ,
          /** Does nothing
           * @deprecated Doesn't do anything
           */
@@ -94,9 +99,17 @@
              {
                  var f = function _meta_event_handler_func_ ()
                  {
-                     for (var x in f.callbacks)
+                     try
                      {
-                         f.callbacks[x].func.apply(f.callbacks[x].bind, arguments);
+                         for (var x in f.callbacks)
+                         {
+                             f.callbacks[x].func.apply(f.callbacks[x].bind, arguments);
+                         }
+                     }
+
+                     catch (err)
+                     {
+                         this.error(err);                         
                      }
                  };
 
@@ -439,7 +452,7 @@
              {
                  var stack = (e.backtracetext);
 
-                 this.log("Failed to start, error in " + e.fileName + " at line #" + e.lineNumber + ": " + e.toString() +"\n" + stack);
+                 print("Failed to start, error in " + e.fileName + " at line #" + e.lineNumber + ": " + e.toString() +"\n" + stack);
                  sys.stopEvent();
              }
          }
