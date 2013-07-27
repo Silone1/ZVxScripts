@@ -182,7 +182,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         server:true,
         perm: function (src)
         {
-            return sys.auth(src) >= 2;
+            return true;
         }
         ,
         code: function (src)
