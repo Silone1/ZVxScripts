@@ -26,7 +26,7 @@
  * */
 /** @scope script.modules.io */
 ({
-     require: ["dmp", "logs", "util"],
+     require: ["dmp", "logs", "util", "zsrx"],
 
 
      // IOPS
@@ -154,7 +154,7 @@
 
              this.logs.logMessage(this.logs.IO, "Applying patches to database " + dbname);
 
-             dataText = JSON.stringify(db, null, 1);
+             dataText = this.zsrx.zsrx(db, null, 1);
 
              patches = sys.read("js_databases/" + dbname + ".jsqz.transactions").split(/\n/g);
 
@@ -184,7 +184,7 @@
              sys.rm("js_databases/" + dbname + ".jsqz.transactions");
          }
 
-         if (!dataText) dataText = JSON.stringify(db, null, 1);
+         if (!dataText) dataText = this.zsrx.zsrx(db);
 
          dbo = { db: db, lastSave: +new Date, lastCommit: +new Date, dataText: dataText, hasChanges:null };
 
@@ -192,7 +192,7 @@
 
          end = +new Date;
 
-         
+
          for (var x in this.IOWatchers) try {
              this.IOWatchers[x](dbname, this.OPEN, (end-start));
          } catch (_) {}
@@ -225,7 +225,7 @@
      {
 
          var start = +new Date;
-         var newData = JSON.stringify(this.openDBs[dbname].db, null, 1);
+         var newData = this.zsrx.zsrx(this.openDBs[dbname].db);
 
          if (newData === this.openDBs[dbname].dataText) return;
 

@@ -37,7 +37,7 @@
      {
          return function ()
          {
-             func.apply(obj, arguments);
+             return func.apply(obj, arguments);
          };
 
      }
@@ -174,24 +174,24 @@
 
          return serialize(variant);
      },
-     
+
      UNARY_REGISTOR: 1, LIST_REGISTOR: 1,
      BINARY_REGISTOR: 2, ASSOCIATIVE_REGISTOR: 2,
      TERITARY_REGISTOR: 3,
 
-     generateRegistor: function (host, type, storename, direct, onRegister) 
+     generateRegistor: function (host, type, storename, direct, onRegister)
      {
          if (type === this.LIST_REGISTOR) return function (module, applicant)
          {
              host[storename] || (host[storename] = []);
 
              var registrant = (direct? applicant : module[applicant]);
-             
+
              if (typeof registrant === "function" || typeof registrant === "object")
              {
                  Object.defineProperty(registrant, "module", {value: module, configurable: true});
              }
-                          
+
              if (typeof registrant === "function")
              {
                  registrant = this.util.bind(module, registrant);
@@ -212,7 +212,7 @@
              if (onRegister) return onRegister(module, registrant);
 
              else return void 0;
-             
+
          };
 
          else if (this.ASSOCIATIVE_REGISTOR === type) return function (module, applicant, propname)
@@ -225,7 +225,7 @@
              {
                  Object.defineProperty(registrant, "module", {value: module, configurable: true});
              }
- 
+
              if (typeof registrant === "function")
              {
                  registrant = this.util.bind(module, registrant);
@@ -238,12 +238,12 @@
                  {
                      host[storename].splice(host[storename].indexOf(registrant), 1);
                  }
-             );  
-             
-             
+             );
+
+
          };
 
 
          else return null; // unimplemented
-     } 
+     }
 });

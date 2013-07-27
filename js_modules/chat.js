@@ -114,7 +114,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     ,
     registerFilter: function (filter, object)
     {
-        var filt = filter;
+        var filt = this.util.bind(object, filter);
         this.filters.push(filt);
         object.onUnloadModule( this.util.bind(
             this,
