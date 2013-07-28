@@ -25,11 +25,11 @@
 
          sys.setTimer( function () {
                            bind[ip]--;
-                       }, 1000, false);
+                       }, 2000, false);
 
          sys.setTimer( function () {
                            bind[ip]--;
-                       }, 7000, false);
+                       }, 15000, false);
 
          if (this.counter[ip] >= 10)
          {
