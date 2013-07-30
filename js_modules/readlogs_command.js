@@ -52,7 +52,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 {
 
                     msgs.push(
-                        "<b>Type " + this.logs.logs[i].level + "</b> at <em>" + (this.logs.logs[i].time||"?") + "</em>: " + this.logs.logs[i].msg +
+                        "<b>Type " + this.logs.logs[i].level + "</b> at <em>" + (this.logs.logs[i].time||"?") + "</em>: " + this.text.escapeHTML(this.logs.logs[i].msg) +
                             ( !trace || !this.logs.logs[i].trace ? "" : "<br/><code>" + this.text.escapeHTML(this.logs.logs[i].trace) + "</code>")
                     );
                     count--;
