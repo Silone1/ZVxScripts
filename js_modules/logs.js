@@ -26,6 +26,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     hotswap: function (old)
     {
         this.savedLogFunction = old.savedLogFunction;
+
+        this.savedErrorFunction = old.savedErrorFunction;
         this.script.log = this.util.bind(
             this
             ,
@@ -34,6 +36,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 this.logMessage(this.SCRIPT, msg);
             }
         );
+
+     
         this.logs = old.logs;
 
         this.registerLogHandler = this.util.generateRegistor(this, this.util.UNARY_REGISTOR, "logHandlers", false);
@@ -59,7 +63,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    logMessage: function (level, msg)
+    logMessage: function (level, msg, trace)
     {
         var log = {level: level, msg:msg, time: (new Date).toString(), trace: sys.backtrace()};
 
@@ -89,6 +93,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             }
         );
 
+        this.savedErrorFunction = this.script.error;
+        this.script.error = this.util.bind(
+            this,
+            
+            function (e)
+            {
+                this.logMessage(this.ERROR, e.toString(), e.backtracetext);
+            }
+        );
+
         this.registerLogHandler = this.util.generateRegistor(this, this.util.UNARY_REGISTOR, "logHandlers", false);
     },
 
@@ -96,5 +110,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     unloadModule: function ()
     {
         this.script.log = this.savedLogFunction;
+
+        this.script.error = this.savedErrorFunction;
     }
 });
