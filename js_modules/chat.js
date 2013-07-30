@@ -41,8 +41,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             }
         ));
 
-    }
-    ,
+    },
+
+
     beforeChatMessage: function beforeChatMessage (src, msg, chan)
     {
         if (msg.length == 0) return;
@@ -59,7 +60,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         if (msg[0] == "/")
         {
-            this.logs.logMessage(this.logs.COMMAND, "[#"+chan+"] " + sys.name(src) + ": " + msg);
+            this.logs.logMessage(this.logs.COMMAND, "[#"+sys.channel(chan)+"] " + sys.name(src) + ": " + msg);
             sys.stopEvent();
             this.commands.issueCommand(src, msg, chan);
             return;
