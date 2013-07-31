@@ -24,6 +24,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     ,
     readlogs:
     {
+        server: true,
+        
         options:
         {
             count: "How many entries to read.",
