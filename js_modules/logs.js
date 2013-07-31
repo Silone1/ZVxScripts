@@ -65,7 +65,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     logMessage: function (level, msg, trace)
     {
-        var log = {level: level, msg:msg, time: (new Date).toString(), trace: sys.backtrace()};
+        var log = {level: level, msg:msg, time: (new Date).toString(), trace: trace || sys.backtrace()};
 
         try
         {
