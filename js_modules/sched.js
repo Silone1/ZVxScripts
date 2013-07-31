@@ -70,6 +70,7 @@
 
      loadModule: function ()
      {
+         this.timers = [];
          this.script.registerHandler("step", this);
      }
 
