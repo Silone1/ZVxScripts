@@ -20,7 +20,7 @@
 
  /////////////////////// END LEGAL NOTICE /////////////////////////////// */
 ({
-     require: ["commands", "theme", "com"],
+     require: ["commands", "theme", "com", "less", "text", "user"],
 
 
      loadModule: function ()
@@ -58,12 +58,11 @@
 
              var msgs = [];
 
-             pids.forEach(
-                 function (i)
-                 {
-                     msgs.push("<b>" + i + "</b>" + this.text.escapeHTML(this.user.name(i)));
-                 }
-             );
+             for (var x in pids)
+             {
+                 var i = pids[x];
+                 msgs.push("<b>" + i + "</b> " + this.text.escapeHTML(this.user.name(i)));
+             }
              
              this.com.message(src, "Online Players:", this.theme.INFO);
 
