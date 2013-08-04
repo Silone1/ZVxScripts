@@ -19,37 +19,54 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /////////////////////// END LEGAL NOTICE /////////////////////////////// */
-/*
+
 ({
     require: ["profile"]
     ,
     parseArgs: function (args)
     {
-    var retval = {
-        profs: []
-        ,
-        uids: []
-    };
-
-    for (var x in args)
-    {
-        if (args[x].length == 0) continue;
-
-        if (args[x][0] == ":")
-        {
-            var m = args[x].match(/^\?(\w+):(.+)$/);
-            
-            if (!m) continue;
-            
-            if (m[1] == "prof")
+        var retval =
             {
-                if ( m[2] in this.profile.database.profiles)
-                {
-                        profs.push (m[2]);
-                }
+                profs: [],
+                uids: [],
+                names: []
+            };
+        
+        for (var x in args)
+        {
+            if (args[x].length == 0) continue;
+            
+            if (args[x][0] == ":")
+            {
+                var m = args[x].match(/^:\?(\w+)\.(.+)$/);
+                
+                if (!m) continue;
+                
+                (({
+                      ip: function ()
+                      {
+                          var prof = this.profile.profileByIP(m[1]);
+
+                          if (prof == -1) return;
+
+                          retval.profs.push(prof);
+
+                          this.profile.idsOfProf(prof).forEach(
+                              function (elm)
+                              {
+                                  if (retval.uids.indexOf(elm) === -1) retval.uids.push(elm);
+                              }
+                          );
+                      },
+
+                      id: function ()
+                      {
+                          var profs 
+                      }
+                  })[m[1]] || this.util.nil).call(this);
             }
         }
-        return retval;
     }
-});
-*/
+ });
+ 
+ 

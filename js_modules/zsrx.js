@@ -22,7 +22,6 @@
 /** ZSrX Module
  *
  */
-
 ({
      /** The ZSrX Function is an faster resource undemanding version of JSON.stringify. It has some limitations, in general, it ignores edge cases.
       *
