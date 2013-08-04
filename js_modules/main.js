@@ -206,7 +206,7 @@
           * */
          reloadModule: function reloadModule (modname)
          {
-             if(this.hotswapModule(modname)) return; // try hotswap if possible
+             // if(this.hotswapModule(modname)) return; // try hotswap if possible
 
              var unloads = this.unloadModule(modname);
 
