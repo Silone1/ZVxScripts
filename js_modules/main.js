@@ -142,6 +142,8 @@
          {
              var oldmod = this.modules[modname];
 
+             if (!oldmod) return false;
+
              if (!oldmod.hotswap) return false;
 
              var newMod = sys.exec("js_modules/" + modname + ".js");
