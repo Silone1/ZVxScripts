@@ -128,7 +128,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             }
         }
 
-       print(channames.join("") +  (type != -1 ? "~Script~": "") + this.stripHtmlBool(msg, html));
+       print(channames.join("") +  (type != -1 ? "~Script~: ": "") + this.stripHtmlBool(msg, html));
     }
     ,
     /** @private */
