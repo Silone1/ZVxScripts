@@ -484,8 +484,7 @@
                  src,
                  "<timestamp /><b>Script Copyright:</b> © 2013 Ryan P. Nicholl \"ArchZombie0x\" &lt;archzombielord@gmail.com&gt;<br/>" +
                      "<timestamp /><b>Script License:</b> GNU Affero General Public License v3+<br/>"+
-                     "Source code available at <a href=https://github.com/ArchZombie/zscripts>https://github.com/ArchZombie/zscripts</a><br/>"+
-                     "If the host modified the script without updating the notice, you may be able to get the source using the \"/getsource\" command."
+                     "You may get these scripts for your own server at <a href=https://github.com/ArchZombie/zscripts>https://github.com/ArchZombie/zscripts</a>, and, if this is incorrect, using </getsource (note that /getsource is messy.)"
              );
          }
          ,
