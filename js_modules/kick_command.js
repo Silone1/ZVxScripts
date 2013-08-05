@@ -20,14 +20,13 @@
 
  /////////////////////// END LEGAL NOTICE /////////////////////////////// */
 ({
-     require: ["commands", "com", "theme", "user", "text"]
-     ,
+     require: ["commands", "com", "theme", "user", "text"],
+     
      kick:
      {
          server: true,
 
          desc: "Kicks user(s) off the server",
-
 
          options:
          {
@@ -74,8 +73,8 @@
 
              if (!cmd.flags.silent || sys_auth$src != 3)
              {
-                 this.com.broadcast(this.user.name(src) + " kicked " + this.text.escapeHTML(kicknameslist.join(", ")) + "!" +
-                                    (cmd.flags.reason ? "(Reason: " + this.text.escapeHTML(cmd.flags.reason) +")" : ""), this.theme.CRITICAL);
+                 this.com.broadcast(this.user.name(src) + " kicked " + kicknameslist.join(", ") + "!" +
+                                    (cmd.flags.reason ? " (Reason: " + cmd.flags.reason + ")" : String() ), this.theme.CRITICAL);
              }
 
              for (var x in kicklist)
