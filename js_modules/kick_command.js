@@ -77,7 +77,7 @@
                                     (cmd.flags.reason ? " (Reason: " + cmd.flags.reason + ")" : String() ), this.theme.CRITICAL);
              }
 
-             for (var x in kicklist)
+             for (x in kicklist)
              {
                  sys.kick(kicklist[x]);
              }
