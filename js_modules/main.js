@@ -482,9 +482,8 @@
          {
              sys.sendHtmlMessage(
                  src,
-                 "<timestamp /><b>Script Copyright:</b> © 2013 Ryan P. Nicholl \"ArchZombie0x\" &lt;archzombielord@gmail.com&gt;<br/>" +
-                     "<timestamp /><b>Script License:</b> GNU Affero General Public License v3+<br/>"+
-                     "You may get these scripts for your own server at <a href=https://github.com/ArchZombie/zscripts>https://github.com/ArchZombie/zscripts</a>, and, if this is incorrect, using </getsource (note that /getsource is messy.)"
+                 "<timestamp /><b>ZScripts Copyright © 2013 Ryan P. Nicholl \"ArchZombie0x\" &lt;archzombielord@gmail.com&gt;</b><br/>" +
+                     "You may download these scripts for your own server at <a href=\'https://github.com/ArchZombie/zscripts\'>https://github.com/ArchZombie/zscripts</a> <a href='https://github.com/ArchZombie/zscripts/archive/master.zip'>[link to .zip]</a>, or if this is incorrect, using <em>/getsource</em>. Scripts are available under the <em>GNU Affero General Public License</em> as published by the Free Software Foundation, version 3, or, at your option, any later version."
              );
          }
          ,
