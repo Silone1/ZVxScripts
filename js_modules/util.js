@@ -245,5 +245,15 @@
 
 
          else return null; // unimplemented
+     },
+
+     keyify: function (array)
+     {
+         var ret = new Object;
+         for (var x in array)
+         {
+             ret[array[x]] = null;
+         }
+         return ret;
      }
 });
