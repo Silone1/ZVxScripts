@@ -52,7 +52,10 @@
 
              for (var x in auths)
              {
-                 var lv = sys.dbAuth(x);
+                 var lv = void 0;
+
+                 if (sys.id(auths[x])) lv = sys.auth(sys.id(auths[x])); 
+                 else lv = sys.dbAuth(auths[x]);
                  
                  if ((""+lv) in this.LEVELS) lvs[lv].push(auths[x]);
               
