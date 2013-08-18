@@ -69,7 +69,6 @@
               
              for (var y in this.LEVEL_ORDER) for (x in lvs[y])
              {
-                 print(x, y);
                  this.com.message(src, "<b>" + ([null, "Moderator", "Admin", "Owner"][sys.dbAuth(lvs[y][x])] || "?") + "</b> " + this.text.escapeHTML(this.user.nameToProper(lvs[y][x])) +
                                   (sys.id(lvs[y][x])?" <span style='color:green'>online ("+sys.id(lvs[y][x])+")</span>":" <span style='color:red'>offline</span>"), this.theme.RAW, true);                
              }
