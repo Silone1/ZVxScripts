@@ -45,9 +45,9 @@
      },
 
 
-     nameToProper: function ()
+     nameToProper: function (name)
      {
-         if (sys.id(name)) return this.name(id);
+         if (sys.id(name)) return this.name(sys.id(name));
 
          return name;
      },
