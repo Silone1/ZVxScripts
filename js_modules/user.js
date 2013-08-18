@@ -38,6 +38,12 @@
          this.invisibleUsers = db.invisible;
      },
 
+
+     unloadModule: function ()
+     {
+         this.io.closeDB("user");
+     },
+
      name: function (id)
      {
          if (id == 0 && (typeof id === "number" || typeof id === "string") ) return "~~Server~~";
