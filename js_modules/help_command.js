@@ -114,26 +114,28 @@
              else if (topic in this.commands.commands_db)
              {
 
-                 var canuse = (src == 0? this.commands.commands_db[topic].server : sys_auth$src == 3 || this.commands.commands_db[topic].perm.apply(cmds[x].bind, [src]));
+                 var canuse = (src == 0? this.commands.commands_db[topic].server : sys.auth(src) == 3 || this.commands.commands_db[topic].perm.apply(this.commands.commands_db[topic].bind, [src]));
 
-                 var str = "Command " + topic + "<br/>" +
-                     "Permission: " +(canuse?"yes":"<font color=red><b>no</b></font>")+"<br/>"+
-                     "Description: " + (cmds[x].desc?" "+cmds[x].desc:"n/a")+"<br/>"+
-                     "Options: ";
+                 var str = "<b>Command " + this.commands.commands_db[topic].name + ":</b><br/>" +
+                     "<b>Permission:</b> " +(canuse?"yes":"<font color=red><b>no</b></font>")+"<br/>"+
+                     "<b>Description:</b> " + (this.commands.commands_db[topic].desc?" "+this.commands.commands_db[topic].desc:"n/a")+"<br/>"+
+                     "<b>Options:</b> ";
 
                  if (this.commands.commands_db[topic].options)
                  {
-                     var options = this.commands.commands_db.options;
+                     var options = this.commands.commands_db[topic].options;
 
                      for (var x2 in options)
                      {
-                        str += ("<br/>&nbsp;&nbsp;&nbsp;&nbsp;--" + text.escapeHTML(x2) + "&nbsp;&nbsp;&nbsp;&nbsp;" + text.escapeHTML(options[x2]));
+                         str += ("<br/>&nbsp;&nbsp;&nbsp;&nbsp;--" + this.text.escapeHTML(x2) + "&nbsp;&nbsp;&nbsp;&nbsp;" + this.text.escapeHTML(options[x2]));
                      }
                  }
                  else
                  {
                      str += "<i>none</i>";
                  }
+
+                 this.com.message(src, str, this.theme.INFO, true);
              }
 
          }

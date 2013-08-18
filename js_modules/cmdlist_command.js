@@ -31,17 +31,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     /** Lists all commands available to the user
      * @type commandDescriptor
      * */
-    cmdlist:
+    commandlist:
     {
         server: true
         ,
-        aliases: ["commands", "commandlist"]
+        aliases: ["commands", "cmdlist"]
         ,
         desc: "Lists the commands available to the user."
         ,
         options:
         {
-            "all": "Also lists commands the user doesn't have permission to use"
+            "all": "Also lists commands the user doesn't have permission to use",
+            "desc": "Shows the long description of the commands"
         }
         ,
         perm: function ()
@@ -64,26 +65,37 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 var canuse = (src == 0? cmds[x].server : sys_auth$src == 3 || cmds[x].perm.apply(cmds[x].bind, [src]));
                 if (!cmd.flags.all && sys_auth$src != 3 && !canuse) continue;
 
-                msg.push("<b>/" + text.escapeHTML(x) +"</b>" + (canuse?"":" (NO PERMISSION)") + (cmds[x].desc?" "+cmds[x].desc:"") );
-
-                if (cmds[x].options)
+                if (cmd.flags.desc)
                 {
-                    var options = cmds[x].options;
 
-                    for (var x2 in options)
+                    msg.push("<b>/" + text.escapeHTML(x) +"</b>" + (canuse?"":" (NO PERMISSION)") + (cmds[x].desc?" "+cmds[x].desc:"") );
+
+                    if (cmds[x].options)
                     {
-                        msg.push("&nbsp;&nbsp;&nbsp;&nbsp;--" + text.escapeHTML(x2) + "&nbsp;&nbsp;&nbsp;&nbsp;" + text.escapeHTML(options[x2]));
+                        var options = cmds[x].options;
+
+                        for (var x2 in options)
+                        {
+                            msg.push("&nbsp;&nbsp;&nbsp;&nbsp;--" + text.escapeHTML(x2) + "&nbsp;&nbsp;&nbsp;&nbsp;" + text.escapeHTML(options[x2]));
+                        }
                     }
                 }
+
+                else msg.push(x);
             }
 
-            com.message([src], "Commands list:", this.theme.INFO, true);
-            this.less.less(src, msg.join("<br />"), true);
+            if (cmd.flags.desc)
+            {
+                this.com.message([src], "Commands list:", this.theme.INFO, true);
+                this.less.less(src, msg.join("<br />"), true);
+            }
+            else this.com.message(src, "Commands list:\n" + msg.join(", ") + ".\nFor more information about a command, type /help <command name>.");
+
         }
     }
     ,
     loadModule: function ()
     {
-        this.commands.registerCommand("cmdlist", this);
+        this.commands.registerCommand("commandlist", this);
     }
 });
