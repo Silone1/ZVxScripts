@@ -44,6 +44,14 @@
          else return sys.name(id);
      },
 
+
+     nameToProper: function ()
+     {
+         if (sys.id(name)) return this.name(id);
+
+         return name;
+     },
+
      auth: function (id)
      {
          if (id == 0) return 3;
