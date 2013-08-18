@@ -83,9 +83,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                 if (src != 0 && sys.auth(src) != 3 &&
                     (
-                        ((sys.id(cmd.args[x]) ? sys.auth(sys.id(cmd.args[x])) : sys.dbAuth(cmd.args[x])) > sys.auth(src))
+                        ((sys.id(cmd.args[x]) ? sys.auth(sys.id(cmd.args[x])) : sys.dbAuth(cmd.args[x])) >= sys.auth(src))
                         ||
-                        (+level > sys.auth(src))
+                        (+level >= sys.auth(src))
                     )
                 )
                 {
