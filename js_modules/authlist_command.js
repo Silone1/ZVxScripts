@@ -54,7 +54,7 @@
              {
                  var lv = sys.dbAuth(x);
                  
-                 if (lv in this.LEVELS) lvs[lv].push(auths[x]);
+                 if ((""+lv) in this.LEVELS) lvs[lv].push(auths[x]);
               
                  else lvs[0].push(auths[x]);
                  
