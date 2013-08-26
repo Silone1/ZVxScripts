@@ -37,5 +37,13 @@
 
          this.commands.tryCommand(src, {name: "kick", args: [sys.name(dest)], flags: {reason: "Kicked via GUI"} }, sys.channelsOfPlayer(src)[0]);
 
+     },
+
+
+     loadModule: function ()
+     {
+         this.script.registerHandler("beforePlayerKick", this);
+         this.script.registerHandler("beforePlayerBan", this);
+
      }
  });
