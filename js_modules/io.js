@@ -65,8 +65,9 @@
          if (!sys.fileExists("js_databases")) sys.mkdir("js_databases");
 
          this.registerIOWatcher = this.util.generateRegistor(this, this.util.UNARY_REGISTOR, "IOWatchers");
-     }
-     ,
+     },
+
+
      /** Reads file data
       * @deprecated Use openDB instead.
       */
@@ -78,16 +79,18 @@
          }
 
          return new Object;
-     }
-     ,
+     },
+
+
      /** Reads file data
       * @deprecated Use commitDB instead.
       */
      write: function (dbname, obj, fast)
      {
          sys.writeObject("js_databases/" +dbname + ".jsqz", obj, (fast?1:3));
-     }
-     ,
+     },
+
+
      readConfig: function (cfgname, defaults)
      {
          if (cfgname in this.configs) return this.configs[cfgname].object;
@@ -118,23 +121,38 @@
          }
 
          return o;
-     }
-     ,
+     },
+
+
      writeConfig: function (cfgname, val)
      {
          sys.write(cfgname + ".config.json", JSON.stringify(val));
-     }
-     ,
+     },
+
+     registerDB: function (module, dbname)
+     {
+         var io = this;
+         module.onUnloadModule(
+             function()
+             {
+                 io.closeDB(dbname);
+             }
+         );
+
+         return this.openDB(dbname);
+     },
+
+
      /** Opens a database
       * @returns {IOdatabase}
       */
      openDB: function (dbname)
      {
          var start = +new Date;
-         var end = start;
+         var end;
          if (dbname in this.openDBs)
          {
-             throw new Error("DB already open");//return this.openDBs[dbname].db;
+             return this.openDBs[dbname].db;
          }
          var db, patches, dbo, dataText;
          get_data:
