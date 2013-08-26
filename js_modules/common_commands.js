@@ -20,5 +20,5 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /////////////////////// END LEGAL NOTICE /////////////////////////////// */
 ({
-    require: ["cmdlist_command", "kick_command", "mute_command", "info_command", "me_command", "ban_command", "setauth_command", "reputation_command", "readlogs_command"]
+    require: ["authlist_command", "cmdlist_command", "kick_command", "mute_command", "info_command", "me_command", "ban_command", "setauth_command", "reputation_command", "readlogs_command"]
 });
