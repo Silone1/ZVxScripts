@@ -1,24 +1,24 @@
 /*  ///////////////////////// LEGAL NOTICE ///////////////////////////////
 
-This file is part of ZScripts,
-a modular script framework for Pokemon Online server scripting.
+ This file is part of ZScripts,
+ a modular script framework for Pokemon Online server scripting.
 
-Copyright (C) 2013  Ryan P. Nicholl, aka "ArchZombie" / "ArchZombie0x", <archzombielord@gmail.com>
+ Copyright (C) 2013  Ryan P. Nicholl, aka "ArchZombie" / "ArchZombie0x", <archzombielord@gmail.com>
 
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Affero General Public License as
-published by the Free Software Foundation, either version 3 of the
-License, or (at your option) any later version.
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU Affero General Public License as
+ published by the Free Software Foundation, either version 3 of the
+ License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Affero General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU Affero General Public License for more details.
 
-You should have received a copy of the GNU Affero General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ You should have received a copy of the GNU Affero General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-/////////////////////// END LEGAL NOTICE /////////////////////////////// */
+ /////////////////////// END LEGAL NOTICE /////////////////////////////// */
 /** Commands
  * @name commands
  * @memberOf script.modules
@@ -63,144 +63,169 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 /** @scope script.modules.commands */
 ({
-    require: ["com", "theme", "parsecommand", "util", "logs", "io", "dmp"]
-    ,
-    dmpO: null
-    ,
-    /** A list of all the command object descriptors loaded
-     * @type {Object.<commandDescriptor>}
-     */
-    commands_db: new Object
-    ,
-    /** @event */
-    loadModule: function ()
-    {
-        this.dmpO = new this.dmp.constructor();
+     require: ["com", "theme", "parsecommand", "util", "logs", "io", "dmp"],
 
-        this.dmpO.Match_Threshold = 0.5;
 
-        this.dmpO.Match_Distance = 0;
-    },
-    /** Registeres command.
-     * @param {String} name Name of command.
-     * @param {Module} object Module object.
-     * @param {String} [prop=name] Name of property from module to use
-     */
-    registerCommand: function (name, object, prop)
-    {
-        if (name in this.commands_db)
-        {
-            this.script.log("WARN: Overwriting command " +name);
-        }
+     dmpO: null,
 
-        var comnd = object[prop || name];
-        comnd.bind = object;
-        comnd.name = name;
 
-        var cfg = this.io.readConfig(name + "_command", {specialUsers:{}});
+     /** A list of all the command object descriptors loaded
+      * @type {Object.<commandDescriptor>}
+      */
+     commands_db: new Object,
 
-        this.commands_db[name] = object[prop || name];
-        this.commands_db[name].config = cfg;
 
-        if (comnd.aliases) for (var x in comnd.aliases)
-        {
-            this.commands_db[comnd.aliases[x]] = comnd;
-        }
+     /** @event */
+     loadModule: function ()
+     {
+         this.dmpO = new this.dmp.constructor();
 
-        object.onUnloadModule( this.util.bind(
-            this,
-            function ()
-            {
-                this.unregisterCommand(name);
-            }
-        ));
-        return;
-    }
-    ,
-    /** Unregisters a command
-     * @param {String} name Name of command to unregister
-     * */
-    unregisterCommand: function (name)
-    {
-        if (this.commands_db[name])
-        {
-            if (this.commands_db[name].aliases) for (var x in this.commands_db[name].aliases)
-            {
-                delete this.commands_db[this.commands_db[name].aliases[x]];
-            }
-        }
-        delete this.commands_db[name];
-    }
-    ,
-    serverCanUseCmd: function (name)
-    {
-        return this.commands_db[name].server;
-    },    /** Checks if player has permission to use a command
-     * @param {Number} src Player ID.
-     * @param {parsedCommand} cmd
-     * @param {Number} chan Channel ID.
-     */
-    commandPerm: function (src, cmd, chan)
-    {
-        var cmdobj = this.commands_db[cmd.name];
-        if (sys.auth(src) == 3) return true;
+         this.dmpO.Match_Threshold = 0.5;
 
-        else if (cmdobj.config.specialUsers[sys.name(src).toLowerCase()])
-        {
-            return true;
-        }
+         this.dmpO.Match_Distance = 0;
+     },
 
-        else
-        {
-            return (cmdobj.perm || cmdobj.perm2).call(cmdobj.bind, src, cmd, chan);
-        }
-    },
-    /** Parses text from a user as a command, checks relevant permissions etc.
-     * @event
-     * @param src User ID
-     * @param text Unparsed text object
-     * @param chan Channel ID
-     */
-    issueCommand: function(src, text, chan)
-    {
-        var cmd = this.parsecommand.parseCommand(text);
 
-        var cmd_obj = this.commands_db[cmd.name];
+     /** Registeres command.
+      * @param {String} name Name of command.
+      * @param {Module} object Module object.
+      * @param {String} [prop=name] Name of property from module to use
+      */
+     registerCommand: function (name, object, prop)
+     {
+         if (name in this.commands_db)
+         {
+             this.script.log("WARN: Overwriting command " +name);
+         }
 
-        if (!cmd_obj)
-        {
-            this.com.message([src], "Command does not exist.", this.theme.WARN);
-            if (!script.config.fast)
-            {
+         var comnd = object[prop || name];
+         comnd.bind = object;
+         comnd.name = name;
 
-                var matches = [];
+         var cfg = this.io.readConfig(name + "_command", {specialUsers:{}});
 
-                for (var x in this.commands_db) if (this.dmpO.match_main(x, cmd.name, 0) != -1)
-                {
+         this.commands_db[name] = object[prop || name];
+         this.commands_db[name].config = cfg;
+
+         if (comnd.aliases) for (var x in comnd.aliases)
+         {
+             this.commands_db[comnd.aliases[x]] = comnd;
+         }
+
+         object.onUnloadModule(
+             this.util.bind(
+                 this,
+                 function ()
+                 {
+                     this.unregisterCommand(name);
+                 }
+             )
+         );
+         return;
+     },
+
+
+
+     /** Unregisters a command
+      * @param {String} name Name of command to unregister
+      * */
+     unregisterCommand: function (name)
+     {
+         if (this.commands_db[name])
+         {
+             if (this.commands_db[name].aliases) for (var x in this.commands_db[name].aliases)
+             {
+                 delete this.commands_db[this.commands_db[name].aliases[x]];
+             }
+         }
+         delete this.commands_db[name];
+     },
+
+
+
+     serverCanUseCmd: function (name)
+     {
+         return this.commands_db[name].server;
+     },
+
+
+
+     /** Checks if player has permission to use a command
+      * @param {Number} src Player ID.
+      * @param {parsedCommand} cmd
+      * @param {Number} chan Channel ID.
+      */
+     commandPerm: function (src, cmd, chan)
+     {
+         var cmdobj = this.commands_db[cmd.name];
+         if (sys.auth(src) == 3) return true;
+
+         else if (cmdobj.config.specialUsers[sys.name(src).toLowerCase()])
+         {
+             return true;
+         }
+
+         else
+         {
+             return (cmdobj.perm || cmdobj.perm2).call(cmdobj.bind, src, cmd, chan);
+         }
+     },
+
+
+     tryCommand: function(src, cmd, chan)
+     {
+         var cmd_obj = this.commands_db[cmd.name];
+
+         if (!cmd_obj)
+         {
+             this.com.message([src], "Command does not exist.", this.theme.WARN);
+
+             if (!script.config.fast)
+             {
+                 var matches = [];
+
+                 for (var x in this.commands_db) if (this.dmpO.match_main(x, cmd.name, 0) != -1)
+                 {
                      matches.push(x);
-                }
+                 }
 
-                if (matches.length) this.com.message(src, "Did you mean one of these?: " + matches.join(", ") + "?");
+                 if (matches.length) this.com.message(src, "Did you mean one of these?: " + matches.join(", ") + "?");
 
-            }
-            return;
-        }
+             }
 
-        var perm = this.commandPerm(src, cmd, chan);
-        if (!perm)
-        {
-            this.com.message([src], "Permission denied.", this.theme.WARN);
-            return;
-        }
+             return;
+         }
 
-        try
-        {
-            cmd_obj.code.call(cmd_obj.bind, src, cmd, chan, (perm === true ? void 0 : perm));
-        }
-        catch (e)
-        {
-            this.logs.logMessage(this.logs.ERROR, "Caught error in " + e.fileName + " at line #" + e.lineNumber + ": " + e.toString() + "\n" + e.backtracetext);
-            this.com.broadcast("Script Error, check logs.", this.theme.CRITICAL);
-        }
-    }
-});
+         var perm = this.commandPerm(src, cmd, chan);
+         
+         if (!perm)
+         {
+             this.com.message([src], "Permission denied.", this.theme.WARN);
+             return;
+         }
+
+         try
+         {
+             cmd_obj.code.call(cmd_obj.bind, src, cmd, chan, (perm === true ? void 0 : perm));
+         }
+         catch (e)
+         {
+             this.logs.logMessage(this.logs.ERROR, "Caught error in " + e.fileName + " at line #" + e.lineNumber + ": " + e.toString() + "\n" + e.backtracetext);
+             this.com.broadcast("Script Error, check logs.", this.theme.CRITICAL);
+         }
+     },
+
+
+     /** Parses text from a user as a command, checks relevant permissions etc.
+      * @event
+      * @param src User ID
+      * @param text Unparsed text object
+      * @param chan Channel ID
+      */
+     issueCommand: function(src, text, chan)
+     {
+         var cmd = this.parsecommand.parseCommand(text);
+
+         this.tryCommand(src, cmd, chan);
+     }
+ });
