@@ -72,15 +72,15 @@
 
      registerConfig: function (module, defs)
      {
-         if (!this.configs[module.name]) this.configs[module.name] = new Object;
+         if (!this.configs[module.modname]) this.configs[module.modname] = new Object;
 
          for (var x in defs)
          {
-             if (! (x in this.configs[module.name]) ) this.configs[module.name][x] = defs[x];
+             if (! (x in this.configs[module.modname]) ) this.configs[module.modname][x] = defs[x];
          }
 
 
-         module.config = this.configs[module.name];
+         module.config = this.configs[module.modname];
 
      },
 
