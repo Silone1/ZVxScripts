@@ -57,16 +57,32 @@
      loadModule: function ()
      {
          this.openDBs = new Object;
-         this.configs = new Object;
+         this.configs = this.openDB("config");
          this.script.registerHandler("step", this);
 
-         this.config = this.readConfig("io", {autosave:60000, autosavemethod: "commit"});
+         if (!this.configs.io) this.configs.io = {autosave:60000, autosavemethod: "commit"};
+
+         this.config = this.configs.io;
 
          if (!sys.fileExists("js_databases")) sys.mkdir("js_databases");
 
          this.registerIOWatcher = this.util.generateRegistor(this, this.util.UNARY_REGISTOR, "IOWatchers");
      },
 
+
+     registerConfig: function (module, defs)
+     {
+         if (!this.configs[module.name]) this.configs[module.name] = new Object;
+
+         for (var x in defs)
+         {
+             if (! (x in this.configs[module.name]) ) this.configs[module.name][x] = defs[x];
+         }
+
+
+         module.config = this.configs[module.name];
+
+     },
 
      /** Reads file data
       * @deprecated Use openDB instead.
