@@ -36,8 +36,7 @@
          {
              try
              {
-                 this.parseConfigureString(cmd.input);
-                 this.com.message(src, "Configured.", this.theme.INFO);
+                 if (this.parseConfigureString(cmd.input) != 2) this.com.message(src, "Configured.", this.theme.INFO);
                  return;
              }
              catch (e)
@@ -58,9 +57,9 @@
 
      },
 
-     parseConfigureString: function (string)
+     parseConfigureString: function (src, string)
      {
-         var match = string.match(/^\s*([\w]+(?:\.[\w]+)*)\s*(\=|\+\=|<<|>>|~)\s*(.*$)/i);
+         var match = string.match(/^\s*([\w]+(?:\.[\w]+)*)(?:\s*(\=|\+\=|<<|>>|~)\s*(.*$))?/i);
 
          var pathway = match[1].split(/\./g);
 
@@ -92,7 +91,15 @@
 
          }
 
+         if (! match[2])
+         {
+             this.com.message(src, JSON.stringify(modobj[finalProp]), this.theme.INFO);
+             return 2;
+         }
+
          var prop = JSON.parse(match[3]);
+
+
 
          switch (match[2])
          {
