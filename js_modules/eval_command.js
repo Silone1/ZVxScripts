@@ -21,8 +21,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /////////////////////// END LEGAL NOTICE /////////////////////////////// */
 ({
 
-    require: ["com", "commands", "theme", "util", "less"]
-    ,
+    require: ["com", "commands", "theme", "util", "less", "io"],
+
     eval:
     {
         server: true
@@ -31,7 +31,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         ,
         perm: function (src)
         {
-            return sys.auth(src) == 3;
+            if (this.config.perm3 && sys.auth(src) == 3) return true;
+
+            return false;
         }
         ,
         code: function (src, cmd, chan)
@@ -51,5 +53,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     loadModule: function ()
     {
         this.commands.registerCommand("eval", this);
+
+        this.io.registerConfig(this, { perm3: false });
     }
 });

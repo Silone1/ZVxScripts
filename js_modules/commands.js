@@ -83,6 +83,10 @@
          this.dmpO.Match_Threshold = 0.5;
 
          this.dmpO.Match_Distance = 0;
+
+         this.io.registerConfig(this, { ownerHasAllCommands: false });
+
+         if (!this.config.commands) this.config.commands = new Object;
      },
 
 
@@ -102,10 +106,10 @@
          comnd.bind = object;
          comnd.name = name;
 
-         var cfg = this.io.readConfig(name + "_command", {specialUsers:{}});
+         if (!this.config.commands[name]) this.config.commands[name] = { specialUsers: [] };
 
          this.commands_db[name] = object[prop || name];
-         this.commands_db[name].config = cfg;
+         this.commands_db[name].config = this.config.commands[name];
 
          if (comnd.aliases) for (var x in comnd.aliases)
          {
@@ -158,7 +162,9 @@
      commandPerm: function (src, cmd, chan)
      {
          var cmdobj = this.commands_db[cmd.name];
-         if (sys.auth(src) == 3) return true;
+
+         if (this.config.ownerHasAllCommands && sys.auth(src) == 3) return true;
+
 
          else if (cmdobj.config.specialUsers[sys.name(src).toLowerCase()])
          {
@@ -197,7 +203,7 @@
          }
 
          var perm = this.commandPerm(src, cmd, chan);
-         
+
          if (!perm)
          {
              this.com.message([src], "Permission denied.", this.theme.WARN);
