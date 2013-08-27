@@ -109,7 +109,7 @@
 
                      catch (err)
                      {
-                         this.error(err);                         
+                         this.error(err);
                      }
                  };
 
@@ -133,9 +133,9 @@
                      }
                  );
              }
-             
+
              return;
-             
+
          }
          ,
          hotswapModule: function (modname)
@@ -442,7 +442,7 @@
 
                  if (!this.config.modules) this.config.modules = ["default"];
 
-                 for (var x in this.config.modules)
+                 for ( x in this.config.modules)
                  {
                      this.loadModule(this.config.modules[x]);
                  }
@@ -515,7 +515,7 @@
                  {
                      print("ASSERT FALURE");
                      print(sys.backtrace());
-                     throw new Error("assert fail");
+                     throw new Error("Assert failure.");
                  }
              }
 
