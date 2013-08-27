@@ -81,7 +81,7 @@
 
          for (var x in pathway)
          {
-             print(i);
+
              var i = pathway[x];
 
              if (i === "__proto__") throw new Error("Smartass eh?");
