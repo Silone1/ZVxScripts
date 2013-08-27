@@ -25,12 +25,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     readlogs:
     {
         server: true,
-        
+
         options:
         {
             count: "How many entries to read.",
             trace: "Show backtraces if available.",
-            types: "Comma separated types of log messages to show"
+            types: "Comma separated types of log messages to show",
+            match: "Pattern matching"
         },
 
         perm: function (src)
@@ -46,11 +47,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             else types = ["chat", "script", "io", "scripterror", "user", "command", "security"];
             var trace = cmd.flags.trace;
 
+
             var msgs = [];
 
             for (var i = this.logs.logs.length - 1; i >= 0 && count > 0; i--)
             {
-                if (types.indexOf(this.logs.logs[i].level) !== -1)
+                if (types.indexOf(this.logs.logs[i].level) !== -1 && (!cmd.flags.match || this.text.escapeHTML(this.logs.logs[i].msg).indexOf(cmd.flags.match) !== -1))
                 {
 
                     msgs.push(
