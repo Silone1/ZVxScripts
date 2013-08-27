@@ -41,8 +41,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         ,
         options:
         {
-            "all": "Also lists commands the user doesn't have permission to use",
-            "desc": "Shows the long description of the commands"
+            "all": "Also list commands the user doesn't have permission to use",
+            "nodesc": "Do not show the long description of the commands"
         }
         ,
         perm: function ()
@@ -65,7 +65,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 var canuse = (src == 0? cmds[x].server : sys_auth$src == 3 || cmds[x].perm.apply(cmds[x].bind, [src]));
                 if (!cmd.flags.all && sys_auth$src != 3 && !canuse) continue;
 
-                if (cmd.flags.desc)
+                if (!cmd.flags.nodesc)
                 {
 
                     msg.push("<b>/" + text.escapeHTML(x) +"</b>" + (canuse?"":" (NO PERMISSION)") + (cmds[x].desc?" "+cmds[x].desc:"") );
@@ -84,7 +84,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 else msg.push(x);
             }
 
-            if (cmd.flags.desc)
+            if (!cmd.flags.nodesc)
             {
                 this.com.message([src], "Commands list:", this.theme.INFO, true);
                 this.less.less(src, msg.join("<br />"), true);
