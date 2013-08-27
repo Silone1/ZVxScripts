@@ -27,7 +27,7 @@
 /** @scope script.modules.user */
 ({
      require: ["io"],
-     
+
      invisibleUsers: null,
 
      loadModule: function ()
@@ -37,7 +37,6 @@
 
          this.invisibleUsers = db.invisible;
      },
-
 
      unloadModule: function ()
      {
