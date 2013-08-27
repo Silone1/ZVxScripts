@@ -36,7 +36,7 @@
          {
              try
              {
-                 if (this.parseConfigureString(cmd.input) != 2) this.com.message(src, "Configured.", this.theme.INFO);
+                 if (this.parseConfigureString(src, cmd.input) != 2) this.com.message(src, "Configured.", this.theme.INFO);
                  return;
              }
              catch (e)
