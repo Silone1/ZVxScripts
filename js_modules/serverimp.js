@@ -15,7 +15,7 @@
 
         perm: function (src)
         {
-            return sys.auth(src) == 3;
+            return false;
         },
 
         code: function (src, cmd, chan)
