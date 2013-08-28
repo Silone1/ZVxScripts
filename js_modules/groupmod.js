@@ -94,7 +94,7 @@
 
                          if (a.indexOf(cmd.flags.group) !== -1)
                          {
-                             a.splce(a.indexOf(cmd.flags.group), 1);
+                             a.splice(a.indexOf(cmd.flags.group), 1);
                              this.com.broadcast(this.user.name(src) + " removed " +  cmd.flags.group  + " for " + cmd.args[x] + ".", this.theme.INFO);
                          }
                          else
