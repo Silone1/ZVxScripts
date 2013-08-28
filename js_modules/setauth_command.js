@@ -37,7 +37,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         ,
         perm: function (src)
         {
-            return sys.auth(src) >= 2;
+            return "AUTHOP" in this.user.groups(src);
         }
         ,
         code: function (src, cmd, chan)
