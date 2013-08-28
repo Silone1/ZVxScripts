@@ -1,6 +1,13 @@
 #!/bin/sh
 
-for iter in ./*.js
+for iter in ./js_modules/*.js
 do
-    cat COPYING "${iter}" > filename.notabs && mv filename.notabs "${iter}"
+    grep -q 'LEGAL NOTICE' $iter
+    if [ $? -eq 0 ]
+    then
+        true
+    else
+        echo Update $iter
+        cat copyright_template.txt $iter > tmp && mv tmp $iter
+    fi
 done
