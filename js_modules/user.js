@@ -79,7 +79,7 @@
              var x;
              var groups = {};
 
-             var auth = +this.nameAuth(src);
+             var auth = +this.nameAuth(name);
 
              switch (+auth)
              {
@@ -108,7 +108,7 @@
      nameToProper: function (name)
      {
          if (name.match(/~~Server~~/i)) return "~~Server~~";
-         
+
          if (sys.id(name)) return this.name(sys.id(name));
 
          return name;
