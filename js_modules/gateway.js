@@ -29,7 +29,7 @@
          this.script.registerHandler("beforeLogOut", this );
      },
 
-     
+
      beforeLogIn: function(src)
      {
          var profs = this.profile.profileMatches(src);
@@ -42,11 +42,13 @@
              return;
          }
 
+         var g = this.user.groups(src);
+
          for (var x in profs)
          {
              this.logs.logMessage(this.logs.DEBUG, "profs[x]: " + profs[x]);
              var prof = profs[x];
-             if (sys.auth(src) != 3 && this.security.profIsBanned(prof))
+             if (!("PROTECTED" in g || "SERVEROP" in g) && this.security.profIsBanned(prof))
              {
                  var ban = this.security.getBan(prof);
 
