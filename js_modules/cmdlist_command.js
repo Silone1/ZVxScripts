@@ -63,7 +63,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                 if (cmds[x].name != x) continue;
 
-                var canuse = this.commands.commandPerm(src, null, chan);
+                var canuse = this.commands.commandPerm(src, {name:cmds[x].name}, chan);
 
                 if (!cmd.flags.all && !canuse) continue;
 
