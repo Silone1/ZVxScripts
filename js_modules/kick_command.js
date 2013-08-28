@@ -40,7 +40,7 @@
 
          perm: function (src)
          {
-             return sys.auth(src) >= 2;
+             return "KICKOP" in this.user.groups(src);
          }
          ,
          code: function (src, cmd)
