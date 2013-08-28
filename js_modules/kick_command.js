@@ -21,7 +21,7 @@
  /////////////////////// END LEGAL NOTICE /////////////////////////////// */
 ({
      require: ["commands", "com", "theme", "user", "text"],
-     
+
      kick:
      {
          server: true,
@@ -46,6 +46,7 @@
          code: function (src, cmd)
          {
              var kicklist = [];
+             var groups = this.user.groups(src);
              var kicknameslist = [];
              var sys_auth$src = (src == 0 ? 3 : sys.auth(src));
 
@@ -53,15 +54,19 @@
              {
                  var i = sys.id(cmd.args[x]);
 
+
+
                  if (!i)
                  {
                      this.com.message([src], "Cant find user: " + cmd.args[x], this.theme.WARN);
                      continue;
                  }
 
-                 if (sys.auth(i) && !((sys_auth$src == 3 || i == src) && (cmd.flags.f || cmd.flags.force)))
+                 var tg = this.user.groups(i);
+
+                 if (("PROTECTED" in tg || "SERVEROP" in tg) && !(("OVERRIDE" in groups || "SERVEROP" in groups) && (cmd.flags.f || cmd.flags.force)))
                  {
-                     this.com.message([src], "Auth is immune to kick.", this.theme.WARN);
+                     this.com.message([src], "User is immune to kick.", this.theme.WARN);
                      continue;
                  }
 
