@@ -53,7 +53,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 }
                 else if (test === undefined || test === "" || test === null)
                 {
-                    
+
                 }
                 profids.push(test);
             }
@@ -83,7 +83,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             {
                 m.push("<b>Info about user: " + names[x] +"</b>");
                 m.push("Auth level: " + this.user.nameAuth(names[x]));
-                m.push("SE Groups: " + this.user.nameGroups(names[x]));
+                m.push("SE Groups: " + Object.keys(this.user.nameGroups(names[x])));
                 m.push("Registered: " + sys.dbRegistered(names[x]));
             }
 
