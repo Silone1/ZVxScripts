@@ -20,7 +20,7 @@
 
  /////////////////////// END LEGAL NOTICE /////////////////////////////// */
 ({
-     require: ["security", "profile", "com", "theme", "time", "logs"],
+     require: ["security", "profile", "com", "theme", "time", "logs", "user"],
 
 
      loadModule: function()
