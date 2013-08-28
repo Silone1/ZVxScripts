@@ -42,10 +42,9 @@
          if (!html) lines = msg.split(/\n/g);
          else lines = msg.split(/<\s*br\s*\/?>/g);
 
-         print(lines.length);
 
          if (src == 0 || this.LESS_LENGTH >= lines.length) {
-             this.com.message(src, msg, -1, html); 
+             this.com.message(src, msg, -1, html);
              return;
          }
 
@@ -68,7 +67,7 @@
                  bind.com.message([src], "<span style='color:white;background-color:black'>END OF TEXT. EXITED VIEW MODE.</span>", -1, true);
                  return;
              }
-             
+
              bind.com.message([src], "<span style='color:white;background-color:black'>END OF PAGE " + (p) +" OF "+ Math.ceil(lines.length / bind.LESS_LENGTH) + ". TYPE 'NEXT' TO GO FORWARD, 'EXIT' TO QUIT.</span>", -1, true);
 
              bind.chat.registerCapture(src, handle, bind);
