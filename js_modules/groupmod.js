@@ -20,8 +20,12 @@
 
  /////////////////////// END LEGAL NOTICE /////////////////////////////// */
 ({
-     require: ["commands", "user"],
+     require: ["commands", "user", "theme", "com"],
 
+     loadModule: function ()
+     {
+         this.commands.registerCommand("groupmod", this);
+     },
 
      groupmod:
      {
