@@ -62,7 +62,7 @@
                      {
                          this.user.database.usergroups[cmd.args[x]] = this.user.database.usergroups[cmd.args[x]] || [];
 
-                         var a = this.user.database.groups[cmd.args[x]];
+                         var a = this.user.database.usergroups[cmd.args[x]];
 
                          if (a.indexOf(cmd.flags.group) === -1)
                          {
