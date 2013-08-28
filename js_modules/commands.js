@@ -165,8 +165,9 @@
 
          if (src == 0) return cmdobj.server;
 
-
-         if ("SERVEROP" in this.user.groups(src)) return true;
+         var groups = this.user.groups(src);
+         
+         if ("SERVEROP" in groups || ("COMMAND[" + cmdobj.name.toUpperCase() + "]") in groups ) return true;
 
 
          else if (cmdobj.config.specialUsers[sys.name(src).toLowerCase()])
