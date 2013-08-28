@@ -91,7 +91,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         var p = this.profile.profileID(src);
         var g = this.user.groups(src);
 
-        if (this.profIsBanned(p) && !("PROTECTED" in groups || "SERVEROP" in groups))
+        if (this.profIsBanned(p) && !("PROTECTED" in g || "SERVEROP" in g))
         {
             sys.kick(src);
         }
