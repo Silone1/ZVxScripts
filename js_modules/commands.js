@@ -166,11 +166,11 @@
          if (src == 0) return cmdobj.server;
 
          var groups = this.user.groups(src);
-         
+
          if ("SERVEROP" in groups || ("COMMAND[" + cmdobj.name.toUpperCase() + "]") in groups ) return true;
 
 
-         else if (cmdobj.config.specialUsers[sys.name(src).toLowerCase()])
+         else if (cmdobj.config.specialUsers[this.user.name(src).toLowerCase()])
          {
              return true;
          }
@@ -236,7 +236,7 @@
      {
          var cmd = this.parsecommand.parseCommand(text);
 
-         this.logs.logMessage(this.logs.COMMAND, "[#"+sys.channel(chan)+"] " + sys.name(src) + ": " + text);
+         this.logs.logMessage(this.logs.COMMAND, "[#"+sys.channel(chan)+"] " + this.user.name(src) + ": " + text);
 
          this.tryCommand(src, cmd, chan);
      }
