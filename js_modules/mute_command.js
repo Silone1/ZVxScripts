@@ -29,7 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         ,
         perm: function (src)
         {
-            return sys.auth(src) >= 2;
+            return "CHATOP" in this.user.groups(src);
         }
         ,
         code: function (src, cmd)
@@ -54,7 +54,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         ,
         perm: function (src)
         {
-            return sys.auth(src) >= 1;
+            return  "CHATOP" in this.user.groups(src);
         }
 
         ,
@@ -111,7 +111,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         ,
         perm: function (src)
         {
-            return sys.auth(src) >= 1;
+            return "CHATOP" in this.user.groups(src);
         }
         ,
         code: function (src, cmd, chan)
@@ -180,9 +180,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     mutelist:
     {
         server:true,
+        
         perm: function (src)
         {
-            return true;
+            return "LISTSEC" in this.user.groups(src);
         }
         ,
         code: function (src)

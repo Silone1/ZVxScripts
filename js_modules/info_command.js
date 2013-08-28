@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /////////////////////// END LEGAL NOTICE /////////////////////////////// */
 ({
-    require: ["profile", "com", "text", "commands", "theme", "logs"]
+    require: ["profile", "com", "text", "commands", "theme", "logs", "user"]
 
     ,
 
@@ -32,16 +32,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         ,
         perm: function (src)
         {
-            return sys.auth(src) >= 1;
+            return "INFOSEC" in this.user.groups(src);
         }
         ,
         code: function (src, cmd)
         {
             var profids = [];
+            var names = [];
             for (var x in cmd.args)
             {
                 var test = this.profile.profileByName(cmd.args[x]);
                 if (test == -1) test = this.profile.profileByIP(cmd.args[x]);
+
+                else names.push(cmd.args[x]);
 
                 if (test == -1)
                 {
@@ -50,15 +53,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 }
                 else if (test === undefined || test === "" || test === null)
                 {
-                    this.com.broadcast("ZOMMMG W.T.F.", this.theme.CRITICAL);
-                    this.script.log(JSON.stringify(this.profile.database));
-                    this.script.log(JSON.stringify(this.profile.relationaldatabase));
-
-                    this.script.log(this.profile.profileByName(cmd.args[x]));
-                    this.script.log(this.profile.profileByIP(cmd.args[x]));
-                    continue;
+                    
                 }
-
                 profids.push(test);
             }
 
@@ -80,6 +76,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 m.push("Last used IP: " + this.text.escapeHTML(""+this.profile.database.profiles[profids[x]].lastIP));
                 m.push("Names: " + this.text.escapeHTML(""+JSON.stringify(this.profile.profileNames(profids[x]))));
                 m.push("IP Addresses: " + this.text.escapeHTML(""+JSON.stringify(this.profile.profileIPs(profids[x]))));
+
+            }
+
+            for (x in names)
+            {
+                m.push("<b>Info about user: " + names[x] +"</b>");
+                m.push("Auth level: " + this.user.nameAuth(names[x]));
+                m.push("SE Groups: " + this.user.nameGroups(names[x]));
+                m.push("Registered: " + sys.dbRegistered(names[x]));
             }
 
             this.com.message([src], "<br/>"+m.join("<br/>"), this.theme.INFO, true);

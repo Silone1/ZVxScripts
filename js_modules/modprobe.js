@@ -26,7 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 /** @scope script.modules.modprobe */
 ({
-    require: ["commands", "logs", "com", "theme", "less"]
+    require: ["commands", "logs", "com", "theme", "less", "user"]
     ,
     loadModule: function ()
     {
@@ -55,7 +55,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         ,
         perm: function (src, cmd, chan)
         {
-            return sys.auth(src) === 3;
+            return "MODPROBE" in this.user.groups(src);
         }
         ,
         /** The modprobe command will list all the modules, or --load, --unload, or --reload them */

@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /////////////////////// END LEGAL NOTICE /////////////////////////////// */
 (function () { return {
-    require: ["commands", "security", "profile", "com", "theme", "time", "logs", "text", "util"]
+    require: ["commands", "security", "profile", "com", "theme", "time", "logs", "text", "util", "user"]
     ,
     filters: []
     ,
@@ -60,7 +60,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         if (msg[0] == "/")
         {
-            this.logs.logMessage(this.logs.COMMAND, "[#"+sys.channel(chan)+"] " + sys.name(src) + ": " + msg);
+
             sys.stopEvent();
             this.commands.issueCommand(src, msg, chan);
             return;
@@ -75,7 +75,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         var prof = this.profile.profileID(src);
 
-        if (sys.auth(src) != 3 && this.security.profIsMuted(prof))
+        var groups = this.user.groups(src);
+        if (this.security.profIsMuted(prof) && !("PROTECTED" in groups || "SERVEROP" in groups) )
         {
             var mute = this.security.getMute(prof);
 

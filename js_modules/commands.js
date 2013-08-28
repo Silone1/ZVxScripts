@@ -63,7 +63,7 @@
  */
 /** @scope script.modules.commands */
 ({
-     require: ["com", "theme", "parsecommand", "util", "logs", "io", "dmp"],
+     require: ["com", "theme", "parsecommand", "util", "logs", "io", "dmp", "user"],
 
 
      dmpO: null,
@@ -163,7 +163,10 @@
      {
          var cmdobj = this.commands_db[cmd.name];
 
-         if (this.config.ownerHasAllCommands && sys.auth(src) == 3) return true;
+         if (src == 0) return cmdobj.server;
+
+
+         if ("SERVEROP" in this.user.groups(src)) return true;
 
 
          else if (cmdobj.config.specialUsers[sys.name(src).toLowerCase()])
@@ -206,7 +209,7 @@
 
          if (!perm)
          {
-             this.com.message([src], "Permission denied.", this.theme.WARN);
+             this.com.message(src, "Permission denied.", this.theme.WARN);
              return;
          }
 
@@ -231,6 +234,8 @@
      issueCommand: function(src, text, chan)
      {
          var cmd = this.parsecommand.parseCommand(text);
+
+         this.logs.logMessage(this.logs.COMMAND, "[#"+sys.channel(chan)+"] " + sys.name(src) + ": " + text);
 
          this.tryCommand(src, cmd, chan);
      }

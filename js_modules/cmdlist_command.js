@@ -50,7 +50,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             return true;
         }
         ,
-        code: function (src, cmd)
+        code: function (src, cmd, chan)
         {
             var cmds = this.commands.commands_db;
             var com = this.com;
@@ -62,8 +62,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             {
 
                 if (cmds[x].name != x) continue;
-                var canuse = (src == 0? cmds[x].server : sys_auth$src == 3 || cmds[x].perm.apply(cmds[x].bind, [src]));
-                if (!cmd.flags.all && sys_auth$src != 3 && !canuse) continue;
+
+                var canuse = this.commands.commandPerm(src, null, chan);
+
+                if (!cmd.flags.all && !canuse) continue;
 
                 if (!cmd.flags.nodesc)
                 {

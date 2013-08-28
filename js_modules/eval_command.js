@@ -21,7 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /////////////////////// END LEGAL NOTICE /////////////////////////////// */
 ({
 
-    require: ["com", "commands", "theme", "util", "less", "io"],
+    require: ["com", "commands", "theme", "util", "less", "io", "user"],
 
     eval:
     {
@@ -31,9 +31,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         ,
         perm: function (src)
         {
-            if (this.config.perm3 && sys.auth(src) == 3) return true;
+            return "EVALOP" in this.user.groups(src);
 
-            return false;
         }
         ,
         code: function (src, cmd, chan)

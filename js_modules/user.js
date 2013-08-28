@@ -34,8 +34,19 @@
      {
          var db = this.io.openDB("user");
          db.invisble = db.invisible || new Object;
+         db.usergroups = db.usergroups || new Object;
+
+         this.database = db;
 
          this.invisibleUsers = db.invisible;
+
+         this.io.registerConfig(this, { segroups0: ["LISTSEC"], segroups1: ["CHATOP", "INFOSEC", "PROTECTED"],
+                                        segroups2: ["BANOP", "AUTHOP"], segroups3: ["LOGS", "SILENT", "INVISIBLE", "OVERRIDE"]});
+     },
+
+     nameAuth: function (name)
+     {
+         return (sys.id(name) ? this.auth(sys.id(name)) : sys.dbAuth(name));
      },
 
      unloadModule: function ()
@@ -49,9 +60,55 @@
          else return sys.name(id);
      },
 
+     groups: function (src)
+     {
+         if (src == 0) return {"SERVEROP": null};
+
+         else return this.nameGroups(this.name(src));
+     },
+
+     nameGroups: function (name)
+     {
+         name = name.toLowerCase();
+
+
+         if (name == "~~server~~") return {"SERVEROP": null};
+
+         else
+         {
+             var x;
+             var groups = {};
+
+             var auth = +this.nameAuth(src);
+
+             switch (+auth)
+             {
+             case 3:
+                 for ( x in this.config.segroups3 ) groups[this.config.segroups3[x]] = null;
+             case 2:
+                 for ( x in this.config.segroups2 ) groups[this.config.segroups2[x]] = null;
+             case 1:
+                 for ( x in this.config.segroups1 ) groups[this.config.segroups1[x]] = null;
+             default:
+                 for ( x in this.config.segroups0 ) groups[this.config.segroups0[x]] = null;
+             }
+
+             if (sys.dbRegistered(name))
+             {
+                 if (!this.database.usergroups[name]) this.database.usergroups[name] = [];
+
+                 for (x in this.database.usergroups[name]) groups[this.database.usergroups[name][x]] = null;
+             }
+
+             return groups;
+
+         }
+     },
 
      nameToProper: function (name)
      {
+         if (name.match(/~~Server~~/i)) return "~~Server~~";
+         
          if (sys.id(name)) return this.name(sys.id(name));
 
          return name;

@@ -20,11 +20,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /////////////////////// END LEGAL NOTICE /////////////////////////////// */
 ({
-    require: ["sched", "io", "profile", "com"]
+    require: ["sched", "io", "profile", "com", "user"]
     ,
     database: null
     ,
-    loadModule: function () 
+    loadModule: function ()
     {
         this.database = this.io.openDB("security");
 
@@ -44,7 +44,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 this.database.bans[b] = this.database.bans[b] || this.database.bans[x];
             }
             var ban = this.database.bans[x];
-         
+
             if (ban.expires)
             {
                 (function(x, _this) {
@@ -53,7 +53,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             }
         }
 
-        for (var x in this.database.mutes)
+        for (x in this.database.mutes)
         {
             var mute = this.database.mutes[x];
             var b = this.profile.trace(x);
@@ -61,7 +61,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             {
                 this.database.mutes[b] = this.database.mutes[b] || this.database.mutes[x];
             }
-         
+
             if (mute.expires)
             {
                 (function(x, _this) {
@@ -89,8 +89,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     checkUser: function (src)
     {
         var p = this.profile.profileID(src);
+        var g = this.user.groups(src);
 
-        if (sys.auth(src) != 3 && this.profIsBanned(p))
+        if (this.profIsBanned(p) && !("PROTECTED" in groups || "SERVEROP" in groups))
         {
             sys.kick(src);
         }
@@ -101,7 +102,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         if (p in this.database.mutes) return true;
 
         return false;
-    } 
+    }
     ,
     getMute: function (profid)
     {
@@ -147,7 +148,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         if (p in this.database.bans) return true;
 
         return false;
-    } 
+    }
     ,
     setBan: function (profid, ban)
     {
@@ -159,7 +160,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         }
 
         this.io.markDB("security");
-    }  
+    }
     ,
     removeBan: function(profid)
     {
@@ -171,7 +172,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     getBan: function (profid)
     {
         return this.database.bans[profid];
-    }  
+    }
     ,
     checkBan: function (profid)
     {

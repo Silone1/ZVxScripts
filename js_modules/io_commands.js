@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /////////////////////// END LEGAL NOTICE /////////////////////////////// */
 ({
-    require: ["io", "com", "logs", "theme", "commands", "less"]
+    require: ["io", "com", "logs", "theme", "commands", "less", "user"]
     ,
     loadModule: function ()
     {
@@ -48,7 +48,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         ,
         perm: function (src)
         {
-            return sys.auth(src) == 3;
+            return "IO" in this.user.groups(src);
         }
         ,
         code: function (src, cmd)

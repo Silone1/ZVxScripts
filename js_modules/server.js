@@ -47,7 +47,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         sys.stopEvent();
         if (msg.match(/^\//))
         {
+	    this.commands.issueCommand( this.SERVER, msg, this.serverChannel);
 
+            return;
+            
             var cmdObj = this.parsecommand.parseCommand(msg);
             var cmdName = cmdObj.name;
 
