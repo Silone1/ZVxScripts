@@ -236,7 +236,7 @@
      {
          var cmd = this.parsecommand.parseCommand(text);
 
-         this.logs.logMessage(this.logs.COMMAND, "[#"+sys.channel(chan)+"] " + this.user.name(src) + ": " + text);
+         this.logs.logMessage(this.logs.COMMAND, (chan === undefined? "[N/A] " : "[#"+sys.channel(chan)+"] ") + this.user.name(src) + ": " + text);
 
          this.tryCommand(src, cmd, chan);
      }

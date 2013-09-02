@@ -37,7 +37,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             }
         );
 
-     
+
         this.logs = old.logs;
 
         this.registerLogHandler = this.util.generateRegistor(this, this.util.UNARY_REGISTOR, "logHandlers", false);
@@ -74,6 +74,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         this.logs.push(log);
 
+        if (Object.keys(this.logHandlers).length === 0)
+        {
+            print("SCRIPT: " + msg);
+        }
+
         for (var x in this.logHandlers)
         {
             this.logHandlers[x].apply(this.logHandlers[x].module, [log]);
@@ -83,6 +88,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     loadModule: function ()
     {
+        this.registerLogHandler = this.util.generateRegistor(this, this.util.UNARY_REGISTOR, "logHandlers", false);
+
         this.savedLogFunction = this.script.log;
         this.script.log = this.util.bind(
             this
@@ -96,14 +103,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         this.savedErrorFunction = this.script.error;
         this.script.error = this.util.bind(
             this,
-            
+
             function (e)
             {
                 this.logMessage(this.ERROR, e.toString(), e.backtracetext);
             }
         );
 
-        this.registerLogHandler = this.util.generateRegistor(this, this.util.UNARY_REGISTOR, "logHandlers", false);
+
     },
 
 

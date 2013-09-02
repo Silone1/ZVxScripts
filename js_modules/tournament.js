@@ -44,6 +44,10 @@
     },
 
 
+    /** Adds a player to the tournament
+     * @param tour The tournament to modify.
+     * @param src The player ID affected.
+     */
     tourAdd: function (tour, src)
     {
         var lowname = this.user.name(src).toLowerCase();

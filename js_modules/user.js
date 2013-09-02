@@ -60,6 +60,11 @@
          else return sys.name(id);
      },
 
+     userConfig: function (user)
+     {
+
+     },
+
      groups: function (src)
      {
          if (src == 0) return {"SERVEROP": null};

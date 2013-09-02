@@ -19,25 +19,33 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
  /////////////////////// END LEGAL NOTICE /////////////////////////////// */
-({
-     require: ["com", "parsecommand", "profile", "logs", "util"],
-
-     
-     loadModule: function ()
-     {
-         this.logs.logMessage(this.logs.DEBUG);
-
-         this.registerTest = this.util.generateRegistor(this, this.util.UNARY_REGISTOR, "testers", false);
-     },
-
-     unloadModule: function ()
-     {
-         this.registerTest = null;
-
-         this.testers = null;
-     }
+(function () {
+     return (
+         {
+             require: ["com", "parsecommand", "profile", "logs", "util"],
 
 
+             loadModule: function ()
+             {
+                 this.logs.logMessage(this.logs.DEBUG);
 
-     
- });
+                 print(sys.backtrace());
+
+                 this.registerTest = this.util.generateRegistor(this, this.util.UNARY_REGISTOR, "testers", false);
+             },
+
+             xxtest: function q ()
+             {
+                 print("xx " + this.xxtest.caller());
+                 print(arguments.caller);
+             },
+
+             unloadModule: function ()
+             {
+                 this.registerTest = null;
+
+                 this.testers = null;
+             }
+         });
+ }
+)();

@@ -20,11 +20,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /////////////////////// END LEGAL NOTICE /////////////////////////////// */
 ({
-     require: ["logs", "com", "theme", "commands"],
+     require: ["logs", "com", "theme", "commands", "io"],
 
      loadModule: function ()
      {
          this.logs.registerLogHandler(this, "logMessage");
+
+         this.io.registerConfig();
      },
 
      logMessage: function(log)
@@ -34,7 +36,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
          var msg = log.msg;
 
          if (level != this.logs.DEBUG && level != this.logs.CHAT) print("Logs level " + level + ": " +msg);
-         
+
          if (level == this.logs.CHAT)
          {
             // ignore
@@ -50,16 +52,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
          {
              var auths = [];
              sys.playerIds().forEach(function(i) { if (sys.auth(i) >= 1) auths.push(i); });
-             
+
              this.com.message(auths, msg, this.theme.LOG);
          }
          else if (level == this.logs.USER || level == this.logs.COMMAND || level == this.logs.INFO || level == this.logs.SCRIPT || level == this.logs.IO)
          {
              var auths = [];
              sys.playerIds().forEach(function(i) { if (sys.auth(i) == 3) auths.push(i); });
-             
+
              this.com.message(auths, msg, this.theme.LOG);
          }
-         
+
      }
 });

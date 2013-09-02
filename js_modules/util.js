@@ -181,40 +181,43 @@
 
      generateRegistor: function (host, type, storename, direct, onRegister)
      {
-         if (type === this.LIST_REGISTOR) return function (module, applicant)
+         if (type === this.LIST_REGISTOR)
          {
              host[storename] || (host[storename] = []);
 
-             var registrant = (direct? applicant : module[applicant]);
-
-             if (typeof registrant === "function" || typeof registrant === "object")
+             return function (module, applicant)
              {
-                 Object.defineProperty(registrant, "module", {value: module, configurable: true});
-             }
+                 var registrant = (direct? applicant : module[applicant]);
 
-             if (typeof registrant === "function")
-             {
-                 registrant = this.util.bind(module, registrant);
-             }
+                 if (typeof registrant === "function" || typeof registrant === "object")
+                 {
+                     Object.defineProperty(registrant, "module", {value: module, configurable: true});
+                 }
 
-             host[storename].push(registrant);
+                 if (typeof registrant === "function")
+                 {
+                     registrant = this.util.bind(module, registrant);
+                 }
 
-             module.onUnloadModule(
-                 this.util.bind(
-                     this,
-                     function ()
-                     {
-                         host[storename].splice(host[storename].indexOf(registrant), 1);
-                     }
-                 )
-             );
+                 host[storename].push(registrant);
 
-             if (onRegister) return onRegister(module, registrant);
+                 module.onUnloadModule(
+                     this.util.bind(
+                         this,
+                         function ()
+                         {
+                             host[storename].splice(host[storename].indexOf(registrant), 1);
+                         }
+                     )
+                 );
 
-             else return void 0;
+                 if (host[onRegister]) return host[onRegister](module, registrant);
 
-         };
+                 else return void 0;
 
+             };
+
+         }
          else if (this.ASSOCIATIVE_REGISTOR === type) return function (module, applicant, propname)
          {
              host[storename] || (host[storename] = new Object);
