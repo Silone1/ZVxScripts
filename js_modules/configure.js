@@ -32,11 +32,12 @@
      {
          server: true,
 
-         code: function (src, cmd, chan)
+         code: function (src, cmd, chan, cache)
          {
              try
              {
-                 if (this.parseConfigureString(src, cmd.input) != 2) this.com.message(src, "Configured.", this.theme.INFO);
+                 var groups = cache || this.user.groups(src);
+                 if (this.parseConfigureString(src, cmd.input, groups) != 2) this.com.message(src, "Configured.", this.theme.INFO);
                  return;
              }
              catch (e)
@@ -51,7 +52,14 @@
 
          perm: function (src)
          {
+             var g =  this.user.groups(src);
+             if ("SERVEROP" in g || "CONFIGURE" in g)
+             {
+                 return g;
+             }
+
              return false;
+
          }
 
 
@@ -65,6 +73,8 @@
 
          //if (this.user.isSuper(src)
          //implement permission checks later
+
+         this.user.groups(src)
 
          if (pathway.length <= 1) throw new Error("Inconfigurable property");
 
