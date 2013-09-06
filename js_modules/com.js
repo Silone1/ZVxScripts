@@ -27,8 +27,8 @@
 /** @scope script.modules.com */
 ({
      require: ["text", "theme", "util"],
-     
-     hotswap: true, 
+
+     hotswap: true,
 
      /** Sends a message to user(s)
       * @param {Number|String|String[]} usrs The user(s) to send the message to.
@@ -68,8 +68,41 @@
          print(servercode + " " + this.theme.scriptText + this.stripHtmlBool(msg, html));
 
 
-     }
-     ,
+     },
+
+     send: function (users, msg, chans, msgclass)
+     {
+         var classes = msgclass.split(/\//g);
+
+         var sendtext =
+             ({
+                  "html": function (m) {return m;},
+
+                  "notify": function (m)
+                  {
+                      return "&#x200e;<font color=blue><timestamp /><b>~Script~:</b> " + this.text.escapeHTML(msg)+ "&#x200e;";
+                  }
+              })[classes[0]];
+     },
+
+     notify: function (users, msg, chans)
+     {
+         users = this.util.arrayify(users);
+
+         for (var x in users)
+         {
+             if (users[x] == 0)
+             {
+                 print("~Script~: " + msg);
+             }
+             else
+             {
+                 sys.sendHtmlMessage(users[x], "&#x200e;<font color=blue><timestamp /><b>~Script~:</b> " + this.text.escapeHTML(msg)+ "&#x200e;");
+             }
+
+         }
+     },
+
      /** Sends a message to all users.
       * @param {String} msg The message to send.
       * @param {Number} [type] Constant from theme module describing how to format the message.
