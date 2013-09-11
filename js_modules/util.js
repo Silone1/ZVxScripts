@@ -175,10 +175,19 @@
          return serialize(variant);
      },
 
+
      UNARY_REGISTOR: 1, LIST_REGISTOR: 1,
      BINARY_REGISTOR: 2, ASSOCIATIVE_REGISTOR: 2,
      TERITARY_REGISTOR: 3,
 
+
+     /** Generates a registor for use by the module.
+      * @param host The module to use.
+      * @param {this.LIST_REGISTOR|this.ASSOCIATIVE_REGISTOR} type
+      * @param {String} storename The name of the property on the host to use as the registry.
+      * @param {Boolean} direct If the registor copies the value directly or from a property of the registering module.
+      * @param {String} onRegister Name of callback event to use when the program is run.
+      */
      generateRegistor: function (host, type, storename, direct, onRegister)
      {
          if (type === this.LIST_REGISTOR)
@@ -188,7 +197,7 @@
              return function (module, applicant)
              {
                  var registrant = (direct? applicant : module[applicant]);
-
+		 
                  if (typeof registrant === "function" || typeof registrant === "object")
                  {
                      Object.defineProperty(registrant, "module", {value: module, configurable: true});
