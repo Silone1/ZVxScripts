@@ -19,7 +19,8 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
  /////////////////////// END LEGAL NOTICE /////////////////////////////// */
-/** Module that provides sys-like functions but also works with e.g., ~~Server~~ and etc.
+/** Module that provides sys-like functions but also works with e.g., ~~Server~~ and etc.<br/>
+ * @desc This module also proviedes functions to manage user settings, usergroups, etc.
  * @name user
  * @memberOf script.modules
  * @namespace
@@ -27,8 +28,12 @@
 /** @scope script.modules.user */
 ({
      require: ["io"],
+     /* Object that stores a reference to database.invisible
+      * @type Object
+      */     
 
      invisibleUsers: null,
+
 
      loadModule: function ()
      {
@@ -38,12 +43,22 @@
 
          this.database = db;
 
-         this.invisibleUsers = db.invisible;
+	 if (!this.database.userconf) this.database.userconf = new Object;
+
+         
 
          this.io.registerConfig(this, { segroups0: ["LISTSEC"], segroups1: ["CHATOP", "INFOSEC", "PROTECTED"],
                                         segroups2: ["BANOP", "AUTHOP"], segroups3: ["LOGS", "SILENT", "INVISIBLE", "OVERRIDE"]});
+
+	 this.registerConfigHook = this.util.generateRegistor(this, this.util.LIST_REGISTOR, "configHooks");
+
      },
 
+
+     /** 
+      * @param {String} name
+      * @returns {Number} Auth level.
+      */
      nameAuth: function (name)
      {
          return (sys.id(name) ? this.auth(sys.id(name)) : sys.dbAuth(name));
@@ -62,9 +77,24 @@
 
      userConfig: function (user)
      {
+         var name = this.name(user);
 
+         var lname = name.toLowerCase();
+	 
+	 var config;
+	 
+	 if (!( config = this.userconfs[lname]) )
+	 {
+             config = this.userconfs[lname] = new Object;
+	 }
+
+	 for (var x in this.configHooks)
+	 {
+	     this.configHooks[x](config, name );
+	 }
+	 
      },
-
+     
      groups: function (src)
      {
          if (src == 0) return {"SERVEROP": null};
