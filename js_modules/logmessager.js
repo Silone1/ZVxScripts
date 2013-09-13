@@ -26,7 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
      {
          this.logs.registerLogHandler(this, "logMessage");
 
-         this.io.registerConfig();
+         this.io.registerConfig(this, { useLoggingChannel: true, loggingChannel: "Watch"});
      },
 
      logMessage: function(log)
@@ -41,6 +41,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
          {
             // ignore
          }
+
          else if (level == this.logs.SCRIPTERROR)
          {
              var auths = [];
