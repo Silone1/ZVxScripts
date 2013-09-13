@@ -60,7 +60,9 @@
                  {
                      if (sys.dbRegistered(cmd.args[x]))
                      {
-                         this.user.database.usergroups[cmd.args[x]] = this.user.database.usergroups[cmd.args[x]] || [];
+                         var lname = cmd.args[x].toLowerCase();
+
+                         this.user.database.usergroups[lname] = this.user.database.usergroups[lname] || [];
 
                          var a = this.user.database.usergroups[cmd.args[x]];
 
