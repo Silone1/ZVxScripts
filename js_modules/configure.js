@@ -44,7 +44,7 @@
              {
                  this.com.message(src, "Configure error in " + cmd.input + ": " + e, this.theme.WARN);
 
-                 https://google.com/index.html
+
 
                  return;
              }
