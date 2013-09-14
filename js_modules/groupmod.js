@@ -64,14 +64,14 @@
 
                          this.user.database.usergroups[lname] = this.user.database.usergroups[lname] || [];
 
-                         var a = this.user.database.usergroups[lname]; 
+                         var a = this.user.database.usergroups[lname];
 
 
 
                          if (a.indexOf(cmd.flags.group) === -1)
                          {
                              a.push(cmd.flags.group);
-                             this.com.broadcast(this.user.name(src) + " set " +  cmd.flags.group  + " for " + cmd.args[x] + ".", this.theme.INFO);
+                             this.com.broadcast(this.user.name(src) + " added " + cmd.args[x] + " to the  " +  cmd.flags.group  + " permission group.", this.theme.INFO);
                          }
                          else
                          {
@@ -92,14 +92,16 @@
                  {
                      if (sys.dbRegistered(cmd.args[x]))
                      {
-                         this.user.database.usergroups[cmd.args[x]] = this.user.database.usergroups[cmd.args[x]] || [];
+                         var lname = cmd.args[x].toLowerCase();
 
-                         var a = this.user.database.usergroups[cmd.args[x]];
+                         this.user.database.usergroups[lame] = this.user.database.usergroups[lname] || [];
+
+                         var a = this.user.database.usergroups[lname];
 
                          if (a.indexOf(cmd.flags.group) !== -1)
                          {
                              a.splice(a.indexOf(cmd.flags.group), 1);
-                             this.com.broadcast(this.user.name(src) + " removed " +  cmd.flags.group  + " for " + cmd.args[x] + ".", this.theme.INFO);
+                             this.com.broadcast(this.user.name(src) + " removed " + cmd.args[x] + " from the " +  cmd.flags.group  + " permission group", this.theme.INFO);
                          }
                          else
                          {
