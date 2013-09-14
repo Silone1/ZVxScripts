@@ -64,7 +64,9 @@
 
                          this.user.database.usergroups[lname] = this.user.database.usergroups[lname] || [];
 
-                         var a = this.user.database.usergroups[cmd.args[x]];
+                         var a = this.user.database.usergroups[lname]; // <- syntax error
+
+
 
                          if (a.indexOf(cmd.flags.group) === -1)
                          {
