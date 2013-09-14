@@ -27,10 +27,10 @@
  * */
 /** @scope script.modules.user */
 ({
-     require: ["io"],
+     require: ["io", "util"],
      /* Object that stores a reference to database.invisible
       * @type Object
-      */     
+      */
 
      invisibleUsers: null,
 
@@ -45,7 +45,7 @@
 
 	 if (!this.database.userconf) this.database.userconf = new Object;
 
-         
+
 
          this.io.registerConfig(this, { segroups0: ["LISTSEC"], segroups1: ["CHATOP", "INFOSEC", "PROTECTED"],
                                         segroups2: ["BANOP", "AUTHOP"], segroups3: ["LOGS", "SILENT", "INVISIBLE", "OVERRIDE"]});
@@ -55,7 +55,7 @@
      },
 
 
-     /** 
+     /**
       * @param {String} name
       * @returns {Number} Auth level.
       */
@@ -80,9 +80,9 @@
          var name = this.name(user);
 
          var lname = name.toLowerCase();
-	 
+
 	 var config;
-	 
+
 	 if (!( config = this.userconfs[lname]) )
 	 {
              config = this.userconfs[lname] = new Object;
@@ -92,9 +92,9 @@
 	 {
 	     this.configHooks[x](config, name );
 	 }
-	 
+
      },
-     
+
      groups: function (src)
      {
          if (src == 0) return {"SERVEROP": null};
