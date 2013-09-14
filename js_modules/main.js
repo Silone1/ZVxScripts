@@ -1,6 +1,6 @@
 /*  ///////////////////////// LEGAL NOTICE ///////////////////////////////
 
- This file is part of ZScripts,
+ This file is part of ZVxScripts,
  a modular script framework for Pokemon Online server scripting.
 
  Copyright (C) 2013  Ryan P. Nicholl, aka "ArchZombie" / "ArchZombie0x", <archzombielord@gmail.com>
@@ -482,8 +482,8 @@
          {
              sys.sendHtmlMessage(
                  src,
-                 "<timestamp /><b>ZScripts Copyright © 2013 Ryan P. Nicholl \"ArchZombie0x\" &lt;archzombielord@gmail.com&gt;</b><br/>" +
-                     "You may download these scripts for your own server at <a href=\'https://github.com/ArchZombie/zscripts\'>https://github.com/ArchZombie/zscripts</a> <a href='https://github.com/ArchZombie/zscripts/archive/master.zip'>[link to .zip]</a>, or if this is incorrect, using <em>/getsource</em>. Scripts are available under the <em>GNU Affero General Public License</em> as published by the Free Software Foundation, version 3, or, at your option, any later version."
+                 "<timestamp /><b>ZVxScripts Copyright © 2013 Ryan P. Nicholl \"ArchZombie0x\" &lt;archzombielord@gmail.com&gt;</b><br/>" +
+                     "You may download these scripts for your own server at <a href=\'https://github.com/ArchZombie/zvxscripts\'>https://github.com/ArchZombie/zvxscripts</a> <a href='https://github.com/ArchZombie/zvxscripts/archive/master.zip'>[link to .zip]</a>, or if this is incorrect, using <em>/getsource</em>. Scripts are available under the <em>GNU Affero General Public License</em> as published by the Free Software Foundation, version 3, or, at your option, any later version."
              );
          }
          ,

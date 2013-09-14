@@ -1,6 +1,6 @@
 /*  ///////////////////////// LEGAL NOTICE ///////////////////////////////
 
- This file is part of ZScripts,
+ This file is part of ZVxScripts,
  a modular script framework for Pokemon Online server scripting.
 
  Copyright (C) 2013  Ryan P. Nicholl, aka "ArchZombie" / "ArchZombie0x", <archzombielord@gmail.com>
@@ -77,7 +77,7 @@
          // test = sys.synchronousWebCall("http://localhost:5081/test");
 
          var text = [];
-         if (1)// || test !== "ZScripts Web Module: Confirming source distributed via webserver. /s/ zscriptswebsource");
+         if (1)// || test !== "ZVxScripts Web Module: Confirming source distributed via webserver. /s/ zvxscriptswebsource");
          {
              var flist = sys.filesForDirectory("js_modules");
              for (var x in flist) if (!flist[x].match(/^#.+#$/) && !flist[x].match(/~$/))
@@ -90,7 +90,7 @@
 
          if (0 && test)
          {
-             //   sys.sendHtmlMessage(src, "<a href='http://" + this.ip + ":5081/zscripts-source.zip'>Download</a>");
+             //   sys.sendHtmlMessage(src, "<a href='http://" + this.ip + ":5081/zvxscripts-source.zip'>Download</a>");
          }
 
 
