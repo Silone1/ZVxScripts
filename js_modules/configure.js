@@ -74,8 +74,6 @@
          //if (this.user.isSuper(src)
          //implement permission checks later
 
-         this.user.groups(src)
-
          if (pathway.length <= 1) throw new Error("Inconfigurable property");
 
 

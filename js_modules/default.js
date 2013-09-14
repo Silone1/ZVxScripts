@@ -20,6 +20,26 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /////////////////////// END LEGAL NOTICE /////////////////////////////// */
 ({
-     // legal note: if you remove sourcedist, you are legally required to ensure users have another way to download the source.
-     require: ["logs",  "iologger", "interceptor", "gateway", "chat", "automute", "reset", "greeting", "server", "serverimp", "common_commands", "admin_commands", "sourcedist"]
+     require: ["io", "user"],
+
+     DEFAULTS: ["logs",  "iologger", "interceptor", "gateway", "chat", "reset", "modprobe", "server","cmdlist_command", "kick_command", "mute_command", "info_command", "groupmod", "configure", "ban_command", "setauth_command", "sourcedist", "eval_command", "modprobe", "io_commands"],
+
+     loadModule: function ()
+     {
+         var x;
+
+         this.io.registerConfig(this, { modules: ["me_command", "info_command", "serverimp", "authlist_command", "readlogs_command", "automute" ] });
+
+         for (x in this.DEFAULTS)
+         {
+             this.script.loadModule(this.DEFAULTS[x]);
+         }
+
+         for (x in this.config.modules)
+         {
+             this.script.loadModule(this.config.modules[x]);
+         }
+     }
+
+
 });

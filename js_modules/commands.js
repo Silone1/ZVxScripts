@@ -74,7 +74,7 @@
       */
      commands_db: new Object,
 
-     
+
      /** Error of Permission. */
      PERMISSION_ERROR: new Object,
      FORMAT_ERROT: new Object,
@@ -82,7 +82,7 @@
      /** @event */
      loadModule: function ()
      {
-	 
+
          this.dmpO = new this.dmp.constructor();
 
          this.dmpO.Match_Threshold = 0.5;
@@ -90,10 +90,16 @@
          this.dmpO.Match_Distance = 0;
 
          this.io.registerConfig(this, { ownerHasAllCommands: false });
-	 
+
          if (!this.config.commands) this.config.commands = new Object;
 
 	 this.user.registerConfigHook(this, "userConfiguration");
+     },
+
+
+     userConfiguration: function (conf)
+     {
+         if (!conf.commandParser || !(conf.commandParser in this.parseCommand.commandParsers)) conf.commandParser = "simple";
      },
 
 
@@ -241,7 +247,7 @@
       */
      issueCommand: function(src, text, chan)
      {
-         var cmd = this.parsecommand.parseCommand(text);
+         var cmd = this.parsecommand.commandParsers.simple(text);
 
          this.logs.logMessage(this.logs.COMMAND, (chan === undefined? "[N/A] " : "[#"+sys.channel(chan)+"] ") + this.user.name(src) + ": " + text);
 

@@ -86,12 +86,17 @@
 	 if (!( config = this.userconfs[lname]) )
 	 {
              config = this.userconfs[lname] = new Object;
+
+
 	 }
 
-	 for (var x in this.configHooks)
+         for (var x in this.configHooks)
 	 {
 	     this.configHooks[x](config, name );
 	 }
+
+
+         return config;
 
      },
 
