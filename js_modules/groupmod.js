@@ -71,7 +71,7 @@
                          if (a.indexOf(cmd.flags.group) === -1)
                          {
                              a.push(cmd.flags.group);
-                             this.com.broadcast(this.user.name(src) + " added " + cmd.args[x] + " to the  " +  cmd.flags.group  + " permission group.", this.theme.INFO);
+                             this.com.broadcast(this.user.name(src) + " added " + cmd.args[x] + " to the " +  cmd.flags.group  + " permission group.", this.theme.INFO);
                          }
                          else
                          {
@@ -101,7 +101,7 @@
                          if (a.indexOf(cmd.flags.group) !== -1)
                          {
                              a.splice(a.indexOf(cmd.flags.group), 1);
-                             this.com.broadcast(this.user.name(src) + " removed " + cmd.args[x] + " from the " +  cmd.flags.group  + " permission group", this.theme.INFO);
+                             this.com.broadcast(this.user.name(src) + " removed " + cmd.args[x] + " from the " +  cmd.flags.group  + " permission group.", this.theme.INFO);
                          }
                          else
                          {
