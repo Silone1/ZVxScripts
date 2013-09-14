@@ -94,7 +94,7 @@
                      {
                          var lname = cmd.args[x].toLowerCase();
 
-                         this.user.database.usergroups[lame] = this.user.database.usergroups[lname] || [];
+                         this.user.database.usergroups[lname] = this.user.database.usergroups[lname] || [];
 
                          var a = this.user.database.usergroups[lname];
 
