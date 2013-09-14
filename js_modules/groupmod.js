@@ -64,7 +64,7 @@
 
                          this.user.database.usergroups[lname] = this.user.database.usergroups[lname] || [];
 
-                         var a = this.user.database.usergroups[lname]; // <- syntax error
+                         var a = this.user.database.usergroups[lname]; 
 
 
 
