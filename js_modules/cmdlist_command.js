@@ -58,7 +58,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             var msg = [];
             var sys_auth$src = sys.auth(src);
 
-            if (src != 0 && !cmd.flags.nodesc) msg.push("<table border=1><tr><td><b>Command Name</b>"+(cmd.flags.all?"<td><b>Permission</b></td>":"")+"</td><td><b>Description</b></td><td><b>Options</b></td>");
+            if (0&& src != 0 && !cmd.flags.nodesc) msg.push("<table border=1><tr><td><b>Command Name</b>"+(cmd.flags.all?"<td><b>Permission</b></td>":"")+"</td><td><b>Description</b></td><td><b>Options</b></td></tr>");
 
             if (!cmd.flags.nodesc) for (var x in cmds)
             {
