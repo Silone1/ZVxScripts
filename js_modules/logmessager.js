@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /////////////////////// END LEGAL NOTICE /////////////////////////////// */
 ({
-     require: ["logs", "com", "theme", "commands", "io", "user"],
+     require: ["logs", "com", "theme", "commands", "io", "user", "theme"],
 
      loadModule: function ()
      {
