@@ -41,11 +41,26 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         ,
         code: function (src, cmd, chan)
         {
+            var g = this.user.groups(src);
+
             var count = (+cmd.flags.count) || 35;
-            var types = cmd.flags.types || cmd.flags.type;
-            if (types) types = types.split(/,/g);
-            else types = ["chat", "script", "io", "scripterror", "user", "command", "security"];
+            var ptypes = cmd.flags.types || cmd.flags.type;
+            if (types) ptypes = types.split(/,/g);
+            else ptypes = ["chat", "script", "io", "scripterror", "user", "command", "security"];
             var trace = cmd.flags.trace;
+            var types = [];
+
+            if (! ("SERVEROP" in g || "LOGS[*]" in g) ) for (var x in ptypes)
+            {
+                if (("LOGS[" + ptypes[x].toUpperCase() + "]" in g)) types.push(ptypes[x]);
+
+                else if (cmd.flags.type || cmd.flags.types) // only warn if the user specified types manually.
+                {
+                    this.com.message(src, "Permission Denied: Can't view logs of type " + ptypes[x] + ".", this.theme.WARN);
+                }
+            }
+
+            else types = ptypes;
 
 
             var msgs = [];

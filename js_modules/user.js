@@ -47,8 +47,8 @@
 
 
 
-         this.io.registerConfig(this, { segroups0: ["LISTSEC"], segroups1: ["CHATOP", "INFOSEC", "PROTECTED"],
-                                        segroups2: ["BANOP", "AUTHOP"], segroups3: ["LOGS", "SILENT", "INVISIBLE", "OVERRIDE"]});
+         this.io.registerConfig(this, { segroups0: ["LISTSEC"], segroups1: ["LOGS", "LOGS[CHAT]", "LOGS[INFO]", "CHATOP", "INFOSEC", "PROTECTED"],
+                                        segroups2: ["BANOP", "AUTHOP"], segroups3: ["LOGS[*]", "SILENT", "INVISIBLE", "OVERRIDE"]});
 
 	 this.registerConfigHook = this.util.generateRegistor(this, this.util.LIST_REGISTOR, "configHooks");
 
