@@ -20,14 +20,22 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /////////////////////// END LEGAL NOTICE /////////////////////////////// */
 ({
-     require: ["logs", "com", "theme", "commands", "io"],
+     require: ["logs", "com", "theme", "commands", "io", "user"],
 
      loadModule: function ()
      {
          this.logs.registerLogHandler(this, "logMessage");
 
          this.io.registerConfig(this, { useLoggingChannel: true, loggingChannel: "Watch"});
+         this.user.registerConfigHook(this, "configuration");
      },
+
+
+     configuration: function (c)
+     {
+         if (!c.recieveLogTypes) c.recieveLogTypes = ["script", "io", "scripterror", "user", "command", "security"];
+     },
+
 
      logMessage: function(log)
      {
@@ -35,33 +43,28 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
          var msg = log.msg;
 
-         if (level != this.logs.DEBUG && level != this.logs.CHAT) print("Logs level " + level + ": " +msg);
+         var players = sys.playerIds().concat[0];
 
-         if (level == this.logs.CHAT)
+
+         for (var x in players)
          {
-            // ignore
-         }
+             var g = this.user.groups(players[x]);
 
-         else if (level == this.logs.SCRIPTERROR)
-         {
-             var auths = [];
-             sys.playerIds().forEach(function(i) { if (sys.auth(i) >= 1) auths.push(i); });
+             if ("SERVEROP" in g || "LOGS" in g)
+             {
+                 var cfg = this.user.userConfig(players[x]).recieveLogTypes;
 
-             this.com.message(auths, msg, this.theme.CRITICAL);
-         }
-         else if (level == this.logs.WARN)
-         {
-             var auths = [];
-             sys.playerIds().forEach(function(i) { if (sys.auth(i) >= 1) auths.push(i); });
+                 // Check if the user wants to recieve this tpe of log
+                 if (cfg.indexOf("*") !== -1 || cfg.indexOf(level) !== -1)
+                 {
+                     //Check if the user has permission to view this type of log message.
+                     if ("LOGS[*]" in g || "SERVEROP" in g || ("LOGS[" + level.toUpperCase()+"]") in g)
+                     {
+                         this.com.message(players[x], log.msg, this.theme.LOG);
+                     }
+                 }
 
-             this.com.message(auths, msg, this.theme.LOG);
-         }
-         else if (level == this.logs.USER || level == this.logs.COMMAND || level == this.logs.INFO || level == this.logs.SCRIPT || level == this.logs.IO)
-         {
-             var auths = [];
-             sys.playerIds().forEach(function(i) { if (sys.auth(i) == 3) auths.push(i); });
-
-             this.com.message(auths, msg, this.theme.LOG);
+             }
          }
 
      }
