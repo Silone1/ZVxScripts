@@ -26,7 +26,7 @@
      loadModule: function ()
      {
          this.commands.registerCommand("userconf", this);
-         this.io.registerConfig(this);
+         this.io.registerConfig(this, {"maxUserconfLength": 1000});
      },
 
      userconf:
