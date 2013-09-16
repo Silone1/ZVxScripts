@@ -247,7 +247,7 @@
       */
      issueCommand: function(src, text, chan)
      {
-         var cmd = this.parsecommand.commandParsers[this.userConfig(src).commandParser](text);
+         var cmd = this.parsecommand.commandParsers[this.user.userConfig(src).commandParser](text);
 
          this.logs.logMessage(this.logs.COMMAND, (chan === undefined? "[N/A] " : "[#"+sys.channel(chan)+"] ") + this.user.name(src) + ": " + text);
 
