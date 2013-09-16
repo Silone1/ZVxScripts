@@ -21,11 +21,12 @@
  /////////////////////// END LEGAL NOTICE /////////////////////////////// */
 ({
 
-     require: ["user", "commands", "com", "theme"],
+     require: ["user", "commands", "com", "theme", "zsrx", "io"],
 
      loadModule: function ()
      {
          this.commands.registerCommand("userconf", this);
+         this.io.registerConfig(this);
      },
 
      userconf:
@@ -37,7 +38,9 @@
          {
              var string = cmd.input || "";
 
-             var modobj = this.user.userConfig(src);
+             var origin = this.user.userConfig(src);
+
+             var modobj = origin;
 
              var match = string.match(/^\s*([\w]+(?:\.[\w]+)*)(?:\s*(\=|\+\=|<<|>>|~)\s*(.*$))?/i);
 
@@ -99,6 +102,14 @@
                  if (typeof prop != "object" && typeof prop === typeof modobj[finalProp])
                  {
                      modobj[finalProp] = prop;
+                     if (this.zsrx.zsrx(modobj).length > this.config.maxUserconfLength)
+                     {
+                         for (var x in origin) delete origin[x];
+
+                         this.com.message(src, "Configuration Overflow.", this.theme.CRITICAL);
+                         return;
+
+                     }
                      return true;
                  }
                  else if (typeof modobj[finalProp] === "object" && modobj[finalProp] instanceof Array && typeof prop === "object" && prop instanceof Array)
@@ -106,6 +117,15 @@
                      for (x in prop) if (typeof prop[x] === "object") throw new Error("Wrong argument type or wrong operator.");
 
                      modobj[finalProp] = prop;
+
+                     if (this.zsrx.zsrx(modobj).length > this.config.maxUserconfLength)
+                     {
+                         for (var x in origin) delete origin[x];
+
+                         this.com.message(src, "Configuration Overflow.", this.theme.CRITICAL);
+                         return;
+
+                     }
                      return true;
                  }
                  throw new Error("Wrong argument type or wrong operator.");
@@ -113,14 +133,32 @@
                  if (typeof modobj[finalProp] === "object" && modobj[finalProp] instanceof Array && typeof prop != "object")
                  {
                      modobj[finalProp].push(prop);
+                     if (this.zsrx.zsrx(modobj).length > this.config.maxUserconfLength)
+                     {
+                         for (var x in origin) delete origin[x];
+
+                         this.com.message(src, "Configuration Overflow.", this.theme.CRITICAL);
+                         return;
+
+                     }
                      return true;
+
                  }
                  throw new Error("Wrong argument type or wrong operator.");
              case ">>":
                  if (typeof modobj[finalProp] === "object" && modobj[finalProp] instanceof Array && typeof prop != "object")
                  {
                      if (modobj[finalProp].indexOf(prop) !== -1) modobj[finalProp].splice(modobj[finalProp].indexOf(prop), 1);
-                     return true;
+
+                     if (this.zsrx.zsrx(modobj).length > 1000)
+                     {
+                         for (var x in origin) delete origin[x];
+
+                         this.com.message(src, "Configuration Overflow.", this.theme.CRITICAL);
+                         return;
+
+                     }
+                     return;
                  }
                  throw new Error("Wrong argument type or wrong operator.");
              case "~":

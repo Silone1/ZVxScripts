@@ -37,7 +37,7 @@
              try
              {
                  var groups = cache || this.user.groups(src);
-                 if (this.parseConfigureString(src, cmd.input, groups) != 2) this.com.message(src, "Configured.", this.theme.INFO);
+                 if (this.parseConfigureString(src, cmd.input || "", groups) != 2) this.com.message(src, "Configured.", this.theme.INFO);
                  return;
              }
              catch (e)
@@ -69,12 +69,18 @@
      {
          var match = string.match(/^\s*([\w]+(?:\.[\w]+)*)(?:\s*(\=|\+\=|<<|>>|~)\s*(.*$))?/i);
 
-         var pathway = match[1].split(/\./g);
-
          //if (this.user.isSuper(src)
          //implement permission checks later
 
-         if (pathway.length <= 1) throw new Error("Inconfigurable property");
+         if (!match)
+         {
+             this.com.message(src, "Server Configuration:\n" + JSON.stringify(this.io.configs, 1), this.theme.INFO);
+             return 2;
+         }
+
+         var pathway = match[1].split(/\./g);
+
+         if (pathway.length <= 1 && (match[2] || pathway.length == 0)) throw new Error("Inconfigurable property");
 
 
 
@@ -101,7 +107,7 @@
 
          if (! match[2])
          {
-             this.com.message(src, JSON.stringify(modobj[finalProp]), this.theme.INFO);
+             this.com.message(src, "Property Value:\n" + JSON.stringify(modobj[finalProp], 1), this.theme.INFO);
              return 2;
          }
 

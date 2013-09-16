@@ -100,6 +100,18 @@
 
      },
 
+     majorGroups: function(src)
+     {
+         var a = this.auth(src);
+
+         var majors = {};
+
+         if (this.name(src) == "~~Server~~" || sys.dbRegistered(this.name(src)))
+         {
+
+         }
+     },
+
      groups: function (src)
      {
          if (src == 0) return {"SERVEROP": null};
