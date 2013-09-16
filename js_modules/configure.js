@@ -20,7 +20,7 @@
 
  /////////////////////// END LEGAL NOTICE /////////////////////////////// */
 ({
-     require: ["commands", "io", "com", "theme"],
+     require: ["commands", "io", "com", "theme", "user"],
 
 
      loadModule: function ()
