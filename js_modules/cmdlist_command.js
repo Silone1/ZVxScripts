@@ -26,7 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 /** @scope script.modules.cmdlist_command */
 ({
-    require: ["commands", "com","text", "theme", "less"]
+    require: ["commands", "com","text", "theme", "less", "user"]
     ,
     /** Lists all commands available to the user
      * @type commandDescriptor
