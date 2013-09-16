@@ -34,6 +34,8 @@
          server: true,
          perm: true,
 
+         perm: function () { return true; }
+
          code: function (src, cmd, chan)
          {
              var string = cmd.input || "";
