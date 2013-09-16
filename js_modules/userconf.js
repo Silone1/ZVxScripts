@@ -42,7 +42,7 @@
 
              var modobj = origin;
 
-             var match = string.match(/^\s*([\w]+(?:\.[\w]+)*)(?:\s*(\=|\+\=|<<|>>|~)\s*(.*$))?/i);
+             var match = string.match(/^\s*([\w]+(?:\.[\w]+)*)(?:\s*(\:?\=|\+\=|<<|>>|~)\s*(.*$))?/i);
 
              if (!match)
              {
@@ -110,6 +110,8 @@
                          return;
 
                      }
+                     else this.com.message(src, "Configured.");
+
                      return true;
                  }
                  else if (typeof modobj[finalProp] === "object" && modobj[finalProp] instanceof Array && typeof prop === "object" && prop instanceof Array)
@@ -126,6 +128,7 @@
                          return;
 
                      }
+                     else this.com.message(src, "Configured.");
                      return true;
                  }
                  throw new Error("Wrong argument type or wrong operator.");
@@ -141,6 +144,7 @@
                          return;
 
                      }
+                     else this.com.message(src, "Configured.");
                      return true;
 
                  }
@@ -150,7 +154,7 @@
                  {
                      if (modobj[finalProp].indexOf(prop) !== -1) modobj[finalProp].splice(modobj[finalProp].indexOf(prop), 1);
 
-                     if (this.zsrx.zsrx(modobj).length > 1000)
+                     if (this.zsrx.zsrx(modobj).length > this.config.maxUserconfLength)
                      {
                          for (var x in origin) delete origin[x];
 
@@ -158,6 +162,7 @@
                          return;
 
                      }
+                     else this.com.message(src, "Configured.");
                      return;
                  }
                  throw new Error("Wrong argument type or wrong operator.");
