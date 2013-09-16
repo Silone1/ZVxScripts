@@ -34,6 +34,15 @@
          server: true,
          perm: true,
 
+         desc: "Configures your per-user configuration. /userconf <propname> <operator> <value>. See /help userconf.",
+         help: "Type /userconf for a list, (not that not all are relevant to all users.) To configure an option, use /userconf option = newvalue. Instead of = you may also insert using <<, or splice using >>.",
+         examples:
+         [
+             ["commandParser = \"optargs\"","Changes your command parser to optargs-mode."],
+             ["recieveLogTypes << \"CHAT\"","Adds \"CHAT\" to the recieveLogTypes setting"]
+         ],
+
+
          perm: function () { return true; },
 
          code: function (src, cmd, chan)

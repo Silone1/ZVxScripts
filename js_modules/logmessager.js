@@ -43,11 +43,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
          var msg = log.msg;
 
-         var players = sys.playerIds().concat[0];
+         var players = sys.playerIds().concat([0]);
+
 
 
          for (var x in players)
          {
+
+
              var g = this.user.groups(players[x]);
 
              if ("SERVEROP" in g || "LOGS" in g)

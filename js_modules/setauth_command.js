@@ -33,7 +33,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         options:
         {
             level: "What level to set the user to."
-        }
+        },
+        examples:
+        [
+            [{args: ["Super Admin", "Super Admin2"], flags: {level: "owner"} }, "Makes the users Super Admin and Super Admin2 both owners."]
+        ]
         ,
         perm: function (src)
         {
@@ -53,7 +57,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
             if (!cmd.flags.level)
             {
-                this.com.message(src, "Enter a --level= option");
+                this.com.message(src, "Enter a level option. See /help setauth.");
                 return;
             }
 

@@ -50,7 +50,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	    this.commands.issueCommand( this.SERVER, msg, this.serverChannel);
 
             return;
-            
+
             var cmdObj = this.parsecommand.parseCommand(msg);
             var cmdName = cmdObj.name;
 
@@ -82,7 +82,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         else
         {
             sys.broadcast(msg, this.serverChan, this.SERVER, false, -1);
-            this.logs.logMessage(this.logs.CHAT, (this.serverChan === -1 ? "" : "[#"+sys.channel(this.serverChan)+"] ") + this.user.name(this.SERVER) + ": " + msg);
+            this.logs.logMessage(this.logs.CHAT, (this.serverChan === -1 ? "[N/A] " : "[#"+sys.channel(this.serverChan)+"] ") + this.user.name(this.SERVER) + ": " + msg);
         }
     }
     ,

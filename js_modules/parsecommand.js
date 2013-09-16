@@ -46,6 +46,45 @@
      hotswap: true,
 
 
+     commandUnParsers:
+     {
+         optargs: function (cmd)
+         {
+             var output = [];
+             for (var x in cmd.args)
+             {
+                 output.push(JSON.stringify(cmd.args[x]));
+             }
+
+             for (var x in cmd.flags)
+             {
+                 output.push("--" + x + (cmd.flags[x] === true?"":"="+ JSON.stringify(cmd.flags[x])));
+             }
+
+             return output.join(" ");
+         },
+
+         simple: function (cmd)
+         {
+             var output = [];
+
+             var string = "";
+             for (var x in cmd.args)
+             {
+                 output.push(cmd.args[x].replace(/[\:\*\\]/g, "\\$1"));
+             }
+
+             string = output.join("*");
+
+             for (x in cmd.flags)
+             {
+                 string += (":" + x + (cmd.flags[x] === true?"":"="+ (cmd.flags[x]).replace(/[\:\*\\]/g, "\\$1")));
+             }
+
+             return string;
+         }
+     },
+
      commandParsers:
      {
 	 optargs: null,

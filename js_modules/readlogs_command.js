@@ -45,14 +45,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
             var count = (+cmd.flags.count) || 35;
             var ptypes = cmd.flags.types || cmd.flags.type;
-            if (types) ptypes = types.split(/,/g);
+            if (ptypes) ptypes = ptypes.split(/,/g);
             else ptypes = ["chat", "script", "io", "scripterror", "user", "command", "security"];
             var trace = cmd.flags.trace;
             var types = [];
 
             if (! ("SERVEROP" in g || "LOGS[*]" in g) ) for (var x in ptypes)
             {
-                if (("LOGS[" + ptypes[x].toUpperCase() + "]" in g)) types.push(ptypes[x]);
+                if (("LOGS[" + ptypes[x].toUpperCase() + "]") in g)
+                {
+                    types.push(ptypes[x]);
+                }
 
                 else if (cmd.flags.type || cmd.flags.types) // only warn if the user specified types manually.
                 {

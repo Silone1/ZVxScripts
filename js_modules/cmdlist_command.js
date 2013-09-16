@@ -26,7 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 /** @scope script.modules.cmdlist_command */
 ({
-    require: ["commands", "com","text", "theme", "less", "user"]
+    require: ["commands", "com","text", "theme", "less", "user", "parsecommand"]
     ,
     /** Lists all commands available to the user
      * @type commandDescriptor
@@ -39,10 +39,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         ,
         desc: "Lists the commands available to the user."
         ,
+
+        examples:
+        [
+            [{args:[], flags:{all:true}}, "Shows all of the commands."],
+            [{args:[], flags:{nodesc:true}}, "Be brief."],
+            [{args:[], flags:{examples:true}}, "Shows examples when available."],
+            [{args:[], flags:{examples:true, all:true}}, "Shows examples when available, and shows all commands."]
+
+        ],
         options:
         {
             "all": "Also list commands the user doesn't have permission to use",
-            "nodesc": "Do not show the long description of the commands"
+            "nodesc": "Do not show the long description of the commands",
+            "examples": "Show examples"
         }
         ,
         perm: function ()
@@ -72,16 +82,32 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 if (!cmd.flags.nodesc)
                 {
 
-                    msg.push("<b>/" + text.escapeHTML(x) +"</b>" + (canuse?"":" (NO PERMISSION)") + (cmds[x].desc?" "+cmds[x].desc:"") );
+                    msg.push("<b>/" + text.escapeHTML(x) +"</b>" + (canuse?"":" [NO PERMISSION]") + this.text.escapeHTML(cmds[x].desc?" "+cmds[x].desc:"") );
 
                     if (cmds[x].options)
                     {
+                        msg.push("<em>Options:</em>");
                         var options = cmds[x].options;
 
                         for (var x2 in options)
                         {
-                            msg.push("&nbsp;&nbsp;&nbsp;&nbsp;--" + text.escapeHTML(x2) + "&nbsp;&nbsp;&nbsp;&nbsp;" + text.escapeHTML(options[x2]));
+                            msg.push("&nbsp;&nbsp;&nbsp;&nbsp;<em>" + text.escapeHTML(x2) + "</em>&nbsp;&nbsp;&nbsp;&nbsp;" + text.escapeHTML(options[x2]));
                         }
+                    }
+
+                    if (cmd.flags.examples && cmds[x].examples)
+                    {
+                        msg.push("<em>Examples:</em>");
+
+                        function estring(ex)
+                        {
+                            if (typeof ex == "string") return ex;
+
+                            return this.parsecommand.commandUnParsers[this.user.userConfig(src).commandParser](ex);
+
+                        }
+
+                        for (x2 in cmds[x].examples) msg.push(this.text.escapeHTML("    /" + cmds[x].name + " " + estring.call(this, cmds[x].examples[x2][0]) +"\n        " + cmds[x].examples[x2][1]));
                     }
                 }
 

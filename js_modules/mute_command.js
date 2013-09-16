@@ -107,8 +107,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             reason: "Reason for the mute"
             ,
             time: "Duration to mute for"
-        }
-        ,
+        },
+
+        examples:
+        [
+            [{args:["spammer", "spammer2"], flags:{reason:"spamming", time:"1 hour, 30 minutes, 20 seconds"}}, "Mutes the players spammer and spammer2 for a while. Also puts in a log as to why they were muted."]
+        ],
+
         perm: function (src)
         {
             return "CHATOP" in this.user.groups(src);
@@ -180,7 +185,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     mutelist:
     {
         server:true,
-        
+
         perm: function (src)
         {
             return "LISTSEC" in this.user.groups(src);
