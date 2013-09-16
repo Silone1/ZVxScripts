@@ -34,7 +34,7 @@
          server: true,
          perm: true,
 
-         perm: function () { return true; }
+         perm: function () { return true; },
 
          code: function (src, cmd, chan)
          {
