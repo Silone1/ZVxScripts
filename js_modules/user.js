@@ -83,9 +83,9 @@
 
 	 var config;
 
-	 if (!( config = this.userconfs[lname]) )
+	 if (!( config = this.database.userconf[lname]) )
 	 {
-             config = this.userconfs[lname] = new Object;
+             config = this.database.userconf[lname] = new Object;
 
 
 	 }

@@ -99,7 +99,7 @@
 
      userConfiguration: function (conf)
      {
-         if (!conf.commandParser || !(conf.commandParser in this.parseCommand.commandParsers)) conf.commandParser = "simple";
+         if (!conf.commandParser || !(conf.commandParser in this.parsecommand.commandParsers)) conf.commandParser = "simple";
      },
 
 
