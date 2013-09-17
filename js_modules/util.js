@@ -112,6 +112,11 @@
                  return "<String> " + JSON.stringify(variant);
              }
 
+             if (typeof variant === "boolean")
+             {
+                 return "<Bool> " + JSON.stringify(variant);
+             }
+
              if (typeof variant === "function")
              {
                  // Right now most all fucntions would be anonymous, but later we may add features to sys to make it able to read more function information :)
@@ -197,7 +202,7 @@
              return function (module, applicant)
              {
                  var registrant = (direct? applicant : module[applicant]);
-		 
+
                  if (typeof registrant === "function" || typeof registrant === "object")
                  {
                      Object.defineProperty(registrant, "module", {value: module, configurable: true});
