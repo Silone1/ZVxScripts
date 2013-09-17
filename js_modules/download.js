@@ -27,8 +27,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         this.commands.registerCommand("download", this);
     }
     ,
-    download: 
+    download:
     {
+        server: true,
+        
         desc: "Download a file."
         ,
         options:
@@ -40,7 +42,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         ,
         perm: function (src, cmd, chan)
         {
-            return sys.auth(src) == 3;
+            return "DOWNLOAD" in this.user.groups(src);
         }
         ,
         code: function (src, cmd, chan)
@@ -49,7 +51,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
             var url = cmd.flags.url;
 
-            if (!fname || !url) 
+            if (!fname || !url)
             {
                 this.com.message([src], "Invalid filename or url", this.theme.WARN);
                 return;
@@ -60,7 +62,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 this.com.message([src], "File already exists, must specifiy --force to overwrite", this.theme.WARN);
                 return;
             }
-            
+
 
             sys.webCall(url, this.util.bind(
                 this,
@@ -70,13 +72,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         this.logs.logMessage(this.logs.INFO, "Downloaded " + url + " and saved to " + fname);
                         return;
                     }
-                    catch (e) 
+                    catch (e)
                     {
                         print(e.backtracetext);
                         print(e);
                     }
                 })
-            );                                   
+            );
         }
     }
 });
