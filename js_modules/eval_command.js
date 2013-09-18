@@ -21,7 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /////////////////////// END LEGAL NOTICE /////////////////////////////// */
 ({
 
-    require: ["com", "commands", "theme", "util", "less", "io", "user"],
+    require: ["com", "commands", "theme", "util", "less", "io", "user", "time", "text"],
 
     eval:
     {
@@ -37,9 +37,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         ,
         code: function (src, cmd, chan)
         {
+            var start = +new Date;
             try
             {
-                this.less.less(src, this.util.inspect(eval(cmd.input), true), false);
+
+                var r = eval(cmd.input);
+                var end = +new Date;
+                var result_text = this.text.escapeHTML(this.util.inspect(r, true));
+                var start2 = +new Date;
+                this.less.less(src, "<b>Exec Time:</b> " + (this.time.diffToStr(end - start) || "&lt;1 milisecond" ) +
+                               "<br /><b>Serializer Time:</b> " + (this.time.diffToStr(+new Date-start2) || "&lt;1 milisecond")+ "<br/><b>Result:</b><br/>" + result_text, true);
             }
             catch (e)
             {
