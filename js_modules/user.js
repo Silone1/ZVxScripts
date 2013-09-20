@@ -100,16 +100,77 @@
 
      },
 
+     updateCache: function (lname)
+     {
+         /*
+          The updateCache function updates the internal relational database for the majorgroups of a user.
+          */
+
+         // The username should be lowercase, as the database is case insensitive.
+
+         lname = lname.toLowerCase();
+
+
+         // Purge the old cache
+         this.cache[lname] = new Object;
+
+         var cache = this.cache[lname].majorgroups = new Object;
+
+         /*cache*/ var this_database_majorgroups = this.database.majorgroups;
+
+
+         // go over the old majorgroups to rebuild
+         for (var x in this_database_majorgroups)
+         {
+             var item = this_database_majorgroups[x];
+
+
+             if (item.members.indexOf(lname) != -1) // User is in the group
+             {
+                 cache[x] = null; // assign key
+             }
+         }
+     },
+
      majorGroups: function(src)
      {
+         if (src == 0)
+         {
+             return {"Sever":null};
+         }
+
          var a = this.auth(src);
 
          var majors = {};
 
-         if (this.name(src) == "~~Server~~" || sys.dbRegistered(this.name(src)))
-         {
+         var name = this.user.name(src);
+         var lname = name.toLowerCase();
 
+         if (sys.dbRegistered(this.name(src)))
+         {
+             var groups = new Object;
+
+             if (! this.cache[lname] )
+             {
+                 this.updateCache(lname);
+             }
+
+             if (ugroups.length) for (var x in ugroups)
+             {
+                 groups[ugroups[x]] = null;
+             }
+
+
+             if (   (!("User" in groups))  &&  (!("Moderator" in groups))  &&  (!("Administrator" in groups))  &&  (!("Owner" in groups))   )
+             {
+                 groups[["User", "Moderator", "Administrator", "Owner"][this.auth(src)]] = null;
+             }
+
+
+             return groups;
          }
+
+         else return {User:null};
      },
 
      groups: function (src)
@@ -117,6 +178,17 @@
          if (src == 0) return {"SERVEROP": null};
 
          else return this.nameGroups(this.name(src));
+     },
+
+     hasPerm: function (id, perm)
+     {
+         if (id == 0) return true;
+
+         var g = this.groups(id);
+
+         if ("SERVEROP" in g) return true;
+
+         return (perm in ID);
      },
 
      nameGroups: function (name)
