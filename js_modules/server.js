@@ -47,7 +47,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         sys.stopEvent();
         if (msg.match(/^\//))
         {
-	    this.commands.issueCommand( this.SERVER, msg, this.serverChannel);
+	    this.commands.issueCommand( this.SERVER, msg, this.serverChan);
 
             return;
 

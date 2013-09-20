@@ -186,7 +186,24 @@
 
             }
         }
+    },
+
+    tourjoin:
+    {
+        desc: "Joins running tournament.",
+
+        perm: function (src)
+        {
+            var g = this.user.groups(src);
+            return "TOURNAMENT[JOIN]" in g || "TOURNAMENT[*]" in g;
+        },
+
+        code: function (src)
+        {
+
+        }
     }
+
 
 
 });
