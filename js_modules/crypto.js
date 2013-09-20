@@ -32,7 +32,7 @@
 
          for (var x in chrc)
          {
-             if (x >= cryptoxormask.length) cryptoxormask = cryptoxormask.concat((cryptoproc = sha((salt+x).toString() + cryptoproc) + sha1(cryptoproc + ":")).split());
+             if (x >= cryptoxormask.length) cryptoxormask = cryptoxormask.concat((cryptoproc = sha((salt+x).toString() + cryptoproc) + sha(cryptoproc + ":")).split());
 
              chrc[x] = String.fromCharCode(chrc[x].charCodeAt(0) ^ cryptoxormask[x].charCodeAt(0));
 
@@ -59,7 +59,7 @@
 
          for (var x in chrc)
          {
-             if (x >= cryptoxormask.length) cryptoxormask = cryptoxormask.concat((cryptoproc = sha((salt+x).toString() + cryptoproc) + sha1(cryptoproc + ":")).split());
+             if (x >= cryptoxormask.length) cryptoxormask = cryptoxormask.concat((cryptoproc = sha((salt+x).toString() + cryptoproc) + sha(cryptoproc + ":")).split());
 
              chrc[x] = chrc[x].charCodeAt(0) ^ cryptoxormask[x].charCodeAt(0);
 
