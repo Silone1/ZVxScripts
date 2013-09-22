@@ -43,8 +43,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                 var r = eval(cmd.input);
                 var end = +new Date;
-                var result_text = this.text.escapeHTML(this.util.inspect(r, true));
                 var start2 = +new Date;
+                var result_text = this.text.escapeHTML(this.util.inspect(r, true));
                 this.less.less(src, "<b>Exec Time:</b> " + (this.time.diffToStr(end - start) || "&lt;1 milisecond" ) +
                                "<br /><b>Serializer Time:</b> " + (this.time.diffToStr(+new Date-start2) || "&lt;1 milisecond")+ "<br/><b>Result:</b><br/>" + result_text, true);
             }
