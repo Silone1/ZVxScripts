@@ -54,7 +54,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         ,
         perm: function (src)
         {
-            return  "CHATOP" in this.user.groups(src);
+            return "CHATOP" in this.user.groups(src);
         }
 
         ,
@@ -71,7 +71,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                 if (prof != -1)
                 {
-                    profmutelst.push (prof);
+                    profmutelst.push(prof);
                     profnamelst.push(cmd.args[x]);
                 }
                 else
@@ -90,7 +90,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
             this.com.broadcast(this.user.name(src) + " has unmuted " + profnamelst.join(", ") + ".");
 
-            for (var x in profmutelst)
+            for ( x in profmutelst)
             {
                 this.security.removeMute(profmutelst[x]);
             }

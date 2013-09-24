@@ -145,9 +145,10 @@
          sys.write(cfgname + ".config.json", JSON.stringify(val));
      },
 
-     registerDB: function (module, dbname)
+     registerDB: function (module, dbname, dboptions)
      {
          var io = this;
+
          module.onUnloadModule(
              function()
              {
@@ -155,15 +156,16 @@
              }
          );
 
-         return this.openDB(dbname);
+         return this.openDB(dbname, dboptions);
      },
 
 
      /** Opens a database
       * @returns {IOdatabase}
       */
-     openDB: function (dbname)
+     openDB: function (dbname, dboptions)
      {
+         if (! dboptions) dboptions = new Object;
          var start = +new Date;
          var end;
          if (dbname in this.openDBs)
@@ -171,6 +173,7 @@
              return this.openDBs[dbname].db;
          }
          var db, patches, dbo, dataText;
+
          get_data:
          {
              if (!sys.fileExists("js_databases/" + dbname + ".jsqz"))
@@ -197,13 +200,6 @@
              for (var x in patches)
              {
                  var parsed = JSON.parse(patches[x]);
-                 if (typeof parsed == "string")
-                     // fast c++ version
-                 {
-                     dataText = sys.patchApply(dataText, parsed);
-                 }
-                 else
-                     // slow javascript version
                  {
                      dataText = this.dmp.def.patch_apply(parsed, dataText)[0];
                  }
@@ -259,29 +255,24 @@
      {
 
          var start = +new Date;
+
          var newData = this.zsrx.zsrx(this.openDBs[dbname].db);
 
          if (newData === this.openDBs[dbname].dataText) return;
 
-         var patch;
-         if (sys.patchMake)
-         {
-             patch = sys.patchMake(this.openDBs[dbname].dataText, newData);
-         }
-         else
-         {
-             patch = this.dmp.def.patch_make(this.openDBs[dbname].dataText, this.dmp.def.diff_lineMode_(this.openDBs[dbname].dataText, newData));
-         }
+         var patch = this.dmp.def.patch_make(this.openDBs[dbname].dataText, this.dmp.def.diff_lineMode_(this.openDBs[dbname].dataText, newData));
 
          sys.append("js_databases/" + dbname + ".jsqz.transactions", JSON.stringify(patch) + "\n");
 
          this.openDBs[dbname].dataText = newData;
+
          var end = +new Date;
+
          for (var x in this.IOWatchers) try {
              this.IOWatchers[x](dbname, this.COMMIT, (end-start));
-         } catch (_) {}
-     }
-     ,
+         } catch (e) { this.logs.logMessage(this.logs.ERROR, "I/O Watcher error: " + e.toString(), e.backtracetext); }
+     },
+
      /** Marks a database as changed */
      markDB: function (dbname)
      {
@@ -289,8 +280,8 @@
          for (var x in this.IOWatchers) try {
              this.IOWatchers[x](dbname, this.MARK, 1);
          } catch (_) {}
-     }
-     ,
+     },
+
      /** Closes an open database */
      closeDB: function (dbname)
      {
@@ -310,8 +301,8 @@
              this.IOWatchers[x](dbname, this.CLOSE, (end-start));
          } catch (_) {}
 
-     }
-     ,
+     },
+
      /** Erase database */
      purgeDB: function (dbname)
      {
