@@ -26,7 +26,7 @@
  * */
 /** @scope script.modules.io */
 ({
-     require: ["dmp", "logs", "util", "zsrx"],
+     require: ["dmp", "logs", "util", "zsrx", "zjdata"],
 
 
      // IOPS
@@ -156,7 +156,34 @@
              }
          );
 
-         return this.openDB(dbname, dboptions);
+         return this.openDB(dbname);
+
+         // v2
+
+         if (this.openDBs[dbname]) throw new Error("??");
+
+         if (!dboptions)
+         {
+             dboptions =
+                 {
+                     journal: false,
+                     transactional: false
+                 };
+         }
+
+         var db = null;
+
+         if (sys.fileExists("js_databases/" + dbname + ".jsdb"))
+         {
+             db = this.zjdata.parse(sys.read("js_databases/" + dbname + ".jsdb"));
+         }
+
+         this.openDBs[dbname] =
+             {
+
+             };
+
+         //return this.openDB(dbname, dboptions);
      },
 
 
