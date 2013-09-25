@@ -101,7 +101,7 @@
          ["On a scale: -5 (Unprone to sympathy and moral laws) to 5 (Easily sympatsize with others, value morality) you are:", "fi"],
          ["On a scale: -5 (Not at all) to 5 (I feel trapped in life, I always want to rush to the next thing to do, create, thing to learn or project to start. I get bored easily and learn quickly) you are:", "ne"],
          ["On a scale: -5 (Not at all) to 5 (I have unusual dreams or symbolic image preceptions that give me insight into the true workings or reality or my goals) you are:", "ni"],
-         ["On a scale: -5 (Not at all) to 5 (I feel energized, like power flows through my blood. I see things that are real with the greatest clarity, aware of everything around me.) you are:", "premptive"],
+         ["On a scale: -5 (Not at all) to 5 (I feel energized, like power flows through my blood. I see things that are real with the greatest clarity, aware of everything around me.) you are:", "se"],
          ["On a scale: -5 (Not at all) to 5 (Everything has a value, one or the other. I act to keep things of value preserved and protected. Traditions, structures, family and comfort are all important to me) you are:", "si"],
          ["On a scale: -5 (Not at all) to 5 (Always evaluating things based on what their real value is) you are:", "te"],
          ["On a scale: -5 (Not at all) to 5 (Seek to understand the most complicated truths which escape preception of the common minds) you are:", "ti"],
