@@ -27,6 +27,7 @@
      {
          this.script.registerHandler("beforeLogIn", this );
          this.script.registerHandler("beforeLogOut", this );
+         this.script.registerHandler("afterChangeTeam", this);
      },
 
 
