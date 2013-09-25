@@ -23,7 +23,7 @@
 
              var answers = [];
 
-             function answerQ (src, msg, chan)
+             function answerQ (src, value, chan)
              {
                  if (value == "exit")
                  {
