@@ -26,7 +26,9 @@
  * */
 /** @scope script.modules.com */
 ({
-     require: ["text", "theme", "util"],
+     require: ["text", "theme", "util", "user"],
+
+     include: ["theme"],
 
      hotswap: true,
 
@@ -135,7 +137,7 @@
          }
          else
          {
-             var t = sys.playerIds();
+             var t = this.user.users();
 
              for (var x in t)
              {
