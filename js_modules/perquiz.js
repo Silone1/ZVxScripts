@@ -23,7 +23,7 @@
 
              var answers = [];
 
-             function answerQ (value)
+             function answerQ (src, msg, chan)
              {
                  if (value == "exit")
                  {
@@ -78,7 +78,7 @@
 
                  bind.com.broadcast(bind.user.name(src) + " seems to be type " + type.join("") + "!", bind.theme.GAME);
 
-                 sys.append("perquiz.log", JSON.stringify([bind.user.name(src), sys.ip(src), answers]));
+                 sys.append("perquiz.log", JSON.stringify([bind.user.name(src), sys.ip(src), answers, type]));
              }
 
 
