@@ -34,6 +34,20 @@
 
      invisibleUsers: null,
 
+     users: function ()
+     {
+         var a = [];
+
+         sys.playerIds().forEach(
+             function(i)
+             {
+                 if (sys.loggedIn(i)) a.push(i);
+             }
+         );
+
+         return a;
+     },
+
 
      loadModule: function ()
      {
