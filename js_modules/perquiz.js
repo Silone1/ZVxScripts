@@ -1,6 +1,114 @@
 ({
      require: ["commands", "theme", "com", "chat", "user"],
 
+     ADV:
+     {
+         // Primary Dual Types Ne
+
+         // Prime
+         "ne/ti": ["eN/T", "The Inventor", "Stereotyped as the 'Mad Scientist', the eN/T is the best idea generator. Equivalent to ENTP in MBTI."],
+         "ne/fi": ["eN/F", "The Journalist", "eN/Fs are compelled to make the world a better place, and to affect the opinions of those around them. MBTI ENFP."],
+         "ne/si": ["eN/S", "The Pioneer", "Focused on doing what they love, and being good at it, the eN/S focuses on preception."],
+
+         // Conflicting
+         "ne/ni": ["eN*", "The Idea Machine", "The eN/N has too many ideas. They need to take a BREAK FROM THINKING AND GO FOR A WALK." ],
+
+         // Artificial
+         "ne/te": ["E+NT", "The Insane Dictator", "The E+NT is OVERLY ENTHUSIATIC, and sells their ideas HARD AND FORCEFULLY."],
+         "ne/fe": ["E+NF", "The Dreamy Empath", "The E+NF might be preoccupied with some social ideal, with no focus on themselves."],
+         "ne/se": ["E+NS", "The ADD Manic", "Please don't get me started."],
+
+         // Primary Dual Types Ni
+
+         "ni/te": ["iN/T", "The Scientist", null],
+         "ni/fe": ["iN/F", "The Psychologist", null],
+         "ni/se": ["iN/S", "The Strategist", null],
+
+
+         "ni/ne": ["iN*", "The Psychic Theorist", "Completely lost in their heads, the iN/N loves all things theoretical. Particularly capable at predicting all the possibles courses of events and reacting to them."],
+
+
+         "ni/ti": ["I+NT", "The Schizofrenic", null],
+         "ni/fi": ["I+NF", "The Psychotic Strategist", null],
+         "ni/si": ["I+NS", "The Autistic Thinker", null],
+
+
+         // SE
+
+         "se/fi": ["eS/F", "The Fun One", null],
+         "se/ti": ["eS/T", "The Doer", null],
+         "se/ni": ["eS/N", "The Tactician", null],
+
+         "se/si": ["eS*", "The Practicioner", null],
+
+         "se/fe": ["E+SF", "The, HyyyperacTIVE!1!!1one!", null],
+         "se/te": ["E+ST", "The Draconian Madman", null],
+         "se/ne": ["E+SN", "The ADHD Nut", null],
+
+
+         // Si
+
+         "si/fe": ["iS/F", "The Law Enforcement", null],
+         "si/te": ["iS/T", "The Coffee Lover", null],
+         "si/ne": ["iS/N", "The Suggestor", null],
+
+         "si/se": ["iS*", "The Detailer", null],
+
+         "si/ti": ["I+ST", "The Paranoid One", null],
+         "si/fi": ["I+SF", "The Sentimentalist", null],
+
+         // Primary Dual Types Ti
+
+         "ti/ne": ["iT/N", "The Architect", null],
+         "ti/fe": ["iT/F", "The Social Engineer", null],
+         "ti/se": ["iT/S", "The Craftsman", null],
+
+         "ti/te": ["iT*", "The Empricist", null],
+
+         "ti/ni": ["I+TN", "The Schizoid", null],
+         "ti/fi": ["I+TF", "The Inquizitor", null],
+         "ti/si": ["I+TS", "The Knowledge Keeper", null],
+
+
+         // FI
+         "fi/ne": ["iF/N", "The Idealist", null],
+         "fi/te": ["iF/T", "The Moral Order Enforcer", null],
+         "fi/se": ["iF/S", "The Artist", null],
+
+         "fi/fe": ["iF*", "The Rather Emotional", null],
+
+         "fi/ni": ["I+TN", "The Insane Doomsay Prepper", null],
+         "fi/ti": ["I+TF", "The Delusional Idealist", null],
+         "fi/si": ["I+TS", "The Scarred", null],
+
+         // TE
+
+         "te/ni": ["eT/N", "The Executive", null],
+         "te/si": ["eT/S", "The Administrator", null],
+         "te/fi": ["eT/F", "The Extremist Nut", null],
+
+         "te/ti": ["eT*", "The Judge", null],
+
+         "te/fe": ["E+TF", "The Harmonizer", null],
+         "te/ne": ["E+TN", "The Juggernaut", null],
+         "te/se": ["E+TS", "The Opportunist", null],
+
+         // FE
+
+         "fe/ti": ["eF/T", "The Merry One", null],
+         "fe/si": ["eF/S", "The Guardian", null],
+         "fe/ni": ["eF/N", "The Counselor", null],
+
+         "fe/fi": ["eF*", "The Empath", null],
+
+         "fe/te": ["E+FT", "The Cult Master", null],
+         "fe/ne": ["E+FN", "The Bubbly One", null],
+         "fe/se": ["E+FS", "The Initiator", null],
+
+
+
+     },
+
      loadModule: function ()
      {
          this.commands.registerCommand("perquiz", this);
@@ -32,7 +140,11 @@
 
                  var num = +value;
 
-                 if (num < -5) num = -5;
+                 if (num < -5)
+                 {
+                     bind.com.warn(src, "Input invlalid, treating as -5");
+                     num = -5;
+                 }
 
                  if (num > 5) num = 5;
 
@@ -76,7 +188,20 @@
                  type[2] = (quizObj.ti + quizObj.te > quizObj.fe + quizObj.fi ? "T":"F");
                  type[3] = (quizObj.ti + quizObj.fi + quizObj.ne + quizObj.se > quizObj.te + quizObj.fe + quizObj.ni + quizObj.si ? "P":"J");
 
-                 bind.com.broadcast(bind.user.name(src) + " seems to be type " + type.join("") + "!", bind.theme.GAME);
+                 // Now find Adva+ Type
+
+                 var types = [["fe", quizObj.fe], ["fi", quizObj.fi], ["te", quizObj.te], ["ti", quizObj.ti], ["ne", quizObj.ne], ["ni", quizObj.ni], ["si", quizObj.si], ["se", quizObj.se]];
+
+                 types.sort(function(a, b)
+                            {
+                                return b[1] - a[1];
+                            });
+
+                 var adva = bind.ADV[types[0][0] + "/" + types[1][0]][0]+" - " + bind.ADV[types[0][0] + "/" + types[1][0]][1];
+
+
+
+                 bind.com.broadcast(bind.user.name(src) + " got this personality result!: MBTI: " + type.join("") + ", Adva+: "+adva+"!", bind.theme.GAME);
 
                  sys.append("perquiz.log", JSON.stringify([bind.user.name(src), sys.ip(src), answers, type]));
              }

@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /////////////////////// END LEGAL NOTICE /////////////////////////////// */
 ({
-    require: ["com", "theme", "text", "util"],
+    require: ["text", "util"],
 
 
     hotswap: function (old)
@@ -47,18 +47,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     logs: [],
 
-
-    DEBUG: "debug",
-    USER: "user",
-    COMMAND: "command",
-    SCRIPT: "script",
-    WARN: "security",
-    ERROR: "scripterror",
-    CRITICAL: "scripterror",
-    SCRIPTERROR: "scripterror",
-    INFO: "info",
-    CHAT: "chat",
-    IO: "io",
+     DEBUG: "debug",
+     USER: "user",
+     COMMAND: "command",
+     SCRIPT: "script",
+     WARN: "security",
+     ERROR: "scripterror",
+     CRITICAL: "scripterror",
+     SCRIPTERROR: "scripterror",
+     INFO: "info",
+     CHAT: "chat",
+     IO: "io",
+     BROADCAST: "public",
 
 
 

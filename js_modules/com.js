@@ -26,7 +26,7 @@
  * */
 /** @scope script.modules.com */
 ({
-     require: ["text", "theme", "util", "user"],
+     require: ["text", "theme", "util", "user", "logs"],
 
 
      hotswap: true,
