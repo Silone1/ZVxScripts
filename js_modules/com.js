@@ -28,7 +28,6 @@
 ({
      require: ["text", "theme", "util", "user"],
 
-     include: ["theme"],
 
      hotswap: true,
 
@@ -116,6 +115,8 @@
      {
          var usrs = new Object;
          var channames = [];
+
+         this.logs.logMessage(this.logs.BROADCAST, this.stripHtmlBool(msg, html));
 
          if (chans) for (var x in chans)
          {
