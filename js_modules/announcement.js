@@ -33,7 +33,7 @@
          desc: "Changes the server announcement.",
          perm: function (src)
          {
-             return sys.auth(src) == 3;
+             return "ANNOUNCEMENT" in this.user.groups();
          },
          code: function (src, cmd)
          {
