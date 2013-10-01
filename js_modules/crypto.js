@@ -20,6 +20,23 @@
 
  /////////////////////// END LEGAL NOTICE /////////////////////////////// */
 ({
+     intToBin: function (i)
+     {
+         var bin = new sys.ByteArray(4);
+
+         bin[0] = i & 255;
+         bin[1] = (i >> 8) & 255;
+         bin[2] = (i >> 16) & 255;
+         bin[3] = (i >> 24) & 255;
+
+         return bin;
+     },
+
+     binToInt: function (bin)
+     {
+         return bin[0] | (bin[1] << 8) | (bin[2] << 16) | (bin[3] << 24);
+     },
+
      Locker: function (password, object)
      {
          var sha = sys.sha1;
@@ -39,29 +56,61 @@
          );
      },
 
-     HardCrypt: function (key, string)
+     HardCrypt: function (key, data)
      {
-         var sha = sys.sha1;
+         // Combination of a stream and block cipher
+         var output, hash, salt, crypto, cipher, passes, temp;
 
-         var salt = Math.random() + ":" + +new Date;
-         var cryptoproc = sha(salt.toString() + key);
+         if (typeof data == string) data = sys.ByteArray(data);
 
-         var chrc = string.split("");
-         string = null;
+         hash = sys.sha1Binary(data);
 
-         var cryptoxormask = [];
+         output = sys.ByteArray();
 
-         for (var x in chrc)
+         salt = this.intToBin((Math.random() * +new Date) & ((1 << 32) - 1));
+
+         output.append(salt);
+
+         crypto = sys.qCompress( this.intToBin(data.length).append(data).append(sys.sha1Binary(data)) );
+
+         temp = sys.ByteArray(4);
+
+         temp[0] =   93;
+         temp[1] =   23;
+         temp[2] = 0xff;
+         temp[3] =    0;
+
+         cipher = sys.sha1Binary( sys.ByteArray(salt).append(sys.ByteArray(key)) ).append( sys.sha1Binary( temp.append(salt).append(sys.ByteArray(key)) ));
+
+         output.append(crypto.length);
+
+         while (crypto.legnth % 64 != 0)
          {
-             if (x >= cryptoxormask.length) cryptoxormask = cryptoxormask.concat((cryptoproc = sha((salt+x).toString() + cryptoproc) + sha(cryptoproc + ":")).split());
-
-             chrc[x] = String.fromCharCode(chrc[x].charCodeAt(0) ^ cryptoxormask[x].charCodeAt(0));
-
-             cryptoxormask[x] = 0;
+             temp = sys.ByteArray(1);
+             temp[0] = Math.ceil(Math.random()*255);
+             crypto.append(temp);
          }
 
-         return [salt, chrc.join("")];
 
+         for (i = 0; i < crypto.length; i += 64)
+         {
+
+         }
+
+         function step1()
+         {
+
+         }
+
+         function step2()
+         {
+
+         }
+
+         function step3()
+         {
+
+         }
      },
 
      HardCryptReverse: function (key, crypt)
