@@ -31,10 +31,12 @@
      announcement:
      {
          desc: "Changes the server announcement.",
+
          perm: function (src)
          {
-             return "ANNOUNCEMENT" in this.user.groups();
+             return "ANNOUNCEMENT" in this.user.groups(src);
          },
+         
          code: function (src, cmd)
          {
              sys.changeAnnouncement(cmd.input);
