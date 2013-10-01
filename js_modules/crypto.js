@@ -59,58 +59,87 @@
      HardCrypt: function (key, data)
      {
          // Combination of a stream and block cipher
-         var output, hash, salt, crypto, cipher, passes, temp;
+         var output, hash, salt, crypto, cipher, passes, temp, ciphers, i, subcipher, i2, unencrypted_output, compressed_output, num_blocks;
 
-         if (typeof data == string) data = sys.ByteArray(data);
+         if (typeof data == "string") data = sys.ByteArray(data);
+         if (typeof key == "string") key = sys.ByteArray(key);
 
-         hash = sys.sha1Binary(data);
+         salt = sys.ByteArray(8);
 
-         output = sys.ByteArray();
+         for (i = 0; i < 8; i++)
+         {
+             salt[i] = Math.floor(Math.random() * 256);
+         }
 
-         salt = this.intToBin((Math.random() * +new Date) & ((1 << 32) - 1));
+         cipher = this.sha1x128(sys.ByteArray(0).append(salt).append(key));
 
-         output.append(salt);
+         output = sys.ByteArray(0).append(salt);
 
-         crypto = sys.qCompress( this.intToBin(data.length).append(data).append(sys.sha1Binary(data)) );
+         unencrypted_output = sys.ByteArray(8);
 
-         temp = sys.ByteArray(4);
 
-         temp[0] =   93;
-         temp[1] =   23;
-         temp[2] = 0xff;
-         temp[3] =    0;
+         // Add garbage to make the data more secure
+         for (i = 0; i < 8; i++)
+         {
+             unencrypted_output[i] = Math.floor(Math.random() * 256);
+         }
 
-         cipher = sys.sha1Binary( sys.ByteArray(salt).append(sys.ByteArray(key)) ).append( sys.sha1Binary( temp.append(salt).append(sys.ByteArray(key)) ));
+         unecrypted_output.append(data.length); // Append data's length
 
-         output.append(crypto.length);
+         unencrypted_output.append(data); // Add the data
 
-         while (crypto.legnth % 64 != 0)
+         unencrypted_output.append(sys.sha1Binary(unencrypted_output)); // Add hash to prevent tampering.
+
+         i2 = Math.floor(Math.random()*200); // Arbitrary amount of garbage
+
+         temp = sys.ByteArray(i2);
+
+         // Add garbage to make the data more secure
+         for (i = 0; i < i2; i++)
+         {
+             temp[i] = Math.floor(Math.random() * 256);
+         }
+
+         unencrypted_output.append(temp);
+
+         // final unecrypted_output
+
+         compressed_output = sys.qCompress(unencrypted_output);
+
+         // now add garbage so that compressed output is of block size:
+
+         while(compressed_output.length % 64 != 0)
          {
              temp = sys.ByteArray(1);
-             temp[0] = Math.ceil(Math.random()*255);
-             crypto.append(temp);
+             temp[0] = Math.floor(Math.random() * 256);
+             compressed_output.append(temp);
          }
 
+         num_blocks = compressed_output.length / 64;
 
-         for (i = 0; i < crypto.length; i += 64)
+         ciphers = [];
+
+         for (i = 0; i < num_blocks; i++)
          {
-
+             ciphers[i] = this.applyCipher(cipher, (i == 0? cipher: ciphers[i - 1]));
          }
 
-         function step1()
+     },
+
+
+     sha1x128: function (data)
+     {
+         var output, i;
+         output = sys.ByteArray(0);
+
+         for (i = 0; i < 7; i++)
          {
-
+             output.append( sys.sha1Binary( data.append(this.intToBin(i)) ));
          }
 
-         function step2()
-         {
+         output.truncate(128);
 
-         }
-
-         function step3()
-         {
-
-         }
+         return output;
      },
 
      HardCryptReverse: function (key, crypt)
