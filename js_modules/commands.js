@@ -203,7 +203,7 @@
          {
              this.com.message([src], "Command does not exist.", this.theme.WARN);
 
-             if (!script.config.fast)
+             if (1) // bugfix
              {
                  var matches = [];
 
