@@ -22,16 +22,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ({
      require: ["io", "user"],
 
+     metatype: "runtime",
+
      DEFAULTS: ["logs",  "iologger", "interceptor", "gateway", "chat", "reset", "modprobe", "server","cmdlist_command", "kick_command", "mute_command", "info_command", "groupmod", "configure", "ban_command", "setauth_command", "sourcedist", "eval_command", "help_command", "modprobe", "io_commands", "userconf"],
 
      loadModule: function ()
      {
          var x;
 
+         
+
          this.io.registerConfig(this, { modules: ["me_command", "info_command", "serverimp", "authlist_command", "readlogs_command", "automute", "logmessager" ] });
 
          for (x in this.DEFAULTS)
          {
+
              this.script.loadModule(this.DEFAULTS[x]);
          }
 

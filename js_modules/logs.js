@@ -59,6 +59,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
      CHAT: "chat",
      IO: "io",
      BROADCAST: "public",
+     MODULE: "module",
 
 
 
@@ -96,7 +97,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             ,
             function(msg)
             {
-                this.logMessage(this.SCRIPT, msg);
+                this.logMessage(this.SCRIPT, ""+ msg);
+            }
+        );
+
+        this.savedInfoFunction = this.script.scriptinfo;
+        this.script.scriptinfo = this.util.bind(
+            this
+            ,
+            function(msg, bt)
+            {
+                this.logMessage(this.MODULE, ""+ msg, bt);
             }
         );
 
@@ -119,5 +130,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         this.script.log = this.savedLogFunction;
 
         this.script.error = this.savedErrorFunction;
+        this.script.scriptinfo = this.savedInfoFunction;
     }
 });

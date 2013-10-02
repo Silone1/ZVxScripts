@@ -20,7 +20,7 @@
 
  /////////////////////// END LEGAL NOTICE /////////////////////////////// */
 ({
-     require: ["commands", "logs", "text"],
+     require: ["commands", "logs", "text", "theme", "com"],
 
      loadModule: function ()
      {
@@ -51,22 +51,36 @@
          ,
          code: function (src, cmd, chan)
          {
-             if (!this.script.sources)
-             {
-                 this.sendSource(src, cmd.flags.client);
-                 return;
-             }
 
              var modules = [];
 
-             if (!cmd.input) for (var x in this.script.moduleTable)
+             if (cmd.flags.loaded) cmd.args = Object.keys(this.script.modules);
+             if (cmd.flags.all) cmd.args = Object.keys(this.script.modInfo);
+
+             var text = ["Source Code:"];
+
+             if (cmd.args.length == 0)
              {
+                 for (var x in this.script.modInfo)
+                 {
+                     if (!this.script.modInfo[x]) continue;
+                     text.push("<b>Module " + x + " exists as a " +this.script.modInfo[x].type+ " module at "+this.script.modInfo[x].path+" in state "+this.script.modInfo[x].state+".</b>");
+                 }
 
-                 var i = this.script.moduleTable[x];
-
-                 if (i.state === "loaded") modules.push(x);
-
+                 this.com.message(src,text.join("<br/>"), this.theme.INFO, true);
+                 this.com.message(src, "Try /getsource <modname>, or /getsource --loaded or /getsource --all", this.theme.INFO);
+                 return;
              }
+
+
+
+             for (var x in cmd.args)
+             {
+                 text.push("<b>Module " + cmd.args[x] + " exists as a " +this.script.modInfo[cmd.args[x]].type+ " module at "+this.script.modInfo[cmd.args[x]].path+" in state "+this.script.modInfo[cmd.args[x]].state+".</b>");
+                 text.push("<code>" + this.text.escapeHTML(this.script.modInfo[cmd.args[x]].code) + "</code>");
+             }
+
+             this.com.message(src,text.join("<br/>"), this.theme.INFO, true);
          }
      }
      ,

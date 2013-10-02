@@ -51,41 +51,26 @@
 (function () {
      /** @scope script */
      return {
-         /** Holds some very basic configuration */
-         config: null
-         ,
+
+
+         /* Enums */
+         MODULE_UNREADY: ["MODULE_UNREADY"],
+         MODULE_PENDING: ["MODULE_PENDING"],
+         MODULE_ERROR:   ["MODULE_ERROR"],
+         MODULE_READY:   ["MODULE_READY"],
+         MODULE_UNLOADED:["MODULE_UNLOADED"],
+         MODULE_LOADED:  ["MODULE_LOADED"],
+
          /** The modules object stores all the modules
           * @namespace
-          * @memberOf script
           */
-         modules: null
-         ,
-         modInfo: null
-         ,
-         debug: function (m)
-         {
-             print(m);
-         }
-         ,
-         /** Logs a message to the console or the logging module*/
-         log: function log (msg)
-         {
-             print ("SCRIPT: " + msg);
-         }
-         ,
-         error: function _err_ (e)
-         {
-             print("SCRIPTERROR: " + e);
-         }
-         ,
-         /** Does nothing
-          * @deprecated Doesn't do anything
-          */
-         broadcast : function _DEPRECATED_ (msg)
-         {
+         modules: null,
 
-         }
-         ,
+         /** Various information about modules */
+         modInfo: null,
+
+
+
          /** Registers a script event handler
           * @param {string} handlername The event name of the script handler.
           * @param {Module} object The module to register this handler from
@@ -136,8 +121,10 @@
 
              return;
 
-         }
-         ,
+         },
+
+
+
          hotswapModule: function (modname)
          {
              var oldmod = this.modules[modname];
@@ -198,8 +185,10 @@
              default:
                  return false;
              }
-         }
-         ,
+         },
+
+
+
          /** Reloads a module
           * @param {string} modname
           * @throws Error When the module can't be loaded.
@@ -216,109 +205,198 @@
              }
 
              this.loadModule(modname); // load even if unload failed
-         }
-         ,
+         },
+
+
+         statModule: function (modname, nfo)
+         {
+             this.scriptinfo("Statting module " + modname +".", sys.backtrace());
+             this.modInfo[modname] = nfo;
+
+             nfo.state = this.MODULE_UNREADY;
+         },
+
+
+         /** Updates source code for the module
+          * @param modname What module to update
+          */
+         sourceModule: function (modname)
+         {
+             this.scriptinfo("Request to source module " + modname +".", sys.backtrace());
+             var nfo = this.modInfo[modname];
+
+
+             if (!nfo) throw new Error("Module not statted.");
+
+
+             if (nfo.type == "local")
+
+             {
+                 var code = sys.read(nfo.path);
+
+                 if (!code)
+                 {
+                     this.scriptinfo("Error aquiring source for module " + modname +".", sys.backtrace());
+                     return; // failure
+                 }
+
+                 nfo.code = code;
+                 nfo.state = this.MODULE_PENDING;
+
+                 return;
+             }
+
+             this.scriptinfo("Error aquiring source for module " + modname +".", sys.backtrace());
+         },
+
+         deactivateModule: function (modname)
+         {
+             var nfo = this.modInfo[modname];
+
+             if (!nfo) return;
+
+             if (nfo.state == this.MODULE_LOADED)
+
+             {
+                 if (nfo.module.unloadModule) nfo.module.unloadModule();
+             }
+         },
+         /** Changes a pending module into a ready module
+          *
+          */
+         evaluateModule: function (modname)
+         {
+             this.scriptinfo("Request to evaluate " + modname +".", sys.backtrace());
+             var nfo = this.modInfo[modname];
+
+             if (!nfo) throw new Error("Module not statted.");
+
+             if (!nfo.code) throw new Error("No source for this module");
+
+             try
+             {
+                 nfo.module = sys.eval(nfo.code, nfo.path);
+
+                 nfo.state = this.MODULE_READY;
+             }
+             catch (e)
+             {
+                 this.scriptinfo("Error evaluating source for module " + modname +":" + e.toString(), e.backtracetext);
+                 return;
+             }
+
+             this.scriptinfo("Evaluated module " + modname +".", sys.backtrace());
+
+         },
+
+         initializeModule: function (modname)
+         {
+             var nfo = this.modInfo[modname];
+
+             if (!nfo) throw new Error("Module not statted.");
+
+             if (nfo.module.init) nfo.module.init();
+
+
+             if (!nfo.module.require) nfo.module.require = [];
+
+             nfo.state = this.MODULE_UNLOADED;
+         },
+
+         activateModule: function (modname)
+         {
+             this.scriptinfo("Request for activating module " + modname + ".", sys.backtrace());
+             var nfo, x;
+
+             nfo = this.modInfo[modname];
+
+             if (!nfo) throw new Error("Module not statted.");
+
+             nfo.module.submodules = [];
+
+             for (x in this.hooks)
+             {
+                 nfo.module[x] = this.hooks[x];
+             }
+
+
+             for (x in nfo.module.require)
+             {
+                 var reqmodname = nfo.module.require[x];
+
+                 this.loadModule(reqmodname);
+
+                 if ( this.modInfo[reqmodname].state !== this.MODULE_LOADED )
+                 {
+                     this.scriptinfo("Error in activating module " + modname + ", "+reqmodname+" responded to loadModule with "+this.modInfo[reqmodname].state+".", sys.backtrace());
+                     return; // error
+                 }
+
+                 this.modules[reqmodname].submodules.push(modname);
+
+                 if (this.modules[reqmodname].submodules.indexOf(modname) === -1) throw new Error(":(");
+
+                 Object.defineProperty(nfo.module, reqmodname, {configurable: true, value: this.modules[reqmodname]});
+             }
+
+             Object.defineProperty(nfo.module, "script", {configurable : true, value: this});
+
+             this.modules[modname] = nfo.module;
+
+             if ("loadModule" in nfo.module)
+             {
+                 try
+                 {
+                     this.modules[modname].loadModule();
+                 }
+                 catch(e)
+                 {
+                     this.scriptinfo("Error in activating module " + modname + ", error in loadModule method: " + e.toString(), e.backtracetext);
+                 }
+             }
+
+             this.scriptinfo("Activated module " + modname + ".", sys.backtrace());
+             this.modInfo[modname].state = this.MODULE_LOADED;
+         },
+
          /** Loads a module
           * @param {string} modname Name of the module to be loaded.
           */
          loadModule: function loadModule (modname)
          {
-             if (this.modules[modname] && !(this.modules[modname] instanceof Error)) return;
+             this.scriptinfo("Requested loading module " + modname +".", sys.backtrace());
+             var code, nfo;
+
+             nfo = this.modInfo[modname];
+
+             if (!nfo) throw new Error("Module not statted.");
 
 
-             try {
-                 var mod = sys.exec("js_modules/" + modname +".js");
+             if (nfo.state == this.MODULE_LOADED) return;
 
-                 mod.modname = modname;
 
-                 this.modules[modname] = mod;
-
-                 if (mod.include) for (var x in mod.include)
-                 {
-                     var temp = sys.exec("js_modules/" + mod.include[x] + ".js");
-
-                     for (var x2 in temp)
-                     {
-                         if (x2 in mod && mod[x2] != null)
-                         {
-                             if (typeof mod[x2] != typeof temp[x2] || (typeof mod[x2] != "object" && typeof mod[x2] != "function"))
-                             {
-                                 throw new Error("Unable to merge");
-                             }
-                             if (typeof mod[x2] === "function")
-                             {
-                                 // use a closure to merge the two functions as one
-                                 mod[x2] = (function (m, t) {
-                                                return function ()
-                                                {
-                                                    m.apply(mod, arguments);
-                                                    t.apply(mod, arguments);
-                                                };
-                                            })(mod[x2], temp[x2]);
-                             }
-                             else if (mod[x2] instanceof Array)
-                             {
-                                 mod[x2] = mod[x2].concat( temp[x2] );
-                             }
-                             else
-                             {
-                                 for (var x3 in temp[x2])
-                                 {
-                                     if (x3 in mod[x2]) throw new Error("Unable to merge");
-
-                                     mod[x2][x3] = temp[x2][x3];
-                                 }
-                             }
-                         }
-                         else
-                         {
-                             mod[x2] = temp[x2];
-                         }
-                     }
-                 }
-
-                 if (!mod.require) mod.require = [];
-                 mod.submodules = [];
-
-                 for (var x in this.hooks)
-                 {
-                     mod[x] = this.hooks[x];
-                 }
-
-                 for (var x in mod.require)
-                 {
-                     var reqmodname = mod.require[x];
-
-                     this.loadModule(reqmodname);
-
-                     if ( !(reqmodname in this.modules) || this.modules[reqmodname] instanceof Error)
-                     {
-                         this.modules[modname] = new Error("Unmet dependencies");
-                         return;
-                     }
-
-                     this.modules[reqmodname].submodules.push(modname);
-
-                     if (this.modules[reqmodname].submodules.indexOf(modname) === -1) throw new Error(":(");
-
-                     Object.defineProperty(this.modules[modname], reqmodname, {configurable: true, value: this.modules[reqmodname]});
-                 }
-
-                 Object.defineProperty(this.modules[modname], "script", {configurable : true, value: this});
-
-                 if ("loadModule" in mod)
-                 {
-                     mod.loadModule();
-                 }
-                 this.log("Loaded module: " + modname);
-             }
-             catch (e)
+             if (nfo.state == this.MODULE_UNREADY)
              {
-
-                 delete this.modules[modname];
-                 throw e;
+                 this.sourceModule(modname);
              }
 
+
+             if (nfo.state == this.MODULE_ERROR || nfo.state == this.MODULE_PENDING)
+             {
+                 this.evaluateModule(modname);
+             }
+
+             if (nfo.state == this.MODULE_READY)
+             {
+                 this.initializeModule(modname);
+             }
+
+             if (nfo.state == this.MODULE_UNLOADED)
+             {
+                 this.activateModule(modname);
+             }
+
+             return;
          }
          ,
          /** Unloads a module
@@ -387,6 +465,7 @@
              finally
              {
                  delete this.modules[modname];
+                 this.modInfo[modname].state = this.MODULE_UNLOADED;
                  return unloads;
              }
 
@@ -400,20 +479,23 @@
           */
          loadScript: function loadScript ()
          {
+             var test1, test2, x, poisoned;
 
-             var test1 = ["print","gc","version","global","sys","SESSION","Qt","script"];
+             test1 = ["print","gc","version","global","sys","SESSION","Qt","script"];
 
-             var test2 = Object.keys(global);
+             test2 = Object.keys(global);
 
-             var poisoned = false;
+             poisoned = false;
 
              sys.enableStrict();
+             sys.unsetAllTimers();
 
              this.modules = new Object;
+             this.modInfo = new Object;
 
              print(sys.read("ZSCRIPTS_COPYING"));
 
-             for (var x in test2) if (test1.indexOf(test2[x]) === -1)
+             for (x in test2) if (test1.indexOf(test2[x]) === -1)
              {
                  print("WARNING: Global object poisoned. Removing property: " + test2[x]);
                  delete global[test2[x]];
@@ -424,40 +506,36 @@
 
              this.registerHandler("beforeLogIn", this, "AGPL");
 
-             sys.unsetAllTimers();
 
-             try {
-                 var f;
-                 if (sys.fileExists("main.json")) f = sys.read("main.json");
 
-                 else f = "{}";
+             try
+             {
+                 var files = sys.filesForDirectory("js_modules");
 
-                 var o = JSON.parse(f);
-
-                 if (typeof o == typeof new Object);
-
-                     else throw new Error("Corrupt File");
-
-                 this.config = o;
-
-                 if (!this.config.modules) this.config.modules = ["default"];
-
-                 for ( x in this.config.modules)
+                 for ( x in files)
                  {
-                     this.loadModule(this.config.modules[x]);
+
+                     if (!files[x].match(/^#.*#$|~$|\.bak$/))
+                     {
+                         //print("statting " + files[x]);
+                         this.statModule(files[x].replace(/\.js$/, ""), { type: "local", path: "js_modules/" + files[x]});
+                     }
                  }
 
-                 sys.writeToFile("main.json", JSON.stringify(this.config));
+                 this.loadModule("default");
+
+                 this.log(this.modInfo["default"].state);
              }
              catch(e)
              {
                  var stack = (e.backtracetext);
 
-                 print("Failed to start, error in " + e.fileName + " at line #" + e.lineNumber + ": " + e.toString() +"\n" + stack);
+                 this.error("Failed to start, error in " + e.fileName + " at line #" + e.lineNumber + ": " + e.toString());
                  sys.stopEvent();
              }
-         }
-         ,
+         },
+
+
          /** Handles unloading the script
           * @event
           */
@@ -465,16 +543,13 @@
          {
              var mods = Object.keys (this.modules);
 
-             //this.config.modules = Object.keys(this.modules);
-
-             //sys.write("main.json", JSON.stringify(this.config));
-
              for (var x in mods)
              {
                  this.unloadModule(mods[x]);
              }
-         }
-         ,
+         },
+
+
          /** Sends a license message to src
           * @param {number} src User ID to send message to.
           */
@@ -485,8 +560,8 @@
                  "<timestamp /><b>ZVxScripts Copyright © 2013 Ryan P. Nicholl \"ArchZombie0x\" &lt;archzombielord@gmail.com&gt;</b><br/>" +
                      "You may download these scripts for your own server at <a href=\'https://github.com/ArchZombie/zvxscripts\'>https://github.com/ArchZombie/zvxscripts</a> <a href='https://github.com/ArchZombie/zvxscripts/archive/master.zip'>[link to .zip]</a>, or if this is incorrect, using <em>/getsource</em>. Scripts are available under the <em>GNU Affero General Public License</em> as published by the Free Software Foundation, version 3, or, at your option, any later version."
              );
-         }
-         ,
+         },
+
          /** Hooks to be added to all modules
           *
           */
@@ -505,8 +580,10 @@
                  this.unloadModuleHooks.push(f);
              }
 
-         }
-         ,
+         },
+
+
+
          debugInspector: function ()
          {
              function assert (cond)
@@ -532,6 +609,42 @@
                  }
              }
 
+         },
+
+
+         debug: function (m)
+         {
+             print(m);
+         },
+
+
+
+         /** Logs a message to the console or the logging module*/
+         log: function log (msg)
+         {
+             print ("SCRIPT: " + msg);
+         },
+
+         scriptinfo: function log (msg, bt)
+         {
+             print ("SCRIPT: " + msg);
+         },
+
+
+         error: function _err_ (e)
+         {
+             print("SCRIPTERROR: " + e);
+         },
+
+
+         /** Does nothing
+          * @deprecated Doesn't do anything
+          */
+         broadcast : function _DEPRECATED_ (msg)
+         {
+
          }
+
+
 
      };})();

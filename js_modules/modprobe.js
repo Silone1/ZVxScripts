@@ -63,24 +63,18 @@
          {
              var flags = Object.keys(cmd.flags);
 
-             if (flags.length > 1)
-             {
-                 this.com.message(src, "Must provide one flag to modprobe only.");
-                 return;
-             }
-
              if (flags.length === 0)
              {
                  if (cmd.args.length === 0)
                  {
-                     this.com.message([src], "Loaded modules:", this.theme.INFO);
-                     var modlist = [];
-                     for (var x in this.script.modules)
+                     this.com.message([src], "Statted modules:", this.theme.INFO);
+                     var modlist = "Loaded Modules: <br/><table><tr><td><b>Module Name:</b></td><td><b>Module State:</b></td></tr><br/>";
+                     for (var x in this.script.modInfo)
                      {
-                         modlist.push(x);
+                         modlist += "<tr><td>" + x + "</td><td>" + this.script.modInfo[x].state + "</td></tr>";
                      }
 
-                     this.less.less(src, modlist.join("\n"), false);
+                     this.com.message(src, modlist + "</table>", this.theme.INFO, true);
                      return;
                  }
 
