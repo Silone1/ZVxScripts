@@ -1,0 +1,859 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 2cm
+\topmargin 2cm
+\rightmargin 2cm
+\bottommargin 2cm
+\headheight 2cm
+\headsep 2cm
+\footskip 1cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+ZVxScripts Course
+\end_layout
+
+\begin_layout Standard
+From theory to practice.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Part
+JavaScript Basics
+\end_layout
+
+\begin_layout Section
+Basic Introduction to Values
+\end_layout
+
+\begin_layout Paragraph
+Values are important in JavaScript, some common values are strings, numbers,
+ objects, and functions.
+ If you get confused, try to keep reading, you wont understand all of it
+ right away, and there are recursive problems in understanding the language.
+\end_layout
+
+\begin_layout Subsection
+Strings Basics
+\end_layout
+
+\begin_layout Paragraph
+Strings hold text, for example, the word 
+\begin_inset Quotes eld
+\end_inset
+
+hello
+\begin_inset Quotes erd
+\end_inset
+
+ can be contained in a string.
+ This is what a string 
+\begin_inset Quotes eld
+\end_inset
+
+literal
+\begin_inset Quotes erd
+\end_inset
+
+ looks like:
+\end_layout
+
+\begin_layout LyX-Code
+"This is a string"
+\end_layout
+
+\begin_layout Paragraph
+The quotes are not part of the content of the string, they only show where
+ the string begins and ends.
+ To include quotes in the content of a string, you must 
+\begin_inset Quotes eld
+\end_inset
+
+escape
+\begin_inset Quotes erd
+\end_inset
+
+ the quotes, so they are not mistaken as the start or end of a string\SpecialChar \@.
+ Escaping
+ quotes is done using the backslash:
+\end_layout
+
+\begin_layout LyX-Code
+"This string has 
+\backslash
+"escaped
+\backslash
+" quotes in it!"
+\end_layout
+
+\begin_layout Paragraph
+Likewise, if you want to include a backslash in the content of the string,
+ you must escape it as well.
+ (Two blackslashes does this.)
+\end_layout
+
+\begin_layout Subsection
+Number Basics
+\end_layout
+
+\begin_layout Paragraph
+Numbers are fairly simple, you write the number how you would write it normally:
+\end_layout
+
+\begin_layout LyX-Code
+4
+\end_layout
+
+\begin_layout LyX-Code
+5.6
+\end_layout
+
+\begin_layout LyX-Code
+-7.3
+\end_layout
+
+\begin_layout Paragraph
+All of these are examples of numbers.
+\end_layout
+
+\begin_layout Subsection
+Objects
+\end_layout
+
+\begin_layout Paragraph
+Objects are a collection of 
+\begin_inset Quotes eld
+\end_inset
+
+properties
+\begin_inset Quotes erd
+\end_inset
+
+ or sometimes 
+\begin_inset Quotes eld
+\end_inset
+
+methods
+\begin_inset Quotes erd
+\end_inset
+
+.
+ Whichever the case, all object's methods or properties can be accessed
+ in the same ways:
+\end_layout
+
+\begin_layout LyX-Code
+myobject.mymethod
+\end_layout
+
+\begin_layout LyX-Code
+sys.sendAll
+\end_layout
+
+\begin_layout LyX-Code
+strangeObject[3]
+\end_layout
+
+\begin_layout LyX-Code
+sys["sendAll"]
+\end_layout
+
+\begin_layout Paragraph
+All of the above are examples of reading properties or methods from an object.
+ The first gets the 
+\begin_inset Quotes eld
+\end_inset
+
+mymethod
+\begin_inset Quotes erd
+\end_inset
+
+ property from the 
+\begin_inset Quotes eld
+\end_inset
+
+myobject
+\begin_inset Quotes erd
+\end_inset
+
+ object.
+ The next takes the sendAll property from the sys object, the third takes
+ the 
+\begin_inset Quotes eld
+\end_inset
+
+3
+\begin_inset Quotes erd
+\end_inset
+
+ property from the strange object, and the last is equivalent to the second.
+\end_layout
+
+\begin_layout Paragraph
+It should be noted that the names of all properties or methods are strings.
+ Numbers are converted to their string representations.
+ thus the following are equivalent:
+\end_layout
+
+\begin_layout LyX-Code
+someObject[3]
+\end_layout
+
+\begin_layout LyX-Code
+someObject["3"]
+\end_layout
+
+\begin_layout Paragraph
+An object's properties may be objects themselves, as such, the following
+ can be valid:
+\end_layout
+
+\begin_layout LyX-Code
+someObject.otherObject.something
+\end_layout
+
+\begin_layout Subsubsection
+Arrays
+\end_layout
+
+\begin_layout Paragraph
+Arrays are special 
+\begin_inset Quotes eld
+\end_inset
+
+magical
+\begin_inset Quotes erd
+\end_inset
+
+ types of objects.
+ Everything you do with an object, can be done with an array, although you
+ don't want to do this! Arrays are designed to be used only with number
+ properties:
+\end_layout
+
+\begin_layout LyX-Code
+var myarray = [1, 3, 4, 5];
+\end_layout
+
+\begin_layout Paragraph
+Is an example of an array, in this array:
+\end_layout
+
+\begin_layout LyX-Code
+myarray[0]
+\end_layout
+
+\begin_layout Subparagraph
+is 
+\end_layout
+
+\begin_layout LyX-Code
+1
+\end_layout
+
+\begin_layout Subparagraph
+and
+\end_layout
+
+\begin_layout LyX-Code
+myarray[1]
+\end_layout
+
+\begin_layout Subparagraph
+is
+\end_layout
+
+\begin_layout LyX-Code
+3
+\end_layout
+
+\begin_layout Subparagraph
+etc.
+\end_layout
+
+\begin_layout Paragraph
+Additionally, arrays have a length property:
+\end_layout
+
+\begin_layout LyX-Code
+myarray.length
+\end_layout
+
+\begin_layout Subparagraph
+is 
+\end_layout
+
+\begin_layout LyX-Code
+4
+\end_layout
+
+\begin_layout Subsubsection
+Functions
+\end_layout
+
+\begin_layout Paragraph
+A subclass of Object, but again a 
+\begin_inset Quotes eld
+\end_inset
+
+magical
+\begin_inset Quotes erd
+\end_inset
+
+ subclass.
+ Although they are specified as a completely different datatype, they have
+ all the attributes of Objects, 
+\emph on
+plus more
+\emph default
+.
+\end_layout
+
+\begin_layout Paragraph
+A function is declared like this:
+\end_layout
+
+\begin_layout LyX-Code
+function myFunction( argument1, argument2 )
+\end_layout
+
+\begin_layout LyX-Code
+{
+\end_layout
+
+\begin_layout LyX-Code
+   something(argument1, 4, argument2);
+\end_layout
+
+\begin_layout LyX-Code
+}
+\end_layout
+
+\begin_layout Paragraph
+This makes a function, called 
+\begin_inset Quotes eld
+\end_inset
+
+myfunction
+\begin_inset Quotes erd
+\end_inset
+
+ and declares it, now you can use:
+\end_layout
+
+\begin_layout LyX-Code
+myFunction(3, 5);
+\end_layout
+
+\begin_layout Paragraph
+Which is roughly equivalent to:
+\end_layout
+
+\begin_layout LyX-Code
+something(3, 4, 5);
+\end_layout
+
+\begin_layout Paragraph
+This shows the use of a function.
+ Functions are 
+\begin_inset Quotes eld
+\end_inset
+
+called
+\begin_inset Quotes erd
+\end_inset
+
+, when you call a function, control transfers to the body of the function
+ (the bit in brackets after 
+\begin_inset Quotes eld
+\end_inset
+
+function myFunction (argument1, argument2)
+\begin_inset Quotes erd
+\end_inset
+
+), then returns to the place it came from.
+ Additionally, there is the concept of a 
+\begin_inset Quotes eld
+\end_inset
+
+return value
+\begin_inset Quotes erd
+\end_inset
+
+, the value the function execution should be simplified to:
+\end_layout
+
+\begin_layout LyX-Code
+function add(a, b)
+\end_layout
+
+\begin_layout LyX-Code
+{
+\end_layout
+
+\begin_layout LyX-Code
+    return a + b;
+\end_layout
+
+\begin_layout LyX-Code
+}
+\end_layout
+
+\begin_layout LyX-Code
+print( add(2, 4) );
+\end_layout
+
+\begin_layout Paragraph
+Which prints out:
+\end_layout
+
+\begin_layout LyX-Code
+6
+\end_layout
+
+\begin_layout Paragraph
+The print function is an example of a 
+\begin_inset Quotes eld
+\end_inset
+
+native function
+\begin_inset Quotes erd
+\end_inset
+
+ which is written in another language.
+ It's provided by the server and explanation of how it works it beyond the
+ scope of this document.
+\end_layout
+
+\begin_layout Paragraph
+A function is defined much differently than an object.
+ There are several ways to create a function.
+ There are function 
+\begin_inset Quotes eld
+\end_inset
+
+declarations
+\begin_inset Quotes erd
+\end_inset
+
+ and function 
+\begin_inset Quotes eld
+\end_inset
+
+literals
+\begin_inset Quotes erd
+\end_inset
+
+, and a function declaration is also a literal.
+ 
+\end_layout
+
+\begin_layout Subparagraph
+Function literals operate normally, but function declarations are 
+\begin_inset Quotes eld
+\end_inset
+
+hoisted
+\begin_inset Quotes erd
+\end_inset
+
+ statements, this means that even if you have a function at the end of your
+ text, it is 
+\begin_inset Quotes eld
+\end_inset
+
+hoisted
+\begin_inset Quotes erd
+\end_inset
+
+ to the top of your code, declaring itself 
+\emph on
+before
+\emph default
+ you reach it.
+ However, function declarations are also literals, and the literal component
+ is 
+\emph on
+not
+\emph default
+ hoisted, and remains wherever you put it.
+ Because using functions as literals and declarations at the same time is
+ confusing, it's best to not use both attributes at the same time.
+\end_layout
+
+\begin_layout Paragraph
+Here's an example of an 
+\begin_inset Quotes eld
+\end_inset
+
+anonymous
+\begin_inset Quotes erd
+\end_inset
+
+ (named functions are declarations) function literal:
+\end_layout
+
+\begin_layout LyX-Code
+function () { print("hello"); }
+\end_layout
+
+\begin_layout Paragraph
+Anonymous functions are not declared, and are values, so unless you do something
+ with them, they have no effect.
+ Here's an example of doing something:
+\end_layout
+
+\begin_layout LyX-Code
+var myfunction = function(){ print("hello"); }
+\end_layout
+
+\begin_layout Paragraph
+This effect is similar to a declared function named 
+\begin_inset Quotes eld
+\end_inset
+
+myfunction
+\begin_inset Quotes erd
+\end_inset
+
+ but it is not hoisted (except for the var statement, but more on that later!)
+\end_layout
+
+\begin_layout Section
+Statements
+\end_layout
+
+\begin_layout Paragraph
+Statements execute top to bottom, left to right\SpecialChar \@.
+ Statements are usually terminate
+d with a semi-colon\SpecialChar \@.
+
+\end_layout
+
+\begin_layout LyX-Code
+print("first"); print("second");
+\end_layout
+
+\begin_layout LyX-Code
+print("third"); print("fourth");
+\end_layout
+
+\begin_layout Paragraph
+There are many types of statements, expressions, if, do while, and others
+ are common\SpecialChar \@.
+ Lets take a look at the first and most common type of statement,
+ the expression\SpecialChar \@.
+
+\end_layout
+
+\begin_layout Subsection
+Expressions
+\end_layout
+
+\begin_layout Paragraph
+An example of an expression is the code you saw above:
+\end_layout
+
+\begin_layout LyX-Code
+print("first")
+\end_layout
+
+\begin_layout Paragraph
+is an expression! This part:
+\end_layout
+
+\begin_layout LyX-Code
+"first"
+\end_layout
+
+\begin_layout Paragraph
+is also an expression!
+\end_layout
+
+\begin_layout Paragraph
+What are expressions for? They evaluate values or preform operations on
+ them with operators!
+\end_layout
+
+\begin_layout Subsubsection
+Variables
+\end_layout
+
+\begin_layout Paragraph
+Something you've seen my examples many times, without explanation yet, are
+ 
+\begin_inset Quotes eld
+\end_inset
+
+variables
+\begin_inset Quotes erd
+\end_inset
+
+.
+ For example:
+\end_layout
+
+\begin_layout LyX-Code
+myobject
+\end_layout
+
+\begin_layout LyX-Code
+sys
+\end_layout
+
+\begin_layout LyX-Code
+print
+\end_layout
+
+\begin_layout Subparagraph
+are all examples of variables!
+\end_layout
+
+\begin_layout Paragraph
+Variables are created in a few ways, you can simply assign to a non-existent
+ variable, and will create a 
+\begin_inset Quotes eld
+\end_inset
+
+global
+\begin_inset Quotes erd
+\end_inset
+
+ variable; but you should 
+\emph on
+never
+\emph default
+ do this, unless you have a damn good reason to.
+ Sadly many nooby scripters will do this.
+ Also, using var in the global scope will also do this.
+\end_layout
+
+\begin_layout Paragraph
+The proper way to create a variable is the 
+\begin_inset Quotes eld
+\end_inset
+
+var
+\begin_inset Quotes erd
+\end_inset
+
+ statement:
+\end_layout
+
+\begin_layout LyX-Code
+var myvariable;
+\end_layout
+
+\begin_layout Paragraph
+Creates a variable.
+ This is a 
+\begin_inset Quotes eld
+\end_inset
+
+hoisted
+\begin_inset Quotes erd
+\end_inset
+
+ declaration, so if you do:
+\end_layout
+
+\begin_layout LyX-Code
+myvariable = 5;
+\end_layout
+
+\begin_layout LyX-Code
+var myvariable;
+\end_layout
+
+\begin_layout Subparagraph
+The var statement executes first.
+\end_layout
+
+\begin_layout Part
+Basics of Modules
+\end_layout
+
+\begin_layout Section
+Example Module
+\end_layout
+
+\begin_layout LyX-Code
+File: serverslap.js
+\end_layout
+
+\begin_layout Standard
+\begin_inset space ~
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+/* COPYRIGHT
+\end_layout
+
+\begin_layout Plain Layout
+
+...
+ bla bla ...
+\end_layout
+
+\begin_layout Plain Layout
+
+*/
+\end_layout
+
+\begin_layout Plain Layout
+
+({
+\end_layout
+
+\begin_layout Plain Layout
+
+    require: ["com", "commands", "server", "user"], // modules
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+    loadModule: function ()
+\end_layout
+
+\begin_layout Plain Layout
+
+    {
+\end_layout
+
+\begin_layout Plain Layout
+
+        this.registerHandler("afterLogIn", this);
+\end_layout
+
+\begin_layout Plain Layout
+
+    },
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+    afterLogIn: function (src)
+\end_layout
+
+\begin_layout Plain Layout
+
+    {
+\end_layout
+
+\begin_layout Plain Layout
+
+        this.commands.issueCommand( this.server.SERVER,
+\end_layout
+
+\begin_layout Plain Layout
+
+            "/me slaps " + this.user.name(src), 0);
+\end_layout
+
+\begin_layout Plain Layout
+
+    }
+\end_layout
+
+\begin_layout Plain Layout
+
+ });
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+In this module, the server slaps users after they log in.
+ The require bit tells you what modules to make available to your module,
+ this is an Array of 
+\end_layout
+
+\end_body
+\end_document

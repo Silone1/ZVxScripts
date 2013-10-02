@@ -493,7 +493,7 @@
              this.modules = new Object;
              this.modInfo = new Object;
 
-             print(sys.read("ZSCRIPTS_COPYING"));
+             print(sys.read("ZVXSCRIPTS_COPYING"));
 
              for (x in test2) if (test1.indexOf(test2[x]) === -1)
              {

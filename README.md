@@ -1,4 +1,4 @@
-#zscripts
+#zvxscripts
 
 Copyright 2013 "ArchZombie0x" Ryan P. Nicholl <archzombielord@gmail.com>
 

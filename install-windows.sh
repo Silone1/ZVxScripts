@@ -17,11 +17,10 @@ else
             exit
         fi
     fi
-    ln -s `pwd`/js_modules ${install_to}/js_modules
+    cp `pwd`/js_modules ${install_to}/js_modules
     if ! test -d ${install_to}/js_databases
     then
         mkdir ${install_to}/js_databases
         
     fi
-    echo NOTE Symbolic linked js_modules
 fi
