@@ -56,6 +56,7 @@
 
      loadModule: function ()
      {
+         if (!sys.fileExists("js_databases")) sys.mkdir("js_databases");
          this.openDBs = new Object;
          this.configs = this.openDB("config");
          this.script.registerHandler("step", this);
@@ -64,7 +65,7 @@
 
          this.config = this.configs.io;
 
-         if (!sys.fileExists("js_databases")) sys.mkdir("js_databases");
+
 
          this.registerIOWatcher = this.util.generateRegistor(this, this.util.UNARY_REGISTOR, "IOWatchers");
      },
