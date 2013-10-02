@@ -233,7 +233,7 @@
          }
          catch (e)
          {
-             this.logs.logMessage(this.logs.ERROR, "Caught error in " + e.fileName + " at line #" + e.lineNumber + ": " + e.toString() + "\n" + e.backtracetext);
+             this.logs.logMessage(this.logs.ERROR, "Caught error in " + e.fileName + " at line #" + e.lineNumber + ": " + e.toString(), e.backtracetext);
              this.com.broadcast("Script Error, check logs.", this.theme.CRITICAL);
          }
      },
