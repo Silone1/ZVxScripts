@@ -364,7 +364,7 @@
           */
          loadModule: function loadModule (modname)
          {
-             this.scriptinfo("Requested loading module " + modname +".", sys.backtrace());
+
              var code, nfo;
 
              nfo = this.modInfo[modname];
@@ -395,6 +395,8 @@
              {
                  this.activateModule(modname);
              }
+
+             if (nfo.state == this.MODULE_LOADED) this.log("Loaded module " + modname +".", sys.backtrace());
 
              return;
          }
@@ -524,7 +526,7 @@
 
                  this.loadModule("default");
 
-                 this.log(this.modInfo["default"].state);
+                 //this.log(this.modInfo["default"].state);
              }
              catch(e)
              {
@@ -627,7 +629,7 @@
 
          scriptinfo: function log (msg, bt)
          {
-             print ("SCRIPT: " + msg);
+             //print ("SCRIPT: " + msg);
          },
 
 
