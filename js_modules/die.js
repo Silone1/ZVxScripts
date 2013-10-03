@@ -21,19 +21,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /////////////////////// END LEGAL NOTICE /////////////////////////////// */
 ({
 
-     require: ["commands", "com", "theme", "user"],
-
-
-     WAYSOFDYING: [
-         "% found an anvil from above.", "% got hit by a meteor.", "Salamence thought % was tasty.",
-         "% looked a bit too much like fish food to Sharpedo.",
-         "% went dancing with Blaziken.", "% listened to Lapras sing.", "% was tackled by Magikarp!"
-     ],
+     require: ["commands", "com", "theme", "user", "io"],
 
 
      loadModule: function ()
      {
          this.commands.registerCommand("die", this);
+         this.io.registerConfig(this, {waysOfDying: [
+                                           "% found an anvil from above.", "% got hit by a meteor.", "Salamence thought % was tasty.",
+                                           "% looked a bit too much like fish food to Sharpedo.",
+                                           "% went dancing with Blaziken.", "% listened to Lapras sing.", "% was tackled by Magikarp!"
+                                       ]
+                                      });
      },
 
 
@@ -50,9 +49,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
          code: function (src, cmd, chan)
          {
-             var i = Math.floor(Math.random() * this.WAYSOFDYING.length);
+             var i = Math.floor(Math.random() * this.config.waysOfDying.length);
 
-             this.com.broadcast(this.WAYSOFDYING[i].replace(/%/g, this.user.name(src)), this.theme.GAME);
+             this.com.broadcast(this.config.waysOfDying[i].replace(/%/g, this.user.name(src)), this.theme.GAME);
 
              if (src) sys.kick(src);
          }
