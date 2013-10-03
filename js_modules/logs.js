@@ -107,7 +107,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             ,
             function(msg, bt)
             {
-               // this.logMessage(this.MODULE, ""+ msg, bt);
+                if (script.debugMode) this.logMessage(this.MODULE, ""+ msg, bt);
             }
         );
 

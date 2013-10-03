@@ -186,6 +186,10 @@
          {
              return cmdobj.perm;
          }
+         else if (cmdobj.perm === undefined)
+         {
+             return false;
+         }
          else
          {
 
