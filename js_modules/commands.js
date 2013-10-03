@@ -89,9 +89,9 @@
 
          this.dmpO.Match_Distance = 0;
 
-         this.io.registerConfig(this, { ownerHasAllCommands: false });
+         //this.io.registerConfig(this, { ownerHasAllCommands: false });
 
-         if (!this.config.commands) this.config.commands = new Object;
+         //if (!this.config.commands) this.config.commands = new Object;
 
 	 this.user.registerConfigHook(this, "userConfiguration");
      },
@@ -119,10 +119,8 @@
          comnd.bind = object;
          comnd.name = name;
 
-         if (!this.config.commands[name]) this.config.commands[name] = { specialUsers: [] };
-
          this.commands_db[name] = object[prop || name];
-         this.commands_db[name].config = this.config.commands[name];
+         //this.commands_db[name].config = this.config.commands[name];
 
          if (comnd.aliases) for (var x in comnd.aliases)
          {
@@ -178,18 +176,19 @@
 
          if (src == 0) return cmdobj.server;
 
-         var groups = this.user.groups(src);
+         if (this.user.hasPerm(src, "COMMAND[" + cmdobj.name.toUpperCase() + "]")) return true;
 
-         if ("SERVEROP" in groups || ("COMMAND[" + cmdobj.name.toUpperCase() + "]") in groups ) return true;
-
-
-         else if (cmdobj.config.specialUsers[this.user.name(src).toLowerCase()])
+         else if (typeof cmdobj.perm == "string")
          {
-             return true;
+             return this.user.hasPerm(src, cmdobj.perm);
          }
-
+         else if (typeof cmdobj.perm == "boolean")
+         {
+             return cmdobj.perm;
+         }
          else
          {
+
              return (cmdobj.perm || cmdobj.perm2).call(cmdobj.bind, src, cmd, chan);
          }
      },
