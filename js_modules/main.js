@@ -352,6 +352,7 @@
                  catch(e)
                  {
                      this.scriptinfo("Error in activating module " + modname + ", error in loadModule method: " + e.toString(), e.backtracetext);
+                     return;
                  }
              }
 
