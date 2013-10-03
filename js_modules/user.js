@@ -307,21 +307,20 @@
          if (sys.dbRegistered(lname))
          {
              groups = {"Registered": null};
+         }
+         else return {"User": null};
 
-             if (!this.relMajors[lname]) ugroups = [];
-             else ugroups = this.relMajors[lname];
+         if (!this.relMajors[lname]) ugroups = [];
+         else ugroups = this.relMajors[lname];
 
-             if (ugroups) for (var x in ugroups)
-             {
-                 groups[ugroups[x]] = null;
+         if (ugroups) for (var x in ugroups)
+         {
+             groups[ugroups[x]] = null;
 
-             }
-
-
-             return groups;
          }
 
-         else return {User:null};
+
+         return groups;
      },
 
 
@@ -424,15 +423,16 @@
                  if (!this.database.usergroups[name]) this.database.usergroups[name] = [];
 
                  for (x in this.database.usergroups[name]) groups[this.database.usergroups[name][x]] = null;
-
-                 var majorgroups = this.nameMajorGroups(name);
-
-                 for (x in majorgroups)
-                 {
-                     var sub = this.permsOfMajorGroup(x);
-                     for (var x2 in sub) groups[sub[x2]] = null;
-                 }
              }
+
+             var majorgroups = this.nameMajorGroups(name);
+
+             for (x in majorgroups)
+             {
+                 var sub = this.permsOfMajorGroup(x);
+                 for (var x2 in sub) groups[sub[x2]] = null;
+             }
+
 
 
              for (x in groups)
@@ -445,6 +445,7 @@
              }
 
              if ("SERVEROP" in groups) return {"SERVEROP":null};
+
 
              return groups;
 
