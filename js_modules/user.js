@@ -157,7 +157,7 @@
 
          var majors = {};
 
-         var name = this.user.name(src);
+         var name = this.name(src);
          var lname = name.toLowerCase();
 
          if (sys.dbRegistered(this.name(src)))
