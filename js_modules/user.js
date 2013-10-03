@@ -59,7 +59,7 @@
 
 	 if (!this.database.userconf) this.database.userconf = new Object;
 
-
+         this.cache = new Object;
 
          this.io.registerConfig(this, { segroups0: ["LISTSEC"], segroups1: ["KICKOP", "LOGS", "LOGS[CHAT]", "LOGS[INFO]", "CHATOP", "INFOSEC", "PROTECTED"],
                                         segroups2: ["BANOP", "AUTHOP"], segroups3: ["LOGS[*]", "SILENT", "INVISIBLE", "OVERRIDE"]});
