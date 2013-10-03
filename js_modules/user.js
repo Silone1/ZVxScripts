@@ -387,36 +387,36 @@
              var x;
              var groups = {};
 
-           //  var auth = +this.nameAuth(name);
-/*
-             switch (+auth)
-             {
-             case 3:
-                 for ( x in this.config.segroups3 )
-                 {
-                     groups[this.config.segroups3[x]] = null;
-                     if ((_ = x.match(/^([A-Z])\[.+\]/))) groups[_[1]] = null;
-                 }
-             case 2:
-                 for ( x in this.config.segroups2 )
-                 {
-                     groups[this.config.segroups2[x]] = null;
-                     if ((_ = x.match(/^([A-Z])\[.+\]/))) groups[_[1]] = null;
-                 }
-             case 1:
-                 for ( x in this.config.segroups1 )
-                 {
-                     groups[this.config.segroups1[x]] = null;
-                     if ((_ = x.match(/^([A-Z])\[.+\]/))) groups[_[1]] = null;
-                 }
-             default:
-                 for ( x in this.config.segroups0 )
-                 {
-                     groups[this.config.segroups0[x]] = null;
-                     if ((_ = x.match(/^([A-Z])\[.+\]/))) groups[_[1]] = null;
-                 }
+             //  var auth = +this.nameAuth(name);
+             /*
+              switch (+auth)
+              {
+              case 3:
+              for ( x in this.config.segroups3 )
+              {
+              groups[this.config.segroups3[x]] = null;
+              if ((_ = x.match(/^([A-Z])\[.+\]/))) groups[_[1]] = null;
+              }
+              case 2:
+              for ( x in this.config.segroups2 )
+              {
+              groups[this.config.segroups2[x]] = null;
+              if ((_ = x.match(/^([A-Z])\[.+\]/))) groups[_[1]] = null;
+              }
+              case 1:
+              for ( x in this.config.segroups1 )
+              {
+              groups[this.config.segroups1[x]] = null;
+              if ((_ = x.match(/^([A-Z])\[.+\]/))) groups[_[1]] = null;
+              }
+              default:
+              for ( x in this.config.segroups0 )
+              {
+              groups[this.config.segroups0[x]] = null;
+              if ((_ = x.match(/^([A-Z])\[.+\]/))) groups[_[1]] = null;
+              }
 
-             }*/
+              }*/
 
              if (sys.dbRegistered(name))
              {
