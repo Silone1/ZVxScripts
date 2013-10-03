@@ -24,16 +24,26 @@
 
      loadModule: function ()
      {
-         this.commands.registerCommand("groupmod", this);
+         this.commands.registerCommand("usermod", this);
+         this.commands.registerCommand("permmod", this);
      },
 
-     groupmod:
+     usermod:
      {
          server: true,
 
+         desc: "Adds or removes users from MajorGroups.",
+
+         options:
+         {
+             group: "What group to add/remove the user(s) to.",
+             add: "Add users.",
+             drop: "Drop users."
+         },
+
          perm: function (src, cmd, chan)
          {
-             return "USERMOD" in this.user.groups(src);
+             return this.user.hasPerm(src, "GROUPMOD");
          },
 
          code: function (src, cmd, chan)
@@ -48,9 +58,90 @@
                  return;
              }
 
+             if (!this.user.majorGroupExists(cmd.flags.group))
+             {
+                 return;
+             }
+
              if (cmd.flags.add && !cmd.flags.drop)
              {
-                 if (!(("GROUPMOD[" + cmd.flags.group + "]") in groups || "SERVEROP" in groups))
+                 if (! this.user.hasPerm(src, "GROUPMOD[" + cmd.flags.group.toUpperCase() + "]"))
+                 {
+                     this.com.message(src, "You don't have permission to manage that group.");
+                     return;
+                 }
+
+                 for (x in cmd.args)
+                 {
+                     if (sys.dbRegistered(cmd.args[x]))
+                     {
+                         var lname = cmd.args[x].toLowerCase();
+
+                         if (this.user.majorGroupAddMemberName(cmd.flags.group, cmd.args[x]))
+                         {
+                             this.com.broadcast(this.user.name(src) + " added " + cmd.args[x] + " to the " +  cmd.flags.group  + " group.", this.theme.INFO);
+                         }
+                         else
+                         {
+                             this.com.message(src, "User is already in that group.");
+                         }
+                     } else this.com.message(src, "Unregistered users are uneligible for group membership.", this.theme.WARN);
+                 }
+             }
+             else if (!cmd.flags.add && cmd.flags.drop)
+             {
+                 if (! this.user.hasPerm(src, "GROUPMOD[" + cmd.flags.group.toUpperCase() + "]"))
+                 {
+                     this.com.message(src, "You don't have permission to manage that group.", this.theme.WARN);
+                     return;
+                 }
+
+                 for (x in cmd.args)
+                 {
+                     if (sys.dbRegistered(cmd.args[x]))
+                     {
+                         var lname = cmd.args[x].toLowerCase();
+
+                         if (this.user.majorGroupDropMemberName(cmd.flags.group, cmd.args[x]))
+                         {
+                             this.com.broadcast(this.user.name(src) + " removed " + cmd.args[x] + " from the " +  cmd.flags.group  + " group.", this.theme.INFO);
+                         }
+                         else
+                         {
+                             this.com.message(src, "User not in that group.");
+                         }
+                     } else this.com.message(src, "Unregistered users are uneligible for group membership.", this.theme.WARN);
+                 }
+             }
+         }
+     },
+
+     permmod:
+     {
+         server: true,
+
+         desc: "Modifies MinorGroups directly. Normally you will want to use MajorGroups instead of this command. As each change is manual, this command can make your server difficult to manage.",
+
+         perm: function (src, cmd, chan)
+         {
+             return this.user.hasPerm(src, "PERMMOD");
+         },
+
+         code: function (src, cmd, chan)
+         {
+             var x;
+
+             var groups = this.user.groups(src);
+
+             if (!cmd.flags.perm)
+             {
+                 this.com.message(src, "Include a --perm=<permgroup> option.", this.theme.WARN);
+                 return;
+             }
+
+             if (cmd.flags.add && !cmd.flags.drop)
+             {
+                 if (! this.user.hasPerm(src, "PERMMOD[" + cmd.flags.perm.toUpperCase() + "]"))
                  {
                      this.com.message(src, "You don't have permission to manage that group.");
                      return;
@@ -67,11 +158,10 @@
                          var a = this.user.database.usergroups[lname];
 
 
-
-                         if (a.indexOf(cmd.flags.group) === -1)
+                         if (a.indexOf(cmd.flags.perm) === -1)
                          {
-                             a.push(cmd.flags.group);
-                             this.com.broadcast(this.user.name(src) + " added " + cmd.args[x] + " to the " +  cmd.flags.group  + " permission group.", this.theme.INFO);
+                             a.push(cmd.flags.perm);
+                             this.com.broadcast(this.user.name(src) + " added " + cmd.args[x] + " to the " +  cmd.flags.perm  + " permission group.", this.theme.INFO);
                          }
                          else
                          {
@@ -82,9 +172,9 @@
              }
              else if (!cmd.flags.add && cmd.flags.drop)
              {
-                 if (!(("GROUPMOD[" + cmd.flags.group + "]") in groups || "SERVEROP" in groups))
+                 if (! this.user.hasPerm(src, "PERMMOD[" + cmd.flags.perm.toUpperCase() + "]"))
                  {
-                     this.com.message(src, "You don't have permission to manage that group.", this.theme.WARN);
+                     this.com.message(src, "You don't have permission to manage that minorgroup.", this.theme.WARN);
                      return;
                  }
 
@@ -98,10 +188,10 @@
 
                          var a = this.user.database.usergroups[lname];
 
-                         if (a.indexOf(cmd.flags.group) !== -1)
+                         if (a.indexOf(cmd.flags.perm) !== -1)
                          {
-                             a.splice(a.indexOf(cmd.flags.group), 1);
-                             this.com.broadcast(this.user.name(src) + " removed " + cmd.args[x] + " from the " +  cmd.flags.group  + " permission group.", this.theme.INFO);
+                             a.splice(a.indexOf(cmd.flags.perm), 1);
+                             this.com.broadcast(this.user.name(src) + " removed " + cmd.args[x] + " from the " +  cmd.flags.perm  + " permission group.", this.theme.INFO);
                          }
                          else
                          {

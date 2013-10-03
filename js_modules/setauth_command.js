@@ -41,11 +41,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         ,
         perm: function (src)
         {
-            return "AUTHOP" in this.user.groups(src);
+            return this.user.hasPerm(src, "AUTH");
         }
         ,
         code: function (src, cmd, chan)
         {
+            var lvto;
             var levels =
                 {
                     "3":3, "owner":3, "root":3,
@@ -53,6 +54,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     "1":1, "mod":1, "moderator":1,
                     "0":0, "user": 0, "none":0
                 };
+
+            var level_tr =
+                [
+                    "User",
+                    "Moderator",
+                    "Administrator",
+                    "Owner"
+                ];
+
             var level = null;
 
             if (!cmd.flags.level)
@@ -64,6 +74,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             if (cmd.flags.level.toLowerCase() in levels)
             {
                 level = levels[cmd.flags.level.toLowerCase()];
+                lvto = level_tr[level];
             }
 
             else
@@ -79,19 +90,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     this.com.message([src], "User unknown", this.theme.WARN);
                     continue;
                 }
+
                 if (! sys.dbRegistered(cmd.args[x]))
                 {
                     this.com.message([src], "User unregistered", this.theme.WARN);
                     continue;
                 }
 
-                if (src != 0 && sys.auth(src) != 3 &&
-                    (
-                        ((sys.id(cmd.args[x]) ? sys.auth(sys.id(cmd.args[x])) : sys.dbAuth(cmd.args[x])) >= sys.auth(src))
-                        ||
-                        (level >= sys.auth(src))
-                    )
-                )
+                if (! (this.user.hasPerm(src, "AUTH[" + lvto.toUpperCase() +"]") && this.user.hasPerm(src, "AUTH[" + level_tr[this.user.nameAuth(cmd.args[x])].toUpperCase() +"]")))
                 {
                     this.com.message(src, "Not high enough level for that.");
                     continue;
@@ -101,14 +107,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                 if (i)
                 {
-                     sys.changeAuth(i, level);
+                    sys.changeAuth(i, level);
                 }
                 else
                 {
                     sys.changeDbAuth(cmd.args[x], level);
                 }
 
-                this.com.broadcast(this.user.name(src) + " set " + cmd.args[x] + " to level " + level, this.theme.INFO);
+                this.user.majorGroupDropMemberName("User", cmd.args[x]);
+                this.user.majorGroupDropMemberName("Moderator", cmd.args[x]);
+                this.user.majorGroupDropMemberName("Administrator", cmd.args[x]);
+                this.user.majorGroupDropMemberName("Owner", cmd.args[x]);
+                this.user.majorGroupAddMemberName(lvto, cmd.args[x]);
+
+                this.com.broadcast(this.user.name(src) + " set " + cmd.args[x] + " to " + lvto + ".", this.theme.INFO);
             }
         }
     }

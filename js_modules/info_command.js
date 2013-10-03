@@ -32,7 +32,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         ,
         perm: function (src)
         {
-            return "INFOSEC" in this.user.groups(src);
+            return this.user.hasPerm(src, "INFOSEC");
         }
         ,
         code: function (src, cmd)
@@ -42,7 +42,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             for (var x in cmd.args)
             {
                 var test = this.profile.profileByName(cmd.args[x]);
-                if (test == -1) test = this.profile.profileByIP(cmd.args[x]);
+                if (test == -1 && cmd.args[x].toLowerCase() != "~~server~~") test = this.profile.profileByIP(cmd.args[x]);
 
                 else names.push(cmd.args[x]);
 
@@ -58,7 +58,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 profids.push(test);
             }
 
-            if (profids.length == 0) return;
+            //if (profids.length == 0) return;
 
             var m = [];
             for ( x in profids)
@@ -79,11 +79,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
             }
 
+
+            var se_group_perm = this.user.hasPerm(src, "INFO[MINORGROUPS]");
+            var mj_group_perm = this.user.hasPerm(src, "INFO[MAJORGROUPS]");
+
             for (x in names)
             {
                 m.push("<b>Info about user: " + names[x] +"</b>");
                 m.push("Auth level: " + this.user.nameAuth(names[x]));
-                m.push("SE Groups: " + Object.keys(this.user.nameGroups(names[x])));
+                if (mj_group_perm) m.push("Major Groups: " + Object.keys(this.user.nameMajorGroups(names[x])).join (", ") + ".");
+                if (se_group_perm) m.push("Permissions: " + Object.keys(this.user.nameGroups(names[x])));
                 m.push("Registered: " + sys.dbRegistered(names[x]));
             }
 

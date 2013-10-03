@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /////////////////////// END LEGAL NOTICE /////////////////////////////// */
 ({
-    require: ["text", "util"],
+    require: ["text", "util", "zjdata"],
 
 
     hotswap: function (old)
@@ -70,7 +70,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         try
         {
-            sys.append("logs.txt", JSON.stringify(log) + "\n");
+           sys.append("logs.txt", JSON.stringify(log) + "\n");
         } catch (_) {}
 
         this.logs.push(log);
@@ -107,7 +107,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             ,
             function(msg, bt)
             {
-                this.logMessage(this.MODULE, ""+ msg, bt);
+               // this.logMessage(this.MODULE, ""+ msg, bt);
             }
         );
 

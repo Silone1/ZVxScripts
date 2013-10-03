@@ -482,6 +482,7 @@
          loadScript: function loadScript ()
          {
              var test1, test2, x, poisoned;
+             sys.clearChat();
 
              test1 = ["print","gc","version","global","sys","SESSION","Qt","script"];
 
@@ -635,7 +636,7 @@
 
          error: function _err_ (e)
          {
-             print("SCRIPTERROR: " + e);
+             print("SCRIPTERROR: " + e + "\n" + e.backtracetext);
          },
 
 

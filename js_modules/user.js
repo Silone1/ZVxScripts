@@ -51,21 +51,80 @@
 
      loadModule: function ()
      {
+
+         this.script.registerHandler("beforeLogIn", this);
          var db = this.io.openDB("user");
          db.invisble = db.invisible || new Object;
          db.usergroups = db.usergroups || new Object;
 
          this.database = db;
 
+         this.database.majorgroupinfo = this.database.majorgroupinfo || new Object;
+         this.relMajors = new Object;
+
 	 if (!this.database.userconf) this.database.userconf = new Object;
 
          this.cache = new Object;
 
-         this.io.registerConfig(this, { segroups0: ["LISTSEC"], segroups1: ["KICKOP", "LOGS", "LOGS[CHAT]", "LOGS[INFO]", "CHATOP", "INFOSEC", "PROTECTED"],
-                                        segroups2: ["BANOP", "AUTHOP"], segroups3: ["LOGS[*]", "SILENT", "INVISIBLE", "OVERRIDE"]});
+         //this.io.registerConfig(this, { segroups0: ["LISTSEC"], segroups1: ["KICKOP", "LOGS", "LOGS[CHAT]", "LOGS[INFO]", "CHATOP", "INFOSEC", "PROTECTED"],
+         //                              segroups2: ["BANOP", "AUTHOP"], segroups3: ["LOGS[*]", "SILENT", "INVISIBLE", "OVERRIDE"]});
 
 	 this.registerConfigHook = this.util.generateRegistor(this, this.util.LIST_REGISTOR, "configHooks");
 
+         var t = this;
+         function declMajor (name, perms, inherit)
+         {
+             var test = !t.majorGroupExists(name);
+             print("tested " + name);
+             if (test)
+             {
+                 t.createMajorGroup(name);
+                 t.majorGroupAddPerms(name, perms);
+                 t.majorGroupInheritsAdd(name, inherit);
+             }
+         }
+
+         if (Object.keys(this.database.majorgroupinfo).length == 0)
+             // config deleted/new server, add defaults that are not "required"
+         {
+             declMajor("ServerOperator", ["SERVEROP"]);
+
+             declMajor("Scripter", ["LOGS[SCRIPTERROR]"]);
+         }
+
+
+         declMajor("User", ["CHAT"]);
+         declMajor("Registered", ["LISTSEC"], "User");
+         declMajor("Moderator", ["KICKOP", "LOGS[CHAT]", "LOGS[INFO]", "CHATOP", "INFOSEC", "PROTECTED"], "Registered");
+         declMajor("Administrator", ["BANOP", "AUTH[0]", "AUTH[1]"], "Moderator");
+         declMajor("Owner", ["LOGS[*]", "AUTH[*]", "SILENT", "INVISIBLE", "OVERRIDE"],  "Administrator");
+
+
+         this.updateRelationalDB();
+
+
+
+     },
+
+     updateRelationalDB: function ()
+     {
+         var x, x2;
+
+         this.relMajors = new Object;
+
+         for (x in this.database.majorgroupinfo)
+         {
+             var group = this.database.majorgroupinfo[x];
+
+             print(JSON.stringify(group));
+
+             for (x2 in group.members)
+             {
+                 this.relMajors[group.members[x2]] = this.relMajors[group.members[x2]] || [];
+
+                 this.relMajors[group.members[x2]].push(group.name);
+             }
+         }
      },
 
 
@@ -114,70 +173,148 @@
 
      },
 
-     updateCache: function (lname)
+     clearCache: function ()
      {
-         /*
-          The updateCache function updates the internal relational database for the majorgroups of a user.
-          */
-
-         // The username should be lowercase, as the database is case insensitive.
-
-         lname = lname.toLowerCase();
-
-
-         // Purge the old cache
-         this.cache[lname] = new Object;
-
-         var cache = this.cache[lname].majorgroups = new Object;
-
-         /*cache*/ var this_database_majorgroups = this.database.majorgroups;
-
-
-         // go over the old majorgroups to rebuild
-         for (var x in this_database_majorgroups)
-         {
-             var item = this_database_majorgroups[x];
-
-
-             if (item.members.indexOf(lname) != -1) // User is in the group
-             {
-                 cache[x] = null; // assign key
-             }
-         }
+         this.cache = new Object;
      },
 
-     majorGroups: function(src)
+
+     majorGroups: function (src)
      {
-         if (src == 0)
+         return this.nameMajorGroups(this.name(src));
+     },
+
+     majorGroupExists: function (name, perms)
+     {
+         return name in this.database.majorgroupinfo;
+     },
+
+     majorGroupAddPerms: function (name, perms)
+     {
+         this.util.arrayify(perms);
+
+         var group = this.database.majorgroupinfo[name];
+
+         for (var x in perms)
+         {
+             if (group.perms.indexOf(perms[x]) === -1)
+             {
+                 group.perms.push(perms[x]);
+             }
+         }
+
+         this.clearCache();
+
+     },
+
+     majorGroupInheritsAdd: function (name, groups)
+     {
+         var group = this.database.majorgroupinfo[name];
+
+         if (!group.inherits) group.inherits = [];
+
+         group.inherits = this.util.concatSets(group.inherits, this.util.arrayify(groups));
+
+         this.clearCache();
+
+         return;
+     },
+
+     createMajorGroup: function (name)
+     {
+         this.database.majorgroupinfo[name] =
+             {
+                 name: name,
+                 desc: "",
+                 perms: [],
+                 members: [],
+                 inherits: []
+             };
+
+         this.clearCache();
+
+         return;
+     },
+
+     deleteMajorGroup: function ()
+     {
+         this.clearCache();
+         return;
+     },
+
+     majorGroupDropMember: function (groupname, user)
+     {
+         return this.majorGroupDropMemberName(groupname, this.name(user));
+     },
+
+     majorGroupAddMember: function (groupname, user)
+     {
+         return this.majorGroupAddMemberName(groupname, this.name(user));
+     },
+
+     majorGroupAddMemberName: function (groupname, username)
+     {
+         username = username.toLowerCase();
+
+         if (this.database.majorgroupinfo[groupname].members.indexOf(username) !== -1) return false;
+
+         this.clearCache();
+
+         this.database.majorgroupinfo[groupname].members.push(username);
+
+         this.relMajors[username] = this.relMajors[username] || [];
+         this.relMajors[username].push(groupname);
+
+         return true;
+     },
+
+
+
+     majorGroupDropMemberName: function (groupname, username)
+     {
+         var index;
+
+         username = username.toLowerCase();
+
+         index = this.database.majorgroupinfo[groupname].members.indexOf(username);
+
+         if (index === -1) return false;
+
+         this.clearCache();
+
+         this.database.majorgroupinfo[groupname].members.splice(index, 1);
+
+         this.relMajors[username] = this.relMajors[username] || [];
+
+         index = this.relMajors[username].indexOf(username);
+         this.relMajors[username].splice(index, 1);
+
+
+         return true;
+     },
+
+
+     nameMajorGroups: function(name)
+     {
+         var ugroups, groups, majors;
+         var lname = name.toLowerCase();
+
+         if (lname == "~~server~~")
          {
              return {"Sever":null};
          }
 
-         var a = this.auth(src);
-
-         var majors = {};
-
-         var name = this.name(src);
-         var lname = name.toLowerCase();
-
-         if (sys.dbRegistered(this.name(src)))
+         if (sys.dbRegistered(lname))
          {
-             var groups = new Object;
+             groups = {"Registered": null};
 
-             if (! this.cache[lname] )
-             {
-                 this.updateCache(lname);
-             }
+             if (!this.relMajors[lname]) ugroups = [];
+             else ugroups = this.relMajors[lname];
 
-             if (ugroups.length) for (var x in ugroups)
+             if (ugroups) for (var x in ugroups)
              {
                  groups[ugroups[x]] = null;
-             }
 
-
-             if (   (!("User" in groups))  &&  (!("Moderator" in groups))  &&  (!("Administrator" in groups))  &&  (!("Owner" in groups))   )
-             {
-                 groups[["User", "Moderator", "Administrator", "Owner"][this.auth(src)]] = null;
              }
 
 
@@ -187,11 +324,43 @@
          else return {User:null};
      },
 
+
+     beforeLogIn: function (src)
+     {
+         var groups = this.majorGroups(src);
+
+         if ( src != 0 &&  ((!("User" in groups))  &&  (!("Moderator" in groups))  &&  (!("Administrator" in groups))  &&  (!("Owner" in groups)) || this.auth(src) != 0 ) )
+         {
+             this.majorGroupAddMember(["User", "Moderator", "Administrator", "Owner"][this.auth(src)], src);
+         }
+     },
+
      groups: function (src)
      {
          if (src == 0) return {"SERVEROP": null};
 
          else return this.nameGroups(this.name(src));
+     },
+
+     permsOfMajorGroup: function (groupname)
+     {
+         if (this.cache["$permsMaj$" + groupname]) return this.cache["$permsMaj$" + groupname];
+         var groupmod = {};
+
+         var group = this.database.majorgroupinfo[groupname];
+
+         if (! group) return {};
+
+         var perms = group.perms || [];
+
+         for (var x in group.inherits)
+         {
+             perms = this.util.concatSets(perms, this.permsOfMajorGroup(group.inherits[x]));
+         }
+
+         this.cache["$permsMaj$" + groupname] = perms;
+
+         return perms;
      },
 
      hasPerm: function (id, perm)
@@ -202,11 +371,13 @@
 
          if ("SERVEROP" in g) return true;
 
-         return (perm in ID);
+         var _;
+         return (perm in g) || (_ = perm.match(/^([A-Z])\[([A-Z])\]$/) && ((_[1]+"[*]") in g));
      },
 
      nameGroups: function (name)
      {
+         var _, majors;
          name = name.toLowerCase();
 
 
@@ -217,26 +388,63 @@
              var x;
              var groups = {};
 
-             var auth = +this.nameAuth(name);
-
+           //  var auth = +this.nameAuth(name);
+/*
              switch (+auth)
              {
              case 3:
-                 for ( x in this.config.segroups3 ) groups[this.config.segroups3[x]] = null;
+                 for ( x in this.config.segroups3 )
+                 {
+                     groups[this.config.segroups3[x]] = null;
+                     if ((_ = x.match(/^([A-Z])\[.+\]/))) groups[_[1]] = null;
+                 }
              case 2:
-                 for ( x in this.config.segroups2 ) groups[this.config.segroups2[x]] = null;
+                 for ( x in this.config.segroups2 )
+                 {
+                     groups[this.config.segroups2[x]] = null;
+                     if ((_ = x.match(/^([A-Z])\[.+\]/))) groups[_[1]] = null;
+                 }
              case 1:
-                 for ( x in this.config.segroups1 ) groups[this.config.segroups1[x]] = null;
+                 for ( x in this.config.segroups1 )
+                 {
+                     groups[this.config.segroups1[x]] = null;
+                     if ((_ = x.match(/^([A-Z])\[.+\]/))) groups[_[1]] = null;
+                 }
              default:
-                 for ( x in this.config.segroups0 ) groups[this.config.segroups0[x]] = null;
-             }
+                 for ( x in this.config.segroups0 )
+                 {
+                     groups[this.config.segroups0[x]] = null;
+                     if ((_ = x.match(/^([A-Z])\[.+\]/))) groups[_[1]] = null;
+                 }
+
+             }*/
 
              if (sys.dbRegistered(name))
              {
                  if (!this.database.usergroups[name]) this.database.usergroups[name] = [];
 
                  for (x in this.database.usergroups[name]) groups[this.database.usergroups[name][x]] = null;
+
+                 var majorgroups = this.nameMajorGroups(name);
+
+                 for (x in majorgroups)
+                 {
+                     var sub = this.permsOfMajorGroup(x);
+                     for (var x2 in sub) groups[sub[x2]] = null;
+                 }
              }
+
+
+             for (x in groups)
+             {
+                 majors = x.match(/^([A-Z]*)\[([A-Z\*]*)\]$/);
+                 if (majors)
+                 {
+                     groups[majors[1]] = null;
+                 }
+             }
+
+             if ("SERVEROP" in groups) return {"SERVEROP":null};
 
              return groups;
 

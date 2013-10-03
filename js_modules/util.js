@@ -53,8 +53,23 @@
          if (typeof variant !== "object" || !(variant instanceof Array)) return [variant];
 
          return variant;
-     }
-     ,
+     },
+
+     concatSets: function ()
+     {
+         var output = [];
+
+         for (var i = 0; i < arguments.length; i++)
+         {
+             var s = arguments[i];
+             for (var x2 in s)
+             {
+                 if (output.indexOf(s[x2]) == -1) output.push(s[x2]);
+             }
+         }
+
+         return output;
+     },
      /** Shuffles the array.
       * @param array Array to be shuffled.
       */
