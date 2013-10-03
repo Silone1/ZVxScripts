@@ -31,7 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         ,
         perm: function (src)
         {
-            return "EVALOP" in this.user.groups(src);
+            return this.user.hasPerm(src, "EVALOP");
 
         }
         ,
