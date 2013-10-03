@@ -483,7 +483,10 @@
          loadScript: function loadScript ()
          {
              var test1, test2, x, poisoned;
+             
              sys.clearChat();
+             sys.enableStrict();
+             sys.unsetAllTimers();
 
              test1 = ["print","gc","version","global","sys","SESSION","Qt","script"];
 
@@ -491,8 +494,7 @@
 
              poisoned = false;
 
-             sys.enableStrict();
-             sys.unsetAllTimers();
+
 
              this.modules = new Object;
              this.modInfo = new Object;
