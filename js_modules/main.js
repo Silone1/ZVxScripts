@@ -295,7 +295,7 @@
 
              if (!nfo) throw new Error("Module not statted.");
 
-             nfo.module.name = modname;
+             nfo.module.modname = modname;
 
              if (nfo.module.init) nfo.module.init();
 
