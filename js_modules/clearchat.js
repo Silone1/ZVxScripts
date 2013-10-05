@@ -1,6 +1,6 @@
 ({
      require: ["io"],
-     
+
      counter: null,
 
      loadModule: function ()
@@ -13,7 +13,7 @@
      {
          if (this.counter >= this.config.duration)
          {
-             this.coutner = 0;
+             this.counter = 0;
 
              sys.clearChat();
          }
