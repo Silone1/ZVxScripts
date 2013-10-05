@@ -295,6 +295,8 @@
 
              if (!nfo) throw new Error("Module not statted.");
 
+             nfo.module.name = modname;
+
              if (nfo.module.init) nfo.module.init();
 
 
@@ -483,7 +485,7 @@
          loadScript: function loadScript ()
          {
              var test1, test2, x, poisoned;
-             
+
              sys.clearChat();
              sys.enableStrict();
              sys.unsetAllTimers();
