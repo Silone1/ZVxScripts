@@ -411,7 +411,9 @@
 
              this.modules = new Object;
 
-             print(sys.read("ZSCRIPTS_COPYING"));
+             if (sys.fileExists("ZSCRIPTS_COPYING")) print(sys.read("ZSCRIPTS_COPYING"));
+             else if (sys.fileExists("ZVXSCRIPTS_COPYING")) print(sys.read("ZVXSCRIPTS_COPYING"));
+             else print("!!! Missing license, see http://github.com/archzombie/zvxscripts !!!");
 
              for (var x in test2) if (test1.indexOf(test2[x]) === -1)
              {
