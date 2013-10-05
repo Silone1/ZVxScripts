@@ -52,13 +52,7 @@
 
          perm: function (src)
          {
-             var g =  this.user.groups(src);
-             if ("SERVEROP" in g || "CONFIGURE" in g)
-             {
-                 return g;
-             }
-
-             return false;
+             return this.user.hasPerm(src, "CONFIGURE");
 
          }
 
@@ -109,6 +103,11 @@
          {
              this.com.message(src, "Property Value:\n" + JSON.stringify(modobj[finalProp], 1), this.theme.INFO);
              return 2;
+         }
+
+         if (!this.user.hasPerm("CONFIGURE[" + match[1].toUpperCase() + "]"))
+         {
+             throw new Error("Permission denied.");
          }
 
          var prop = JSON.parse(match[3]);
