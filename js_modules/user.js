@@ -191,7 +191,7 @@
 
      majorGroupAddPerms: function (name, perms)
      {
-         this.util.arrayify(perms);
+         perms = this.util.arrayify(perms);
 
          var group = this.database.majorgroupinfo[name];
 
