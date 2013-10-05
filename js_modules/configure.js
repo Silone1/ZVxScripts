@@ -105,7 +105,7 @@
              return 2;
          }
 
-         if (!this.user.hasPerm("CONFIGURE[" + match[1].toUpperCase() + "]"))
+         if (!this.user.hasPerm(src, "CONFIGURE[" + match[1].toUpperCase() + "]"))
          {
              throw new Error("Permission denied.");
          }
