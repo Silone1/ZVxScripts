@@ -5,7 +5,7 @@
     {
         this.commands.registerCommand("rules", this);
 
-        this.io.registerConfig(this, { rules: ["No trolling.", "No flaming.", "No spamming."], sendRulesOnLogIn: 0 });
+        this.io.registerConfig(this, { rules: ["No trolling.", "No flaming.", "No spamming."], sendRulesOnLogin: 0 });
 
         this.script.registerHandler("afterLogIn", this);
     },
