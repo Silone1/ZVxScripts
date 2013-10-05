@@ -220,6 +220,19 @@
          return;
      },
 
+      majorGroupInheritsSet: function (name, groups)
+     {
+         var group = this.database.majorgroupinfo[name];
+
+         if (!group.inherits) group.inherits = [];
+
+         group.inherits = this.util.concatSets(this.util.arrayify(groups));
+
+         this.clearCache();
+
+         return;
+     },
+
      createMajorGroup: function (name)
      {
          this.database.majorgroupinfo[name] =
@@ -236,8 +249,22 @@
          return;
      },
 
-     deleteMajorGroup: function ()
+     deleteMajorGroup: function (name)
      {
+         var g = this.database.majorgroupinfo[name];
+
+         for (var x in g.members)
+         {
+             var username = g.members[x];
+
+             if (!this.relMajors[username]) continue;
+
+             var index = this.relMajors[username].indexOf(name);
+             this.relMajors[username].splice(index, 1);
+
+         }
+
+         delete this.database.majorgroupinfo[name];
          this.clearCache();
          return;
      },
@@ -286,7 +313,7 @@
 
          this.relMajors[username] = this.relMajors[username] || [];
 
-         index = this.relMajors[username].indexOf(username);
+         index = this.relMajors[username].indexOf(groupname);
          this.relMajors[username].splice(index, 1);
 
 
@@ -319,6 +346,11 @@
 
          }
 
+         if ((!("User" in groups))  &&  (!("Moderator" in groups))  &&  (!("Administrator" in groups))  &&  (!("Owner" in groups)))
+         {
+             groups.User = null;
+         }
+
 
          return groups;
      },
@@ -330,7 +362,12 @@
 
          if ( src != 0 &&  ((!("User" in groups))  &&  (!("Moderator" in groups))  &&  (!("Administrator" in groups))  &&  (!("Owner" in groups)) || this.auth(src) != 0 ) )
          {
-             this.majorGroupAddMember(["User", "Moderator", "Administrator", "Owner"][this.auth(src)], src);
+             var a = this.auth(src);
+
+             if (a)
+             {
+                 this.majorGroupAddMember([null, "Moderator", "Administrator", "Owner"][this.auth(src)], src);
+             }
          }
      },
 
@@ -420,9 +457,10 @@
 
              if (sys.dbRegistered(name))
              {
-                 if (!this.database.usergroups[name]) this.database.usergroups[name] = [];
-
-                 for (x in this.database.usergroups[name]) groups[this.database.usergroups[name][x]] = null;
+                 if (this.database.usergroups[name])
+                 {
+                     for (x in this.database.usergroups[name]) groups[this.database.usergroups[name][x]] = null;
+                 }
              }
 
              var majorgroups = this.nameMajorGroups(name);

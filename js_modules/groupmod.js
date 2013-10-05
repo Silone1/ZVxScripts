@@ -26,6 +26,7 @@
      {
          this.commands.registerCommand("usermod", this);
          this.commands.registerCommand("permmod", this);
+         this.commands.registerCommand("groupmod", this);
      },
 
      usermod:
@@ -43,7 +44,7 @@
 
          perm: function (src, cmd, chan)
          {
-             return this.user.hasPerm(src, "GROUPMOD");
+             return this.user.hasPerm(src, "USERMOD");
          },
 
          code: function (src, cmd, chan)
@@ -65,7 +66,7 @@
 
              if (cmd.flags.add && !cmd.flags.drop)
              {
-                 if (! this.user.hasPerm(src, "GROUPMOD[" + cmd.flags.group.toUpperCase() + "]"))
+                 if (! this.user.hasPerm(src, "USERMOD[" + cmd.flags.group.toUpperCase() + "]"))
                  {
                      this.com.message(src, "You don't have permission to manage that group.");
                      return;
@@ -90,7 +91,7 @@
              }
              else if (!cmd.flags.add && cmd.flags.drop)
              {
-                 if (! this.user.hasPerm(src, "GROUPMOD[" + cmd.flags.group.toUpperCase() + "]"))
+                 if (! this.user.hasPerm(src, "USERMOD[" + cmd.flags.group.toUpperCase() + "]"))
                  {
                      this.com.message(src, "You don't have permission to manage that group.", this.theme.WARN);
                      return;
@@ -201,5 +202,89 @@
                  }
              }
          }
+     },
+
+
+     groupmod:
+     {
+         perm: "GROUPMOD",
+
+         code: function (src, cmd, chan)
+         {
+             if (!cmd.flags.group)
+             {
+                 this.com.message(src, "Must specify group option.");
+                 return;
+             }
+
+             var group = cmd.flags.group;
+
+
+
+             if (!this.user.majorGroupExists(group))
+             {
+                 if (!cmd.flags.create)
+                 {
+                     this.com.message(src, "Group does not exist.");
+                     return;
+                 }
+                 else
+                 {
+                     this.user.createMajorGroup(group);
+                     this.com.broadcast(this.user.name(src) + " created the " + group + " group!");
+                 }
+             }
+             else if (cmd.flags["delete"])
+             {
+                 this.user.deleteMajorGroup(group);
+                 this.com.broadcast(this.user.name(src) + " deleted the " + group + " group!");
+                 return;
+             }
+
+             if (cmd.flags.addperms)
+             {
+                 this.com.broadcast(this.user.name(src) + " modified the " + group + " group by adding permissions: " + cmd.flags.addperms);
+                 this.user.majorGroupAddPerms(group, cmd.flags.addperms.split(/,/g));
+             }
+
+             if (cmd.flags.dropperms)
+             {
+                 this.com.broadcast(this.user.name(src) + " modified the " + group + " group by dropping permissions: " + cmd.flags.dropperms);
+                 this.user.majorGroupDropPerms(group, cmd.flags.perms.split(/,/g));
+             }
+
+
+             if (cmd.flags.inherits)
+             {
+                 this.com.broadcast(this.user.name(src) + " modified the " + group + " group by setting the inhertance prototype to: " + cmd.flags.inherits);
+                 this.user.majorGroupInheritsSet(group, cmd.flags.inherits.split(/,/g));
+             }
+
+             if (cmd.flags.add)
+             {
+                 for (var x in cmd.args)
+                 {
+                     if (this.user.majorGroupAddMemberName(group, cmd.args[x]))
+                     {
+                         this.com.broadcast(this.user.name(src) + " added " + this.user.nameToProper(cmd.args[x]) + " to the " + group + " group!");
+                     }
+                 }
+             }
+
+             if (cmd.flags.drop)
+             {
+                 for (var x in cmd.args)
+                 {
+                     if (this.user.majorGroupDropMemeberName(group, cmd.args[x]))
+                     {
+                         this.com.broadcast(this.user.name(src) + " removed " + this.user.nameToProper(cmd.args[x]) + " from the " + group + " group!");
+                     }
+                 }
+             }
+
+
+
+         }
      }
+
  });
