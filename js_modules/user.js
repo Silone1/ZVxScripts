@@ -207,6 +207,27 @@
 
      },
 
+     majorGroupDropPerms: function (name, perms)
+     {
+         var group, x, index;
+         perms = this.util.arrayify(perms);
+
+         group = this.database.majorgroupinfo[name];
+
+         for ( x in perms)
+         {
+             index = group.perms.indexOf(perms[x]);
+
+             if (index !== -1)
+             {
+                 group.perms.splice(index, 1);
+             }
+         }
+
+         this.clearCache();
+
+     },
+
      majorGroupInheritsAdd: function (name, groups)
      {
          var group = this.database.majorgroupinfo[name];
