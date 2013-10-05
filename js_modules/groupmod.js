@@ -250,7 +250,7 @@
              if (cmd.flags.dropperms)
              {
                  this.com.broadcast(this.user.name(src) + " modified the " + group + " group by dropping permissions: " + cmd.flags.dropperms);
-                 this.user.majorGroupDropPerms(group, cmd.flags.perms.split(/,/g));
+                 this.user.majorGroupDropPerms(group, cmd.flags.dropperms.split(/,/g));
              }
 
 
