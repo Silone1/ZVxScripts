@@ -35,7 +35,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         ,
         perm: function(src)
         {
-            return !this.security.profIsMuted(this.profile.profileID(src));
+            return this.user.hasPerm(src, "CHAT") && !this.security.profIsMuted(this.profile.profileID(src));
         }
         ,
         code: function(src, cmd, chan)
