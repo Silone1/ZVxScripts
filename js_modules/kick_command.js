@@ -52,13 +52,13 @@
 
              if (cmd.flags.force && !this.user.hasPerm(src, "OVERRIDE"))
              {
-                 this.com.messgage(src, "Force option: Permission denied.", this.theme.WARN);
+                 this.com.message(src, "Force option: Permission denied.", this.theme.WARN);
                  cmd.flags.force = false;
              }
 
              if (cmd.flags.silent && !this.user.hasPerm(src, "SILENT"))
              {
-                 this.com.messgage(src, "Silent option: Permission denied.", this.theme.WARN);
+                 this.com.message(src, "Silent option: Permission denied.", this.theme.WARN);
                  cmd.flags.force = false;
              }
 
