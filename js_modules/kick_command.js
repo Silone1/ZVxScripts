@@ -30,9 +30,9 @@
 
          options:
          {
-             "force": "Allows a root level administrator to kick users normally immune to kick.",
+             "force": "Kicks users normally immune to kick.",
 
-             silent: "Does not display a message, can only be used by high level admins.",
+             silent: "Does not display a message.",
 
              "reason": "Reason for the kick."
          },
@@ -50,6 +50,18 @@
              var kicknameslist = [];
              var sys_auth$src = (src == 0 ? 3 : sys.auth(src));
 
+             if (cmd.flags.force && !this.user.hasPerm(src, "OVERRIDE"))
+             {
+                 this.com.messgage(src, "Force option: Permission denied.", this.theme.WARN);
+                 cmd.flags.force = false;
+             }
+
+             if (cmd.flags.silent && !this.user.hasPerm(src, "SILENT"))
+             {
+                 this.com.messgage(src, "Silent option: Permission denied.", this.theme.WARN);
+                 cmd.flags.force = false;
+             }
+
              for (var x in cmd.args)
              {
                  var i = sys.id(cmd.args[x]);
@@ -62,9 +74,7 @@
                      continue;
                  }
 
-                 var tg = this.user.groups(i);
-
-                 if (("PROTECTED" in tg || "SERVEROP" in tg) && !(("OVERRIDE" in groups || "SERVEROP" in groups) && (cmd.flags.f || cmd.flags.force)))
+                 if (this.user.hasPerm(i, "PROTECTED") && !cmd.flags.force)
                  {
                      this.com.message([src], "User is immune to kick.", this.theme.WARN);
                      continue;
@@ -72,11 +82,14 @@
 
                  kicklist.push(i);
                  kicknameslist.push(cmd.args[x]);
+
              }
 
              if (kicklist.length == 0) return;
 
-             if (!cmd.flags.silent || sys_auth$src != 3)
+
+
+             if (!cmd.flags.silent)
              {
                  this.com.broadcast(this.user.name(src) + " kicked " + kicknameslist.join(", ") + "!" +
                                     (cmd.flags.reason ? " (Reason: " + cmd.flags.reason + ")" : String() ), this.theme.CRITICAL);
