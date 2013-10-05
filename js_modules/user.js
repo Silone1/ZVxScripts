@@ -437,7 +437,7 @@
 
              for (x in groups)
              {
-                 majors = x.match(/^([A-Z]*)\[([A-Z\*]*)\]$/);
+                 majors = x.match(/^([A-Z]*)\[([A-Z\.\*]*)\]$/);
                  if (majors)
                  {
                      groups[majors[1]] = null;
