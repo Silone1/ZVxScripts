@@ -371,7 +371,7 @@
          if ("SERVEROP" in g) return true;
 
          var _;
-         return (perm in g) || (_ = perm.match(/^([A-Z])\[([A-Z])\]$/) && ((_[1]+"[*]") in g));
+         return (perm in g) || (_ = perm.match(/^([A-Z])\[([A-Z\.])\]$/) && ((_[1]+"[*]") in g));
      },
 
      nameGroups: function (name)
