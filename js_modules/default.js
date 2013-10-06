@@ -30,9 +30,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
      {
          var x;
 
-         
 
-         this.io.registerConfig(this, { modules: ["me_command", "info_command", "serverimp", "authlist_command", "readlogs_command", "automute", "logmessager" ] });
+
+         this.io.registerConfig(this, { modules: ["me_command", "info_command", "serverimp", "authlist_command", "readlogs_command", "automute", "logmessager", "rules", "die", "announcement", "motd" ] });
 
          for (x in this.DEFAULTS)
          {
