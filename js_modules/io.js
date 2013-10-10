@@ -54,11 +54,12 @@
      configs: null,
 
 
+
      loadModule: function ()
      {
          if (!sys.fileExists("js_databases")) sys.mkdir("js_databases");
          this.openDBs = new Object;
-         this.configs = this.openDB("config");
+         this.configs = new Object;
          this.script.registerHandler("step", this);
 
          if (!this.configs.io) this.configs.io = {autosave:60000, autosavemethod: "commit"};
@@ -73,7 +74,7 @@
 
      registerConfig: function (module, defs)
      {
-         if (!this.configs[module.modname]) this.configs[module.modname] = new Object;
+         if (!this.configs[module.modname]) this.configs[module.modname] = this.openDB(module.modname + ".config");
 
          for (var x in defs)
          {
@@ -83,6 +84,14 @@
 
          module.config = this.configs[module.modname];
 
+     },
+
+     callConfigureHooks: function (modname)
+     {
+         if (this.script[modname].configureEvent)
+         {
+             this.script[modname].configureEvent();
+         }
      },
 
      /** Reads file data
@@ -334,9 +343,11 @@
      /** Erase database */
      purgeDB: function (dbname)
      {
-         if (dbname in this.openDBs) return;
+
 
          this.logs.logMessage(this.logs.IO, "Purging DB " + dbname);
+
+         if (this.openDBs[dbname]) this.openDBs[dbname].db = new Object;
 
          if (sys.exists("js_databases/" + dbname + ".jsqz")) sys.rm("js_databases/" + dbname + ".jsqz");
          if (sys.exists("js_databases/" + dbname + ".jsqz.transactions")) sys.rm("js_databases/" + dbname + ".jsqz.transactions");
