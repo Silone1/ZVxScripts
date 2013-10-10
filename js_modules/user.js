@@ -87,16 +87,17 @@
          if (Object.keys(this.database.majorgroupinfo).length == 0)
              // config deleted/new server, add defaults that are not "required"
          {
-             declMajor("ServerOperator", ["SERVEROP"]);
+             declMajor("ServerOperator", ["SERVEROP"], "User");
 
-             declMajor("Scripter", ["LOGS[SCRIPTERROR]"]);
+             declMajor("Scripter", ["LOGS[SCRIPTERROR]"], "User");
+             declMajor("VIP", ["PROTECTED"], "User");
          }
 
 
          declMajor("User", ["CHAT"]);
-         declMajor("Registered", ["LISTSEC"], "User");
-         declMajor("Moderator", ["KICKOP", "LOGS[CHAT]", "LOGS[INFO]", "CHATOP", "INFOSEC", "PROTECTED"], "Registered");
-         declMajor("Administrator", ["BANOP", "AUTH[0]", "AUTH[1]"], "Moderator");
+         declMajor("Registered", ["LIST[BANS]", "LIST[MUTES]"], "User");
+         declMajor("Moderator", ["KICK", "LOGS[CHAT]", "LOGS[INFO]", "MUTE", "INFO[MAJORGROUPS]", "PROTECTED"], "Registered");
+         declMajor("Administrator", ["BAN", "AUTH[0]", "AUTH[1]"], "Moderator");
          declMajor("Owner", ["LOGS[*]", "AUTH[*]", "SILENT", "INVISIBLE", "OVERRIDE"],  "Administrator");
 
 
