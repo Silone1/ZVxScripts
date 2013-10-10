@@ -68,7 +68,7 @@
 
          if (!match)
          {
-             this.com.message(src, "Server Configuration:\n" + JSON.stringify(this.io.configs, 1), this.theme.INFO);
+             this.com.message(src, "Server Configuration:\n" + JSON.stringify(this.io.configs, 1, " "), this.theme.INFO);
              return 2;
          }
 
@@ -77,7 +77,7 @@
          if (pathway.length <= 1 && (match[2] || pathway.length == 0)) throw new Error("Inconfigurable property");
 
 
-
+	 var modname = pathway[0];
          var finalProp = pathway.pop();
 
          if (finalProp === "__proto__") throw new Error("Smartass eh?");
@@ -101,7 +101,7 @@
 
          if (! match[2])
          {
-             this.com.message(src, "Property Value:\n" + JSON.stringify(modobj[finalProp], 1), this.theme.INFO);
+             this.com.message(src, "Property Value:\n" + JSON.stringify(modobj[finalProp], 1, " "), this.theme.INFO);
              return 2;
          }
 
@@ -121,6 +121,7 @@
              if (typeof prop != "object" && typeof prop === typeof modobj[finalProp])
              {
                  modobj[finalProp] = prop;
+                 this.io.callConfigureHooks(modname);
                  return true;
              }
              else if (typeof modobj[finalProp] === "object" && modobj[finalProp] instanceof Array && typeof prop === "object" && prop instanceof Array)
@@ -128,6 +129,7 @@
                  for (x in prop) if (typeof prop[x] === "object") throw new Error("Wrong argument type or wrong operator.");
 
                  modobj[finalProp] = prop;
+                 this.io.callConfigureHooks(modname);
                  return true;
              }
              throw new Error("Wrong argument type or wrong operator.");
@@ -135,6 +137,7 @@
              if (typeof modobj[finalProp] === "object" && modobj[finalProp] instanceof Array && typeof prop != "object")
              {
                  modobj[finalProp].push(prop);
+                 this.io.callConfigureHooks(modname);
                  return true;
              }
              throw new Error("Wrong argument type or wrong operator.");
@@ -142,6 +145,7 @@
              if (typeof modobj[finalProp] === "object" && modobj[finalProp] instanceof Array && typeof prop != "object")
              {
                  if (modobj[finalProp].indexOf(prop) !== -1) modobj[finalProp].splice(modobj[finalProp].indexOf(prop), 1);
+                 this.io.callConfigureHooks(modname);
                  return true;
              }
              throw new Error("Wrong argument type or wrong operator.");
