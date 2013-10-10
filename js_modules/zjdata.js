@@ -31,7 +31,7 @@
       * @param ordered If the object should be serialized in ordered mode.
       * @return Text marshal.
       */
-     stringify: function (variant)
+     stringify: function (variant, ordered)
      {
 
          var strings = [];
