@@ -114,6 +114,11 @@
 
              else if (typeof variant === "boolean") strlt.push(""+variant);
 
+             else if (variant === undefined) strlt.push("undefined");
+
+             else strlt.push("'null'");
+
+
 
 
          }
