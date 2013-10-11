@@ -61,6 +61,7 @@
 
          for (var i = 0; i < arguments.length; i++)
          {
+             arguments[i] = this.arrayify(arguments[i]);
              var s = arguments[i];
              for (var x2 in s)
              {
@@ -289,21 +290,53 @@
          return ret;
      },
 
+     cache: new Object,
+
 
      intToBin: function (i)
      {
+         if (this.cache[i]) return this.cache[i];
          var bin = new sys.ByteArray(4);
 
-         bin[0] = i & 255;
-         bin[1] = (i >> 8) & 255;
-         bin[2] = (i >> 16) & 255;
-         bin[3] = (i >> 24) & 255;
 
-         return bin;
+         bin[0] = i & 255;
+         if (i > 255)
+             bin[1] = (i >> 8) & 255;
+         if (i > 65535)
+             bin[2] = (i >> 16) & 255;
+         if (i > 16777215)
+             bin[3] = (i >> 24) & 255;
+
+         return this.cache[i] = bin;
      },
 
      binToInt: function (bin)
      {
          return bin[0] | (bin[1] << 8) | (bin[2] << 16) | (bin[3] << 24);
+     },
+
+     binToIntO: function (bin)
+     {
+         return bin[3] | (bin[2] << 8) | (bin[1] << 16) | (bin[0] << 24);
+     },
+
+     ipMatchesSubnet: function (ip, subnet)
+     {
+         ip = ip.split(/\./g);
+
+         var subnet_ip = subnet.split(/\//)[0].split(/\./g);
+         var subnet_mask =  subnet.split(/\//)[1];
+
+         var ipAddr = this.binToIntO(ip);
+         var subAddr = this.binToIntO(subnet_ip);
+
+         if (subnet_mask == 0) return true;
+
+         ipAddr &= ~((1 << (32 - +subnet_mask)) - 1);
+
+         return ipAddr == subAddr;
+
+
      }
+
 });

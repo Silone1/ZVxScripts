@@ -31,7 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         ,
         perm: function (src)
         {
-            return this.user.hasPerm(src, "EVALOP");
+            return this.user.hasPerm(src, "EVAL");
 
         }
         ,
@@ -59,7 +59,5 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     loadModule: function ()
     {
         this.commands.registerCommand("eval", this);
-
-        this.io.registerConfig(this, { perm3: false });
     }
 });

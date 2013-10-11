@@ -243,8 +243,15 @@
              }
 
 
-
-             db = JSON.parse(dataText);
+	     try
+             {
+                 db = JSON.parse(dataText);
+             }
+             catch(e)
+             {
+                 print(dataText);
+                 throw e;
+             }
 
              this.write( dbname, db);
 

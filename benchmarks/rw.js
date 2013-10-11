@@ -11,14 +11,17 @@
      JSON.stringify(t1);
      print("JSON.stringify 10,000 subobjects benchmark: " +(+new Date - st) + " miliseconds.");
 
-
      st = +new Date;
      script.modules.zsrx.zsrx(t1);
      print("ZSRX 10,000 subobjects benchmark: " +(+new Date - st) + " miliseconds.");
 
      st = +new Date;
-     script.modules.zsrz.stringify(t1);
-     print("ZSRZ 10,000 subobjects benchmark: " +(+new Date - st) + " miliseconds.");
+     script.modules.zjdata.stringify(t1);
+     print("ZjData 10,000 subobjects benchmark: " +(+new Date - st) + " miliseconds.");
+
+     st = +new Date;
+     script.modules.zjdata2.marshal(t1);
+     print("zjdata2 10,000 subobjects benchmark: " +(+new Date - st) + " miliseconds.");
 
 
      for (var x = 0; x < 30000; x++) t1[x] = {
@@ -35,8 +38,8 @@
      print("ZSRX 30,000 subobjects benchmark: " +(+new Date - st) + " miliseconds.");
 
      st = +new Date;
-     script.modules.zsrz.stringify(t1);
-     print("ZSRZ 30,000 subobjects benchmark: " +(+new Date - st) + " miliseconds.");
+     script.modules.zjdata.stringify(t1);
+     print("zjdata 30,000 subobjects benchmark: " +(+new Date - st) + " miliseconds.");
 
     /*
 
@@ -72,7 +75,7 @@
      print("ZSRX io.openDBs benchmark: " +(+new Date - st) + " miliseconds. (Don't try this with JSON!)");
 
      st = +new Date;
-     script.modules.zsrz.stringify(script.modules.io.openDBs);
+     script.modules.zjdata.stringify(script.modules.io.openDBs);
      print("ZSRZ.stringify io.openDBs benchmark: " +(+new Date - st) + " miliseconds. (Don't try this with JSON!)");
 
      return;

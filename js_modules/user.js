@@ -75,7 +75,6 @@
          function declMajor (name, perms, inherit)
          {
              var test = !t.majorGroupExists(name);
-             print("tested " + name);
              if (test)
              {
                  t.createMajorGroup(name);
@@ -95,10 +94,10 @@
 
 
          declMajor("User", ["CHAT"]);
-         declMajor("Registered", ["LIST[BANS]", "LIST[MUTES]"], "User");
-         declMajor("Moderator", ["KICK", "LOGS[CHAT]", "LOGS[INFO]", "MUTE", "INFO[MAJORGROUPS]", "PROTECTED"], "Registered");
+         declMajor("Registered", ["LIST[BANS]", "LIST[MUTES]", "INFO[GROUPS]", "INFO[AUTH]"], "User");
+         declMajor("Moderator", ["KICK", "LOGS[CHAT]", "LOGS[INFO]", "MUTE", "INFO[IP]", "PROTECTED"], "Registered");
          declMajor("Administrator", ["BAN", "AUTH[0]", "AUTH[1]"], "Moderator");
-         declMajor("Owner", ["LOGS[*]", "AUTH[*]", "SILENT", "INVISIBLE", "OVERRIDE"],  "Administrator");
+         declMajor("Owner", ["LOGS[*]", "AUTH[*]", "SILENT", "INVISIBLE", "OVERRIDE", "INFO[*]"],  "Administrator");
 
 
          this.updateRelationalDB();
@@ -117,7 +116,6 @@
          {
              var group = this.database.majorgroupinfo[x];
 
-             print(JSON.stringify(group));
 
              for (x2 in group.members)
              {

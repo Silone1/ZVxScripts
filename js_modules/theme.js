@@ -20,6 +20,7 @@
 
  /////////////////////// END LEGAL NOTICE /////////////////////////////// */
 ({
+     require: ["text", "time"],
      hotswap: true,
 
      INFO: 0,
@@ -60,6 +61,59 @@
          default:
              return text;
          }
+     },
+
+     issuetext: function (issued)
+     {
+         var outtext = [];
+         function out(prop, propname)
+         {
+             if (issued[prop] && issued[prop].length)
+             {
+                 outtext.push(propname + ": " + issued[prop].join(", ") + ".");
+             }
+         }
+
+         if (issued.reason) outtext.push("Reason: " + issued.reason);
+
+         outtext.push("Expires: " + ( issued.expires?  this.time.diffToStr(issued.expires - +new Date) + " (" +  new Date(issued.expires).toString() +")" : "indefinite"));
+
+         out.call(this, "names", "Names");
+         out.call(this, "ips", "IPs");
+         out.call(this, "subnets", "IP Subnets");
+         out.call(this, "nameRegex", "Regular Expressions");
+         
+         out.call(this, "hostnames", "Hostname Regular Expression(s)");
+
+         return outtext.join("\n");
+
+     },
+
+
+
+     issuehtml: function (issued)
+     {
+         var outtext = [];
+         function out(prop, propname)
+         {
+             if (issued[prop] && issued[prop].length)
+             {
+                 outtext.push("<b>"+  propname + "</b>: " + this.text.escapeHTML(issued[prop].join(", ")) + ".");
+             }
+         }
+
+         if (issued.reason) outtext.push("<b>Reason:</b> " + issued.reason);
+
+         outtext.push("<b>Expires:</b> " + ( issued.expires?  this.time.diffToStr(issued.expires - +new Date) + " (" +  new Date(issued.expires).toString() +")" : "indefinite"));
+
+         out.call(this, "names", "Name(s)");
+         out.call(this, "ips", "IP(s)");
+         out.call(this, "subnets", "IP Subnet(s)");
+         out.call(this, "nameRegex", "Regular Expression(s)");
+         out.call(this, "hostnames", "Hostname Regular Expression(s)");
+
+         return outtext.join("<br/>");
+
      }
 
 

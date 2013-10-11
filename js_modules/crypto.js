@@ -20,29 +20,13 @@
 
  /////////////////////// END LEGAL NOTICE /////////////////////////////// */
 ({
-     intToBin: function (i)
-     {
-         var bin = new sys.ByteArray(4);
-
-         bin[0] = i & 255;
-         bin[1] = (i >> 8) & 255;
-         bin[2] = (i >> 16) & 255;
-         bin[3] = (i >> 24) & 255;
-
-         return bin;
-     },
-
-     binToInt: function (bin)
-     {
-         return bin[0] | (bin[1] << 8) | (bin[2] << 16) | (bin[3] << 24);
-     },
 
      Locker: function (password, object)
      {
          var sha = sys.sha1;
 
          var salt = Math.random();
-         var cryptpass =sha(  salt.toString() + password );
+         var cryptpass = sha(  salt.toString() + password );
 
          password = null;
 

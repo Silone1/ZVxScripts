@@ -20,7 +20,7 @@
 
  /////////////////////// END LEGAL NOTICE /////////////////////////////// */
 ({
-     require: ["security", "profile", "com", "theme", "time", "logs", "user"],
+     require: ["security",  "com", "theme", "time", "logs", "user", 'util'],
 
 
      loadModule: function()
@@ -33,46 +33,40 @@
 
      beforeLogIn: function(src)
      {
-         var profs = this.profile.profileMatches(src);
 
-         if (profs.length > 1 && !sys.dbRegistered(sys.name(src)))
+
+         var banID = this.security.banID(src);
+
+         if (banID)
          {
-             this.logs.logMessage(this.logs.WARN, "Multimatch Conflict: "  + sys.name(src) + "(IP: " + sys.ip(src) + ") " + JSON.stringify(profs));
-             this.com.message([src], "Multimatch Conflict! Please log in with another username and contact an administrator.");
-             sys.stopEvent();
-             return;
-         }
 
-         var g = this.user.groups(src);
+             var ban = this.security.database.bans[banID];
 
-         for (var x in profs)
-         {
-             this.logs.logMessage(this.logs.DEBUG, "profs[x]: " + profs[x]);
-             var prof = profs[x];
-             if (!("PROTECTED" in g || "SERVEROP" in g) && this.security.profIsBanned(prof))
+             this.com.message(
+                 [src],
+                 "<hr/>You are banned.<br>" + this.theme.issuehtml(ban) + "<hr/>",
+                 this.theme.CRITICAL,
+                 true
+             );
+
+             if (!this.user.hasPerm(src, "PROTECTED"))
              {
-                 var ban = this.security.getBan(prof);
 
-                 this.com.message(
-                     [src],
-                     "You are banned until: "+
-                         (ban.expires ? new Date(ban.expires).toString() + " ("+this.time.diffToStr(ban.expires - +new Date)  +" from now)" : "indefinite" )+
-                         " Reason: " + ban.reason +
-                         " Ban Author: " + ban.author
-                     ,
-                     this.theme.CRITICAL
-                 );
-
-                 this.logs.logMessage(this.logs.WARN, "Banned user: " + sys.name(src) + " (IP: " + sys.ip(src) + ") (#: " + prof + ") tried to log in.");
-
+                 this.logs.logMessage(this.logs.WARN, "Banned user: " + sys.name(src) + " (IP: " + sys.ip(src) + ") (#: " + banID + ") tried to log in.");
                  sys.stopEvent();
-
-                 return;
+             }
+             else
+             {
+                 this.com.message(src, "Note: Your account is protected, and therefore the ban is void.");
              }
          }
 
-         this.profile.registerPlayer(src);
+
+
+
          this.logs.logMessage(this.logs.INFO, sys.name(src) + " logged in.");
+
+         return;
      },
 
 
@@ -83,6 +77,6 @@
 
      afterChangeTeam: function (src)
      {
-         this.profile.registerPlayer(src);
+        // this.profile.registerPlayer(src);
      }
  });

@@ -127,7 +127,7 @@
          var co = this.channelObj(chan);
 
          var uname = this.user.name(src).toLowerCase();
-
+/*
          var pid = this.profile.profileID(src);
 
          if (sys.auth(src) == 0 && uname !== co.owner && !(uname in co.auth) && uname in co.bans)
@@ -140,7 +140,7 @@
          if (co.motd)
          {
              this.com.message(src, "MOTD: " + co.motd, this.theme.INFO, false, chan);
-         }
+         }*/
 
      }
      ,

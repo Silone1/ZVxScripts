@@ -26,7 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 /** @scope script.modules.server */
 ({
-    require: ["commands", "parsecommand", "com", "theme", "logs", "user"]
+    require: ["commands", "parsecommand", "com", "theme", "logs", "user", "chat"]
     ,
     serverChan: null
     ,
@@ -45,6 +45,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     beforeServerMessage: function (msg)
     {
         sys.stopEvent();
+
+        this.chat.beforeChatMessage(this.SERVER, msg, this.serverChan);
+
+        /*
         if (msg.match(/^\//))
         {
 	    this.commands.issueCommand( this.SERVER, msg, this.serverChan);
@@ -84,6 +88,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             sys.broadcast(msg, this.serverChan, this.SERVER, false, -1);
             this.logs.logMessage(this.logs.CHAT, (this.serverChan === -1 ? "[N/A] " : "[#"+sys.channel(this.serverChan)+"] ") + this.user.name(this.SERVER) + ": " + msg);
         }
+         */
     }
     ,
     srvchan:

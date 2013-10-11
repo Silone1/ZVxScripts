@@ -26,7 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 /** @scope script.modules.ban_command */
 ({
-    require: ["commands", "security", "profile", "text", "com", "theme", "time", "user"]
+    require: ["commands", "security", "text", "com", "theme", "time", "user"]
     ,
     /** The unban command descriptor
      * @type commandDescriptor
@@ -37,11 +37,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         ,
         desc: "Clears the ban list"
         ,
-        perm: function (src)
-        {
-            return "BANOP" in this.user.groups(src);
-        }
-        ,
+        perm: "BAN",
+
         code: function (src, cmd)
         {
             if (!(cmd.flags.force))
@@ -64,45 +61,23 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         ,
         perm: function (src)
         {
-            return "BANOP" in this.user.groups(src);
+            return this.user.hasPerm(src, "BAN");
         }
         ,
         code: function (src, cmd, chan)
         {
-            var b = new Object;
 
-            var profbanlst = [];
-            var profnamelst = [];
+            var removes = [];
 
             for (var x in cmd.args)
             {
-                var prof = this.profile.profileByName(cmd.args[x]);
-
-                if (prof != -1)
-                {
-                    profbanlst.push (prof);
-                    profnamelst.push(cmd.args[x]);
-                }
-                else
-                {
-                    this.com.message([src], "Could not find user: " + cmd.args[x], this.theme.WARN);
-
-                    if (!(cmd.flags.force || cmd.flags.f)) return;
-                }
+                removes = removes.concat(this.security.removeAfflicted(cmd.args[x], this.security.database.bans));
             }
 
-            if (profbanlst.length == 0)
-            {
-                this.com.message([src], "No users to unban", this.theme.WARN);
-                return;
-            }
+            removes = this.util.concatSets(removes);
 
-            this.com.broadcast(this.user.name(src) + " has unbanned " + profnamelst.join(", ") + ".");
+            this.com.broadcast(this.user.name(src) + " has removed ban(s) #" + removes.join(", #") + "!");
 
-            for (x in profbanlst)
-            {
-                this.security.removeBan(profbanlst[x]);
-            }
         }
     }
     ,
@@ -121,38 +96,57 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         ,
         perm: function (src)
         {
-            return "BANOP" in this.user.groups(src);
+            return this.user.hasPerm(src, "BAN");
         }
         ,
         code: function (src, cmd, chan)
         {
-            var b = new Object;
 
-            var profbanlst = [];
-            var profnamelst = [];
+            var ips = [];
+            var subnets = [];
+            var names = [];
+            var regexes = [];
+            var hostnames = [];
+
 
             for (var x in cmd.args)
             {
-                var prof = this.profile.profileByName(cmd.args[x]);
-
-                if (prof != -1)
+                if (cmd.args[x].match(/^\d+\.\d+\.\d+\.\d+$/))
                 {
-                    profbanlst.push (prof);
-                    profnamelst.push(cmd.args[x]);
+                    ips.push(cmd.args[x]);
                 }
+
+                else if (cmd.args[x].match(/^\d+\.\d+\.\d+\.\d+\/\d+$/))
+                {
+                    subnets.push(cmd.args[x]);
+                }
+
+                else if (cmd.args[x].match(/^\/.+\/\w+$/))
+                {
+                    regexes.push(cmd.args[x]);
+                }
+
+                else if (cmd.args[x].match(/^hostname\/.+\/\w+$/))
+                {
+                    hostnames.push(cmd.args[x].replace(/^hostname\/(.+)\/(\w+)$/, function (m, a, b) { return "/" + a + "/" +b; }));
+                }
+
                 else
                 {
-                    this.com.message([src], "Could not find user: " + cmd.args[x], this.theme.WARN);
+                    names.push(cmd.args[x]);
+                }
 
-                    if (!(cmd.flags.force || cmd.flags.f)) return;
+
+            }
+
+            for (var x in names)
+            {
+                if (sys.dbRegistered(names[x]))
+                {
+                    if (cmd.flags.ip) this.util.concatSets(ips, sys.ip(src));
                 }
             }
 
-            if (profbanlst.length == 0)
-            {
-                this.com.message([src], "No users to ban", this.theme.WARN);
-                return;
-            }
 
             var exp = false;
             var t = null;
@@ -162,29 +156,38 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 t = this.time.strToDiff(cmd.flags.time);
 
                 if (t) exp = t + +new Date;
+
             }
 
+            var o =  {
+                ips: ips,
+                subnets: subnets,
+                names: names,
+                nameRegex: regexes,
+                hostnames: hostnames,
+                expires: exp,
+                reason: cmd.flags.reason,
+                author: this.user.name(src)
+            };
+
             this.com.broadcast(
-                this.user.name(src) + " has banned " + profnamelst.join(", ") + "!" +
-                    (typeof cmd.flags.reason == "string" ? " Reason: \"" + cmd.flags.reason + "\"" : "")+
-                    (t ? " Duration: " + this.time.diffToStr(t) + "" : "")
+                "<hr/>" +
+                    this.text.escapeHTML(
+                        this.user.name(src) + " issued ban #" +this.security.database.banCtr
+                    ) +
+                    "<br/>" + this.theme.issuehtml(o) +
+                    "<hr/>"
                 ,
-                this.theme.CRITICAL
+                this.theme.CRITICAL,
+                true
             );
 
 
 
-            for (x in profbanlst)
-            {
-                var o =  {
-                    expires: exp,
-                    reason: cmd.flags.reason || "NO REASON SPECIFIED",
-                    author: this.user.name(src)
-                };
 
-                this.security.setBan(profbanlst[x], o);
-            }
-            this.security.checkUsers();
+            this.security.database.bans[this.security.database.banCtr++] = o;
+
+
         }
     }
     ,
@@ -196,26 +199,23 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         ,
         perm: function (src)
         {
-            return "LISTSEC" in this.user.groups(src);
+            return this.user.hasPerm(src, "LIST[BANS]");
         }
         ,
         code: function (src)
         {
-            var bans = [];
-            var profile = this.profile;
-            var banlist = this.security.database.bans;
 
-            for (var x in banlist)
+            var mutes = [];
+            var mutelist = this.security.database.bans;
+
+            for (var x in mutelist)
             {
-                bans.push (
-                    "<b>Ban on user:</b> " + profile.lastName(x) + "<br/>" +
-                        "Expires: <i>" + (banlist[x].expires ? new Date(banlist[x].expires).toString():"indefinite") + "</i><br/>" +
-                        "Reason: <i>" + this.text.escapeHTML(banlist[x].reason || "") + "</i><br/>" +
-                        "Author: <i>"+ this.text.escapeHTML(banlist[x].author || "") + "</i>"
+                mutes.push (
+                    "<b>Ban #" + x + ":</b><br/>" + this.theme.issuehtml(mutelist[x])
                 );
             }
 
-            this.com.message([src], "Ban list:<br/>" + bans.join("<br/>"), this.theme.INFO, true);
+            this.com.message([src], "Ban list:<br/>" + mutes.join("<br/><br/>"), this.theme.INFO, true);
         }
 
     }

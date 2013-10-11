@@ -467,6 +467,8 @@
          {
              var mods = Object.keys (this.modules);
 
+             this.unloadedModules = mods;
+
              //this.config.modules = Object.keys(this.modules);
 
              //sys.write("main.json", JSON.stringify(this.config));
@@ -475,7 +477,16 @@
              {
                  this.unloadModule(mods[x]);
              }
-         }
+         }/*
+         ,
+         switchError: function ()
+         {
+             print("Recover");
+             for (var x in this.unloadedModules)
+             {
+                 this.loadModule(this.unloadedModules[x]);
+             }
+         }*/
          ,
          /** Sends a license message to src
           * @param {number} src User ID to send message to.

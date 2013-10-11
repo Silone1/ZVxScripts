@@ -20,170 +20,173 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /////////////////////// END LEGAL NOTICE /////////////////////////////// */
 ({
-    require: ["sched", "io", "profile", "com", "user"]
-    ,
-    database: null
-    ,
-    loadModule: function ()
-    {
-        this.database = this.io.openDB("security");
+     require: ["sched", "io", "com", "user", "theme", "util", "text"],
 
-        if (!this.database.bans) this.database.bans = new Object;
+     database: null,
 
-        if (!this.database.mutes) this.database.mutes = new Object;
+     loadModule: function ()
+     {
+         this.database = this.io.registerDB(this, "security.2");
 
-        var _this = this;
+         this.script.registerHandler("beforeLogIn", this);
+         this.script.registerHandler("afterChangeTeam", this);
 
-        for (var x in this.database.bans)
-        {
-            var b = this.profile.trace(x);
+         this.database.bans = this.database.bans || new Object;
+         this.database.mutes = this.database.mutes || new Object;
 
-            // todo merge bans properly
-            if (b != x)
-            {
-                this.database.bans[b] = this.database.bans[b] || this.database.bans[x];
-            }
-            var ban = this.database.bans[x];
+         this.database.muteCtr = this.database.muteCtr || 0;
 
-            if (ban.expires)
-            {
-                (function(x, _this) {
-                    _this.sched.at(ban.expires, function () { _this.checkBan(x); });
-                })(x, this);
-            }
-        }
+         this.database.banCtr = this.database.banCtr || 0;
 
-        for (x in this.database.mutes)
-        {
-            var mute = this.database.mutes[x];
-            var b = this.profile.trace(x);
-            if (b != x)
-            {
-                this.database.mutes[b] = this.database.mutes[b] || this.database.mutes[x];
-            }
+     },
 
-            if (mute.expires)
-            {
-                (function(x, _this) {
-                    _this.sched.at(mute.expires, function () { _this.checkMute(x); });
-                })(x, this);
-            }
-        }
-    }
-    ,
-    unloadModule: function()
-    {
-        this.io.closeDB("security");
-    }
-    ,
-    checkUsers: function (src)
-    {
-        var uids = sys.playerIds();
+     afflicted: function (src, object)
+     {
+         var lname, ip;
 
-        for (var x in uids)
-        {
-            this.checkUser(uids[x]);
-        }
-    }
-    ,
-    checkUser: function (src)
-    {
-        var p = this.profile.profileID(src);
-        var g = this.user.groups(src);
+         ip = (src == 0? "0.0.0.0" : sys.ip(src));
 
-        if (this.profIsBanned(p) && !("PROTECTED" in g || "SERVEROP" in g))
-        {
-            sys.kick(src);
-        }
-    }
-    ,
-    profIsMuted: function (p)
-    {
-        if (p in this.database.mutes) return true;
+         lname = this.user.name(src).toLowerCase();
 
-        return false;
-    }
-    ,
-    getMute: function (profid)
-    {
-        return this.database.mutes[profid];
-    }
-    ,
-    setMute: function (profid, mute)
-    {
-        this.database.mutes[profid] = mute;
+        // if (this.user.hasPerm(src, "PROTECTED")) return null;
 
-        var _this = this;
-        if (mute.expires)
-        {
-            this.sched.at(mute.expires, function () { _this.checkMute(profid); });
-        }
+         for (var x in object)
+         {
+             var ban = object[x];
 
-        this.io.markDB("security");
-    }
-    ,
+             if (ban.names) for (var x2 in ban.names)
+             {
+                 if (lname == ban.names[x2])
+                 {
+                     return x;
+                 }
 
-    checkMute: function (profid)
-    {
-        var mute = this.database.mutes[profid];
+             }
 
-        if (!mute) return;
+             if (ban.nameRegex) for (var x2 in ban.nameRegex)
 
-        if (mute.expires && mute.expires <= +new Date)
-        {
-            this.com.broadcast("Mute on " + this.profile.lastName(profid) + " (#: "+profid+") expired.");
-            delete this.database.mutes[profid];
-        }
-    }
-    ,
-    removeMute: function (profid)
-    {
-        delete this.database.mutes[profid];
 
-        this.io.markDB("security");
-    }
-    ,
-    profIsBanned: function (p)
-    {
-        if (p in this.database.bans) return true;
+             {
+                 var m = ban.nameRegex[x2].match(/^\/(.+)\/(\w+)$/);
+                 if (lname.match(new RegExp(m[1], m[2]))) return x;
 
-        return false;
-    }
-    ,
-    setBan: function (profid, ban)
-    {
-        this.database.bans[profid] = ban;
-        var _this = this;
-        if (ban.expires)
-        {
-            this.sched.at(ban.expires, function () { _this.checkBan(profid); });
-        }
+             }
 
-        this.io.markDB("security");
-    }
-    ,
-    removeBan: function(profid)
-    {
-        delete this.database.bans[profid];
+             if (ban.ips) for (var x2 in ban.ips)
+             {
+                 if (ip == ban.ips[x2]) return x;
+             }
 
-        this.io.markDB("security");
-    }
-    ,
-    getBan: function (profid)
-    {
-        return this.database.bans[profid];
-    }
-    ,
-    checkBan: function (profid)
-    {
-        var ban = this.database.bans[profid];
+             if (ban.subnets) for (var x2 in ban.subnets)
+             {
+                 if (this.util.ipMatchesSubnet(ip, ban.subnets[x2]))
+                 {
+                     return x;
 
-        if (!ban) return;
+                 }
 
-        if (ban.expires && ban.expires <= +new Date)
-        {
-            this.com.broadcast("Ban on " + this.profile.lastName(profid) + " (#: "+profid+") expired.");
-            delete this.database.bans[profid];
-        }
-    }
-})
+             }
+         }
+
+         return null;
+     },
+
+     removeAfflicted: function (param, object)
+     {
+         var lname, ip;
+
+         var rs = [];
+
+         lname = param.toLowerCase();
+
+
+         loop1: for (var x in object)
+         {
+             var ban = object[x];
+
+             if (ban.names) for (var x2 in ban.names)
+             {
+                 if (lname == ban.names[x2])
+                 {
+                     rs.push(x);
+                     delete object[x];
+                     continue loop1;
+                 }
+
+             }
+
+             if (ban.nameRegex) for (var x2 in ban.nameRegex)
+
+
+             {
+                 var m = ban.nameRegex[x2].match(/^\/(.+)\/(\w+)$/);
+                 if (lname.match(new RegExp(m[1], m[2])) || param == ban.nameRegex[x2])
+                 {
+                     rs.push(x);
+                     delete object[x];
+                     continue loop1;
+                 }
+
+             }
+
+             if (ban.ips) for (var x2 in ban.ips)
+             {
+                 if (param == ban.ips[x2])
+                 {
+                     rs.push(x);
+                     delete object[x];
+                     continue loop1;
+                 }
+             }
+
+             if (ban.subnets) for (var x2 in ban.subnets)
+             {
+                 if (param == ban.subnets[x2] || (param.match(/\d+\.\d+\.\d+\.\d+/) && this.util.ipMatchesSubnet(param, ban.subnets[x2])))
+                 {
+                     rs.push(x);
+                     delete object[x];
+                     continue loop1;
+                 }
+
+             }
+         }
+
+         return rs;
+     },
+
+     banID: function (src)
+     {
+         return this.afflicted(src, this.database.bans);
+     },
+
+     muteID: function (src)
+     {
+         return this.afflicted (src, this.database.mutes);
+     },
+
+     beforeLogIn: function (src)
+     {
+         var name = this.user.name(src);
+
+         if (name.match(/\d+\.\d+.\d+\.\d+/) || name.match(/\//))
+         {
+             this.com.message(src, "Illegal name.", this.theme.CRITICAL);
+             sys.stopEvent();
+             return;
+         }
+     },
+
+     afterChangeTeam: function (src)
+     {
+
+         var name = this.user.name(src);
+
+         if (name.match(/\d+\.\d+.\d+\.\d+/) || name.match(/\//))
+         {
+             this.com.message(src, "Illegal name.", this.theme.CRITICAL);
+             sys.kick(src);
+             return;
+         }
+     }
+
+ });

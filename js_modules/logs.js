@@ -84,6 +84,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         {
             this.logHandlers[x].apply(this.logHandlers[x].module, [log]);
         }
+
+        if (this.logs.length >= 15000)
+            
+            print("Clearing some older log messages..."),
+            this.logs.splice(0, 5000);
+
+
+
     },
 
 

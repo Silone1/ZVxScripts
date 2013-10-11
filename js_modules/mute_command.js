@@ -20,18 +20,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /////////////////////// END LEGAL NOTICE /////////////////////////////// */
 ({
-    require: ["commands", "security", "profile", "text", "com", "theme", "time", "user"]
+    require: ["commands", "security",  "text", "com", "theme", "time", "user"]
     ,
     unmuteall:
     {
         server:true,
         desc: "Clear the mute list"
         ,
-        perm: function (src)
-        {
-            return "CHATOP" in this.user.groups(src);
-        }
-        ,
+        perm:"MUTE",
+
         code: function (src, cmd)
         {
             if (!(cmd.flags.force))
@@ -52,56 +49,29 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         ,
         desc: "Remove mute(s) from user(s)"
         ,
-        perm: function (src)
-        {
-            return "CHATOP" in this.user.groups(src);
-        }
+        perm: "MUTE",
 
-        ,
         code: function (src, cmd, chan)
         {
-            var b = new Object;
-
-            var profmutelst = [];
-            var profnamelst = [];
+            var removes = [];
 
             for (var x in cmd.args)
             {
-                var prof = this.profile.profileByName(cmd.args[x]);
-
-                if (prof != -1)
-                {
-                    profmutelst.push(prof);
-                    profnamelst.push(cmd.args[x]);
-                }
-                else
-                {
-                    this.com.message([src], "Could not find user: " + cmd.args[x], this.theme.WARN);
-
-                    if (!(cmd.flags.force || cmd.flags.f)) return;
-                }
+                removes = removes.concat(this.security.removeAfflicted(cmd.args[x], this.security.database.mutes));
             }
 
-            if (profmutelst.length == 0)
-            {
-                this.com.message([src], "No users to unmute", this.theme.WARN);
-                return;
-            }
+            removes = this.util.concatSets(removes);
 
-            this.com.broadcast(this.user.name(src) + " has unmuted " + profnamelst.join(", ") + ".");
-
-            for ( x in profmutelst)
-            {
-                this.security.removeMute(profmutelst[x]);
-            }
+            this.com.broadcast(this.user.name(src) + " has removed mute(s) #" + removes.join(", #") + "!");
         }
     }
     ,
     mute:
     {
         server:true,
-        desc: "Mute user(s)"
-        ,
+
+        desc: "Mute user(s)",
+
         options:
         {
             reason: "Reason for the mute"
@@ -114,71 +84,98 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             [{args:["spammer", "spammer2"], flags:{reason:"spamming", time:"1 hour, 30 minutes, 20 seconds"}}, "Mutes the players spammer and spammer2 for a while. Also puts in a log as to why they were muted."]
         ],
 
-        perm: function (src)
-        {
-            return "CHATOP" in this.user.groups(src);
-        }
-        ,
+        perm: "MUTE",
+
+
         code: function (src, cmd, chan)
         {
             var b = new Object;
 
-            var profmutelst = [];
-            var profnamelst = [];
+            var ips = [];
+            var subnets = [];
+            var names = [];
+            var regexes = [];
+            var hostnames = [];
+
 
             for (var x in cmd.args)
             {
-                var prof = this.profile.profileByName(cmd.args[x]);
-
-                if (prof != -1)
+                if (cmd.args[x].match(/^\d+\.\d+\.\d+\.\d+$/))
                 {
-                    profmutelst.push (prof);
-                    profnamelst.push(cmd.args[x]);
+                    ips.push(cmd.args[x]);
                 }
+
+                else if (cmd.args[x].match(/^\d+\.\d+\.\d+\.\d+\/\d+$/))
+                {
+                    subnets.push(cmd.args[x]);
+                }
+
+                else if (cmd.args[x].match(/^\/.+\/\w+$/))
+                {
+                    regexes.push(cmd.args[x]);
+                }
+
+                else if (cmd.args[x].match(/^hostname\/.+\/\w+$/))
+                {
+                    hostnames.push(cmd.args[x].replace(/^hostname\/(.+)\/(\w+)$/, function (m, a, b) { return "/" + a + "/" +b; }));
+                }
+
                 else
                 {
-                    this.com.message([src], "Could not find user: " + cmd.args[x], this.theme.WARN);
+                    names.push(cmd.args[x]);
+                }
 
-                    if (!(cmd.flags.force || cmd.flags.f)) return;
+
+            }
+
+            for (var x in names)
+            {
+                if (sys.dbRegistered(names[x]))
+                {
+                    if (cmd.flags.ip) this.util.concatSets(ips, sys.ip(src));
                 }
             }
 
-            if (profmutelst.length == 0)
-            {
-                this.com.message([src], "No users to mute", this.theme.WARN);
-                return;
-            }
 
-            var exp = 3600000 + +new Date;
+            var exp = false;
             var t = null;
 
-            if (cmd.flags.time === "forever" || cmd.flags.time === "permanent") exp = false;
-            else if (cmd.flags.time)
+            if (cmd.flags.time)
             {
                 t = this.time.strToDiff(cmd.flags.time);
 
                 if (t) exp = t + +new Date;
+
             }
 
+            var o =  {
+                ips: ips,
+                subnets: subnets,
+                names: names,
+                nameRegex: regexes,
+                hostnames: hostnames,
+                expires: exp,
+                reason: cmd.flags.reason,
+                author: this.user.name(src)
+            };
+
             this.com.broadcast(
-                this.user.name(src) + " muted " + profnamelst.join(", ") + "!" +
-                    (typeof cmd.flags.reason == "string" ? " Reason: \"" + cmd.flags.reason + "\"" : "")+
-                    (t ? " Duration: " + this.time.diffToStr(t) + "" : "")
+                "<hr/>" +
+                    this.text.escapeHTML(
+                        this.user.name(src) + " issued mute #" +this.security.database.muteCtr
+                    ) +
+                    "<br/>" + this.theme.issuehtml(o) +
+                    "<hr/>"
                 ,
-                this.theme.CRITICAL
+                this.theme.CRITICAL,
+                true
             );
 
 
-            for (var x in profmutelst)
-            {
-                var o =  {
-                    expires: exp,
-                    reason: cmd.flags.reason,
-                    author: this.user.name(src)
-                };
 
-                this.security.setMute(profmutelst[x], o);
-            }
+
+            this.security.database.mutes[this.security.database.muteCtr++] = o;
+
         }
     }
     ,
@@ -186,28 +183,22 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     {
         server:true,
 
-        perm: function (src)
-        {
-            return "LISTSEC" in this.user.groups(src);
-        }
+        perm: "LIST[MUTES]"
         ,
         code: function (src)
         {
             var mutes = [];
-            var profile = this.profile;
+
             var mutelist = this.security.database.mutes;
 
             for (var x in mutelist)
             {
                 mutes.push (
-                    "<b>Mute on user:</b> " + profile.lastName(x) + "<br/>" +
-                        "Expires: <i>" + (mutelist[x].expires ? new Date(mutelist[x].expires).toString():"indefinite") + "</i><br/>" +
-                        "Reason: <i>" + this.text.escapeHTML(mutelist[x].reason || "") + "</i><br/>" +
-                        "Author: <i>"+ this.text.escapeHTML(mutelist[x].author || "") + "</i>"
+                    "<b>Mute #" + x + ":</b><br/>" + this.theme.issuehtml(mutelist[x])
                 );
             }
 
-            this.com.message([src], "Mute list:<br/>" + mutes.join("<br/>"), this.theme.INFO, true);
+            this.com.message([src], "Mute list:<br/>" + mutes.join("<br/><br/>"), this.theme.INFO, true);
         }
 
     }

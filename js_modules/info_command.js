@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /////////////////////// END LEGAL NOTICE /////////////////////////////// */
 ({
-    require: ["profile", "com", "text", "commands", "theme", "logs", "user"]
+    require: ["com", "text", "commands", "theme", "logs", "user"]
 
     ,
 
@@ -30,66 +30,28 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         ,
         desc: "Shows information about users"
         ,
-        perm: function (src)
-        {
-            return this.user.hasPerm(src, "INFOSEC");
-        }
+        perm: "INFO"
         ,
         code: function (src, cmd)
         {
-            var profids = [];
-            var names = [];
-            for (var x in cmd.args)
-            {
-                var test = this.profile.profileByName(cmd.args[x]);
-                if (test == -1 && cmd.args[x].toLowerCase() != "~~server~~") test = this.profile.profileByIP(cmd.args[x]);
+            var names = cmd.args;
 
-                else names.push(cmd.args[x]);
 
-                if (test == -1)
-                {
-                    this.com.message([src], "Can't find user " + cmd.args[x], this.theme.WARN);
-                    continue;
-                }
-                else if (test === undefined || test === "" || test === null)
-                {
-
-                }
-                profids.push(test);
-            }
-
-            //if (profids.length == 0) return;
+            var se_group_perm = this.user.hasPerm(src, "INFO[PERMS]");
+            var mj_group_perm = this.user.hasPerm(src, "INFO[GROUPS]");
+            var auth_perm = this.user.hasPerm(src, "INFO[AUTH]");
+            var ip_perm = this.user.hasPerm(src, "INFO[IP]");
 
             var m = [];
-            for ( x in profids)
-            {
-                try {
-                    m.push("<b>Info about profile #" + this.text.escapeHTML(""+profids[x]) + ":</b>");
-                } catch (e)
-                {
-                    this.logs.logMessage(this.logs.ERROR, "ERR " + typeof profids[x]);
-                    this.logs.logMessage(this.logs.ERROR, "" + profids[x]);
-                    throw e;
-                }
 
-                m.push("Last used name: " + this.text.escapeHTML(""+this.profile.database.profiles[profids[x]].lastName));
-                m.push("Last used IP: " + this.text.escapeHTML(""+this.profile.database.profiles[profids[x]].lastIP));
-                m.push("Names: " + this.text.escapeHTML(""+JSON.stringify(this.profile.profileNames(profids[x]))));
-                m.push("IP Addresses: " + this.text.escapeHTML(""+JSON.stringify(this.profile.profileIPs(profids[x]))));
-
-            }
-
-
-            var se_group_perm = this.user.hasPerm(src, "INFO[MINORGROUPS]");
-            var mj_group_perm = this.user.hasPerm(src, "INFO[MAJORGROUPS]");
-
-            for (x in names)
+            for (var x in names)
             {
                 m.push("<b>Info about user: " + names[x] +"</b>");
-                m.push("Auth level: " + this.user.nameAuth(names[x]));
+                if (auth_perm) m.push("Auth level: " + this.user.nameAuth(names[x]));
+                if (ip_perm) m.push("IP Address: " + sys.dbIp(names[x]));
                 if (mj_group_perm) m.push("Major Groups: " + Object.keys(this.user.nameMajorGroups(names[x])).join (", ") + ".");
                 if (se_group_perm) m.push("Permissions: " + Object.keys(this.user.nameGroups(names[x])));
-                m.push("Registered: " + sys.dbRegistered(names[x]));
+                //m.push("Registered: " + sys.dbRegistered(names[x]));
             }
 
             this.com.message([src], "<br/>"+m.join("<br/>"), this.theme.INFO, true);

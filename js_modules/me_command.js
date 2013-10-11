@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /////////////////////// END LEGAL NOTICE /////////////////////////////// */
 ({
-    require: ["commands", "text", "security", "profile", "com", "user"]
+    require: ["commands", "text", "security", "com", "user"]
     ,
     loadModule: function ()
     {
@@ -35,7 +35,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         ,
         perm: function(src)
         {
-            return this.user.hasPerm(src, "CHAT") && !this.security.profIsMuted(this.profile.profileID(src));
+            return this.user.hasPerm(src, "CHAT");
         }
         ,
         code: function(src, cmd, chan)

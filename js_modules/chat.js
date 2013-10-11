@@ -21,7 +21,7 @@
  /////////////////////// END LEGAL NOTICE /////////////////////////////// */
 (function () {
      return {
-         require: ["commands", "security", "profile", "com", "theme", "time", "logs", "text", "util", "user"]
+         require: ["commands", "security",  "com", "theme", "time", "logs", "text", "util", "user"]
          ,
          filters: []
          ,
@@ -74,28 +74,25 @@
                  return;
              }
 
-             if (chan == -1)
+             if (chan == -1 && src != 0)
              {
                  sys.stopEvent();
                  return;
                  // can't write outside of all channels here >_<
              }
 
-             var prof = this.profile.profileID(src);
 
-             var groups = this.user.groups(src);
-             if (this.security.profIsMuted(prof) && !this.user.hasPerm(src, "PROTECTED") )
+             var muteID = this.security.muteID(src);
+
+             if (muteID !== null && !this.user.hasPerm(src, "PROTECTED") )
              {
-                 var mute = this.security.getMute(prof);
+                 var mute = this.security.database.mutes[this.security.muteID(src)];
 
                  this.com.message(
                      [src],
-                     "You are muted. "+
-                         (mute.expires ? new Date(mute.expires).toString() + " ("+this.time.diffToStr(mute.expires - +new Date)  +" from now)" : "indefinite" )+
-                         " Reason: " + mute.reason +
-                         " Mute Author: " + mute.author
-                     ,
-                     this.theme.WARN
+                     "<hr/>You are muted.<br>" + this.theme.issuehtml(mute) + "<hr/>",
+                     this.theme.CRITICAL,
+                     true
                  );
 
                  this.logs.logMessage(this.logs.INFO, "Muted message from "+sys.name(src)+": " + msg);
@@ -116,7 +113,7 @@
              if (m)
              {
                  sys.broadcast(m, chan, src, false, -1);
-                 this.logs.logMessage(this.logs.CHAT, "[#"+sys.channel(chan)+"] " + sys.name(src) + ": " + msg);
+                 this.logs.logMessage(this.logs.CHAT, (chan == -1? "" : "[#"+sys.channel(chan)+"] ") + sys.name(src) + ": " + msg);
              }
              sys.stopEvent();
 
