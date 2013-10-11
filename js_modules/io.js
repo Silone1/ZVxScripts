@@ -88,9 +88,9 @@
 
      callConfigureHooks: function (modname)
      {
-         if (this.script[modname].configureEvent)
+         if (this.script.modules[modname].configureEvent)
          {
-             this.script[modname].configureEvent();
+             this.script.modules[modname].configureEvent();
          }
      },
 
@@ -306,7 +306,7 @@
 
          var patch = this.dmp.def.patch_make(this.openDBs[dbname].dataText, this.dmp.def.diff_lineMode_(this.openDBs[dbname].dataText, newData));
 
-         sys.append("js_databases/" + dbname + ".jsqz.transactions", JSON.stringify(patch) + "\n");
+         sys.append("js_databases/" + dbname + ".jsqz.transactions", this.zsrx.zsrx(patch).replace(/\n/g, " ") + "\n");
 
          this.openDBs[dbname].dataText = newData;
 
