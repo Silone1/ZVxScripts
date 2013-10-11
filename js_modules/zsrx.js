@@ -97,6 +97,7 @@
 
                  for (var x in variant)
                  {
+                     if (variant[x] === undefined) continue;
 
                      strlt.push(dstr + JSON.stringify(x) + ": ");
 
@@ -113,8 +114,6 @@
              }
 
              else if (typeof variant === "boolean") strlt.push(""+variant);
-
-             else if (variant === undefined) strlt.push("undefined");
 
              else strlt.push("'null'");
 
