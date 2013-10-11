@@ -76,7 +76,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         {
             reason: "Reason for the mute"
             ,
-            time: "Duration to mute for"
+            time: "Duration to mute for",
+            ip: "Also mute the user's IP address."
         },
 
         examples:
