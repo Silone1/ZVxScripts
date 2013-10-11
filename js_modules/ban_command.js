@@ -26,7 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 /** @scope script.modules.ban_command */
 ({
-    require: ["commands", "security", "text", "com", "theme", "time", "user"]
+    require: ["commands", "security", "text", "com", "theme", "time", "user", "util"]
     ,
     /** The unban command descriptor
      * @type commandDescriptor
