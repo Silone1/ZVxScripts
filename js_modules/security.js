@@ -56,7 +56,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
              if (ban.names) for (var x2 in ban.names)
              {
-                 if (lname == ban.names[x2])
+                 if (lname == ban.names[x2].toLowerCase())
                  {
                      return x;
                  }
