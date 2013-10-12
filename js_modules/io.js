@@ -234,12 +234,21 @@
 
              if (patches[patches.length - 1] === "") patches.pop();
 
-             for (var x in patches)
+             try
              {
-                 var parsed = JSON.parse(patches[x]);
+                 for (var x in patches)
                  {
-                     dataText = this.dmp.def.patch_apply(parsed, dataText)[0];
+                     var parsed = JSON.parse(patches[x]);
+                     {
+                         dataText = this.dmp.def.patch_apply(parsed, dataText)[0];
+                     }
                  }
+             }
+             catch(e)
+             {
+                 print(JSON.stringify(patches));
+                 print(dataText);
+                 throw e;
              }
 
 
