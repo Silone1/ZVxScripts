@@ -18,10 +18,10 @@
      st = +new Date;
      script.modules.zjdata.stringify(t1);
      print("ZjData 10,000 subobjects benchmark: " +(+new Date - st) + " miliseconds.");
-
+     /*
      st = +new Date;
      script.modules.zjdata2.marshal(t1);
-     print("zjdata2 10,000 subobjects benchmark: " +(+new Date - st) + " miliseconds.");
+     print("zjdata2 10,000 subobjects benchmark: " +(+new Date - st) + " miliseconds.");*/
 
 
      for (var x = 0; x < 30000; x++) t1[x] = {
@@ -41,7 +41,7 @@
      script.modules.zjdata.stringify(t1);
      print("zjdata 30,000 subobjects benchmark: " +(+new Date - st) + " miliseconds.");
 
-    /*
+
 
      for (var x = 0; x < 1000000; x++) t1[x] = {
          "test": x+" :)"
@@ -53,13 +53,13 @@
      print("ZSRX 1,000,000 subobjects benchmark: " +(+new Date - st) + " miliseconds. (Don't try this with JSON!)");
 
      st = +new Date;
-     var recover2 = script.modules.zsrz.stringify(t1);
-     print("ZSRZ.stringify 1,000,000 subobjects benchmark: " +(+new Date - st) + " miliseconds. (Don't try this with JSON!)");
-
+     var recover2 = script.modules.zjdata.stringify(t1);
+     print("Zjdata.stringify 1,000,000 subobjects benchmark: " +(+new Date - st) + " miliseconds. (Don't try this with JSON!)");
+     /*
      st = +new Date;
      JSON.parse(recover);
      print("JSON.parse 1,000,000 subobjects benchmark: " +(+new Date - st) + " miliseconds. ");
-
+     /*
      st = +new Date;
      script.modules.zsrz.parse(recover2);
      print("ZSRZ.parse 1,000,000 subobjects benchmark: " +(+new Date - st) + " miliseconds. ");*/

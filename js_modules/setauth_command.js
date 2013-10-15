@@ -97,7 +97,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     continue;
                 }
 
-                if (! (this.user.hasPerm(src, "AUTH[" + lvto.toUpperCase() +"]") && this.user.hasPerm(src, "AUTH[" + level_tr[this.user.nameAuth(cmd.args[x])].toUpperCase() +"]")))
+                if (! (this.user.hasPerm(src, "AUTH[" + level +"]") && this.user.hasPerm(src, "AUTH[" + this.user.nameAuth(cmd.args[x])+"]")))
                 {
                     this.com.message(src, "Not high enough level for that.");
                     continue;
