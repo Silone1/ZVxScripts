@@ -15,7 +15,7 @@
     {
         perm: function ()
         {
-            return true; // all users shoudl be able to use /rules so don't check anything
+            return true; // all users should be able to use /rules so don't check anything
         },
 
         code: function (src, cmd, chan) // code that runs /rules
