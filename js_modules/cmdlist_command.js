@@ -119,7 +119,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 this.com.message([src], "Commands list:", this.theme.INFO, true);
                 this.less.less(src, msg.join("<br />"), true);
             }
-            else this.com.message(src, "Commands list:\n" + msg.join(", ") + ".\nFor more information about a command, type /help <command name>.");
+            else this.com.message(src, "Commands list:\n" + Object.keys(cmds).join(", ") + ".\nFor more information about a command, type /help <command name>.");
 
         }
     }
