@@ -80,8 +80,15 @@
       * @param module The "this" modules to apply the function to.
       * @param defs The default configuration
       */
-     registerConfig: function (module, defs)
+     registerConfig: function (module, defs, direct)
      {
+         if (direct)
+         {
+             this.configs[module.modname] = defs;
+             module.config = defs;
+             return;
+         }
+
          if (!this.configs[module.modname]) this.configs[module.modname] = this.openDB(module.modname + ".config");
 
          for (var x in defs)

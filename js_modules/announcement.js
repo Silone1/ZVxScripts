@@ -20,33 +20,25 @@
 
  /////////////////////// END LEGAL NOTICE /////////////////////////////// */
 ({
-     require: ["com", "commands", "theme", "user"],
+     require: ["com", "commands", "theme", "user", "io"],
 
      loadModule: function ()
      {
-         this.commands.registerCommand("announcement", this);
-     },
+         var announcementObject =
+             {
+                 get text ()
+                 {
+                     return sys.getAnnouncement();
+                 },
 
+                 set text (v)
+                 {
+                     sys.changeAnnouncement(v);
+                 }
 
-     announcement:
-     {
-         desc: "Changes the server announcement.",
+             };
 
-         perm: function (src)
-         {
-             return "ANNOUNCEMENT" in this.user.groups(src);
-         },
-         
-         code: function (src, cmd)
-         {
-             sys.changeAnnouncement(cmd.input);
-
-             this.com.broadcast(this.user.name(src) + " changed the server announcement!", this.theme.INFO);
-
-             return;
-         }
-
+         this.io.registerConfig(this, announcementObject, true);
      }
-
 
  });
