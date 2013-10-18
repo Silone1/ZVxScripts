@@ -20,11 +20,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /////////////////////// END LEGAL NOTICE /////////////////////////////// */
 ({
-    require: ["commands", "text", "security", "com", "user"]
+    require: ["commands", "text", "security", "com", "user", "io"]
     ,
     loadModule: function ()
     {
         this.commands.registerCommand("me", this);
+        this.io.registerConfig(this, { fmt: "<font color=blue><timestamp /><i><username/> <message/></i></font>" });
     }
     ,
     "me":
@@ -40,7 +41,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         ,
         code: function(src, cmd, chan)
         {
-            this.com.broadcast("<font color=blue><timestamp /><i>" + this.text.escapeHTML(this.user.name(src) + " " + cmd.input) + "</i></font>", -1, true, (chan == -1?void 0:chan));
+            this.com.broadcast(this.config.fmt.replace(/<username\s*\/?>/g, this.text.escapeHTML(this.user.name(src))).replace(/<message\s*\/?>/g, this.text.escapeHTML(cmd.input || "")) , -1, true, (chan == -1?void 0:chan));
         }
     }
 });
