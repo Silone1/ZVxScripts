@@ -253,6 +253,14 @@ command that's relevant, but is rather brief.
 \end_layout
 
 \begin_layout Section
+/help
+\end_layout
+
+\begin_layout Paragraph
+Try /help <command> for more information about it.
+\end_layout
+
+\begin_layout Section
 /modprobe
 \end_layout
 
@@ -391,6 +399,17 @@ silent Might not show a message.
 
 \begin_layout Description
 ip For all listed usernames, ban their IP address also.
+\end_layout
+
+\begin_layout Subsection
+/info
+\end_layout
+
+\begin_layout Paragraph
+Most users can use info in the default configuration, as long as they are
+ registered.
+ But it provides extra information to moderators, such as the users IP address.
+ Just type /info <username>.
 \end_layout
 
 \end_body
