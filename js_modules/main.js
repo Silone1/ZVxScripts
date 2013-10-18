@@ -310,6 +310,14 @@
                  {
                      mod.loadModule();
                  }
+
+                 for (var x in mod.require)
+                 {
+                     if (this.modules[mod.require[x]].loadSubmodule)
+                     {
+                         this.modules[mod.require[x]].loadSubmodule(mod, modname);
+                     }
+                 }
                  this.log("Loaded module: " + modname);
              }
              catch (e)
@@ -545,6 +553,12 @@
                  }
              }
 
+         },
+
+         get script()
+         {
+             print("WARNING: getting script.script -____-");
+             return this;
          }
 
      };})();

@@ -255,5 +255,16 @@
          this.logs.logMessage(this.logs.COMMAND, (chan == -1 ? "[N/A] " : "[#"+sys.channel(chan)+"] ") + this.user.name(src) + ": " + text);
 
          this.tryCommand(src, cmd, chan);
+     },
+
+     loadSubmodule: function (md)
+     {
+         if (md.meta && md.meta.commands)
+         {
+             for (var x in md.meta.commands)
+             {
+                 this.registerCommand(md.meta.commands[x], md);
+             }
+         }
      }
  });
