@@ -4,7 +4,7 @@
     function ()
     {
         this.commands.registerCommand("motd", this);
-        this.io.registerConfig(this, { message: "", sendMOTDOnLogin: true });
+        this.io.registerConfig(this, { message: "", sendMOTDOnLogin: false });
         this.script.registerHandler("afterLogIn", this);
     },
     motd:
