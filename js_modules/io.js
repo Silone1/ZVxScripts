@@ -240,7 +240,7 @@
                  throw e;
              }
 
-             this.write( dbname, db);
+             sys.writeObject("js_databases/" +  dbname + ".jsqz", db, 3);
 
              sys.rm("js_databases/" + dbname + ".jsqz.transactions");
          }
@@ -269,7 +269,7 @@
          var db = metadb.db;
          var start = +new Date;
 
-         this.write(dbname, db, true);
+         sys.writeObject("js_databases/" + dbname + ".jsqz", db, 3);
          if (metadb.hasChanges === true) metadb.hasChanges = false;
          metadb.dataText = JSON.stringify(db, null, 1);
          if (sys.fileExists("js_databases/" + dbname + ".jsqz.transactions")) sys.rm("js_databases/" + dbname + ".jsqz.transactions");
@@ -321,7 +321,7 @@
 
          if (!db) return;
          var start = +new Date;
-         this.write(dbname, db, false);
+         sys.writeObject("js_databases/" + dbname + ".jsqz", db, 8);
 
          if (sys.fileExists("js_databases/" +dbname + ".jsqz.transactions")) sys.rm("js_databases/" + dbname + ".jsqz.transactions");
 

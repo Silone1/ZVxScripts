@@ -83,10 +83,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     ,
     ban:
     {
-        server: true
-        ,
+        server: true,
+
         desc:  "Ban prevents users from joining the server. Can ban usernames, IPs, regular expressions, or subnets. Users with PROTECTED permission are not affecte by bans.",
-        ,
+
         options:
         {
             reason: "Specifies a reason for the ban"
@@ -186,6 +186,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
             this.security.database.bans[this.security.database.banCtr++] = o;
+
+            this.security.chk();
 
 
         }

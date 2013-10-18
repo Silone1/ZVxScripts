@@ -30,7 +30,7 @@
      ,
      loadModule: function ()
      {
-         this.commands.registerCommand("modprobe", this);
+         this.commands.registerCommand("modulectrl", this);
      }
      ,
      /** The modprobe command loads and unloads modules. See the user manual.
@@ -38,6 +38,7 @@
       */
      modulectrl:
      {
+         aliases: ["modprobe", "modctrl"],
          server: true,
          desc: "Manages loadable modules. If run without any option, lists modules.",
          options :

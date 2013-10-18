@@ -68,11 +68,329 @@
 \begin_body
 
 \begin_layout Title
-ZScripts User Manual (WIP manual)
+ZVxScripts User Manual
 \end_layout
 
-\begin_layout Standard
+\begin_layout Part
+Installing the Scripts
+\end_layout
 
+\begin_layout Paragraph
+The 
+\emph on
+install.sh
+\emph default
+ shell script might be useful.
+ If you do not have bash, the script can be installed manually like this:
+\end_layout
+
+\begin_layout Enumerate
+Copy the js_modules folder to the server.
+\end_layout
+
+\begin_layout Enumerate
+Copy the scripts.js file to the server.
+\end_layout
+
+\begin_layout Enumerate
+Copy the COPYING file to the server, and rename it ZVXSCRIPTS_COPYING
+\end_layout
+
+\begin_layout Enumerate
+Create a directory/folder, called 
+\emph on
+js_databases
+\emph default
+ .
+\end_layout
+
+\begin_layout Part
+Permission Configuration
+\end_layout
+
+\begin_layout Subparagraph
+WARNING: The auth changing commands in the players menu 
+\emph on
+do not always work
+\emph default
+.
+ Use /setauth instead.
+\end_layout
+
+\begin_layout Paragraph
+You will probably want to set your administrator account to be in the ServerOper
+ator group.
+ This is a group created by default by the scripts when no groups exist.
+ Type the following into the server console:
+\end_layout
+
+\begin_layout LyX-Code
+/usermod "your username goes here" --group=ServerOperator --add
+\end_layout
+
+\begin_layout Paragraph
+To add Owners, type:
+\end_layout
+
+\begin_layout LyX-Code
+/setauth "username" --level=3
+\end_layout
+
+\begin_layout Paragraph
+Which is an easy way to add users to the Owner group.
+\end_layout
+
+\begin_layout Paragraph
+Keep in mind that the default configuration for the owner group does not
+ have a lot of permissions! If you want to give members of the Owner group
+ all permissions, type:
+\end_layout
+
+\begin_layout LyX-Code
+/groupmod --group=Owner --addperms=SERVEROP
+\end_layout
+
+\begin_layout Paragraph
+You can add more groups with the 
+\emph on
+create 
+\emph default
+option:
+\end_layout
+
+\begin_layout LyX-Code
+/groupmod --create --group=MiniMod --addperms=MUTE,KICK
+\end_layout
+
+\begin_layout Part
+Using the scripts
+\end_layout
+
+\begin_layout Section
+Command parser style
+\end_layout
+
+\begin_layout Paragraph
+You can select between the 
+\emph on
+simple
+\emph default
+ or 
+\emph on
+optargs
+\emph default
+ command parser.
+ The default and the one used in the examples is 
+\emph on
+optargs
+\emph default
+.
+ Some users may find 
+\emph on
+simple 
+\emph default
+easier.
+ To change the parser mode for your account, register, then type:
+\end_layout
+
+\begin_layout LyX-Code
+/userconf commandParser = "simple"
+\end_layout
+
+\begin_layout Subparagraph
+OR
+\end_layout
+
+\begin_layout LyX-Code
+/userconf commandParser = "optargs"
+\end_layout
+
+\begin_layout Paragraph
+
+\emph on
+userconf
+\emph default
+ is an example of a parser neutral command, as it implements it's own parser,
+ the above will always work.
+\end_layout
+
+\begin_layout Paragraph
+Here are some comparisons:
+\end_layout
+
+\begin_layout Subparagraph
+optargs:
+\end_layout
+
+\begin_layout LyX-Code
+/ban "noob with spaces" 212.23.276.0/24 -time="4 hours" -reason=spamming
+\end_layout
+
+\begin_layout Subparagraph
+simple:
+\end_layout
+
+\begin_layout LyX-Code
+/ban noob with spaces*212.23.276.0/24:time=4 hours:reason=spamming
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout Section
+/commands
+\end_layout
+
+\begin_layout Paragraph
+Use "/commands" or "/commands --all" to get a list of commands.
+ It has fairly complete information and always lists 
+\emph on
+every 
+\emph default
+command that's relevant, but is rather brief.
+ You may use /commands --examples as well, or --examples --all etc.
+\end_layout
+
+\begin_layout Section
+/modprobe
+\end_layout
+
+\begin_layout Paragraph
+/modprobe will help you manage LSMs (loadable script modules.) By default,
+ it will list loaded modules.
+ If you include modules as arguments, it will list information about that
+ module.
+\end_layout
+
+\begin_layout Paragraph
+/modprobe has a few options as well:
+\end_layout
+
+\begin_layout Description
+load Loads modules
+\end_layout
+
+\begin_layout Description
+reload Loads modules, if they were already loaded then unloads them first.
+\end_layout
+
+\begin_layout Description
+unload Removes modules
+\end_layout
+
+\begin_layout Section
+/ioctrl
+\end_layout
+
+\begin_layout Paragraph
+/ioctrl provides you with a critical command to manage the script databases
+ in a simple and straightforward manner.
+ By default it lists the databases open.
+ You also have a few options to apply to open databases:
+\end_layout
+
+\begin_layout Description
+all Changes the selected databases to include all databases, not just the
+ ones you listed manually.
+\end_layout
+
+\begin_layout Description
+commit Commits all database changes to file.
+\end_layout
+
+\begin_layout Description
+sync Synchronizes all databases to file.
+ Basically the same as commit except this writes the 
+\emph on
+whole
+\emph default
+ database, not just changes.
+ Will merge all commits into the database.
+\end_layout
+
+\begin_layout Description
+backup Makes a copy of the entire database and writes it to a file.
+\end_layout
+
+\begin_layout Description
+purge Delete database.
+\end_layout
+
+\begin_layout Paragraph
+Note that databases automatically commit data every once in a while and
+ synchronize at open and close, by default.
+\end_layout
+
+\begin_layout Section
+/eval
+\end_layout
+
+\begin_layout Paragraph
+Used by nearly every script admin.
+ This allows you run arbitrary code on the server.
+\end_layout
+
+\begin_layout Section
+Security Commands
+\end_layout
+
+\begin_layout Subsection
+/ban 
+\end_layout
+
+\begin_layout Paragraph
+Ban player names, ip addresses, subnets, or regular expressions from the
+ server.
+\end_layout
+
+\begin_layout Subsubsection
+Options
+\end_layout
+
+\begin_layout Description
+reason Specify a reason for the ban.
+\end_layout
+
+\begin_layout Description
+time Specify a duration for the ban.
+\end_layout
+
+\begin_layout Description
+silent Might not show a message.
+\end_layout
+
+\begin_layout Description
+ip For all listed usernames, ban their IP address also.
+\end_layout
+
+\begin_layout Subsection
+/mute 
+\end_layout
+
+\begin_layout Paragraph
+Mute player names, ip addresses, subnets, or regular expressions in the
+ server.
+\end_layout
+
+\begin_layout Subsubsection
+Options
+\end_layout
+
+\begin_layout Description
+reason Specify a reason for the mute.
+\end_layout
+
+\begin_layout Description
+time Specify a duration for the mute.
+\end_layout
+
+\begin_layout Description
+silent Might not show a message.
+\end_layout
+
+\begin_layout Description
+ip For all listed usernames, ban their IP address also.
 \end_layout
 
 \end_body

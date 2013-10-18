@@ -496,7 +496,7 @@
              sys.sendHtmlMessage(
                  src,
                  "<timestamp /><b>ZVxScripts Copyright © 2013 Ryan P. Nicholl \"ArchZombie0x\" &lt;archzombielord@gmail.com&gt;</b><br/>" +
-                     "You may download these scripts for your own server at <a href=\'https://github.com/ArchZombie/zvxscripts\'>https://github.com/ArchZombie/zvxscripts</a> <a href='https://github.com/ArchZombie/zvxscripts/archive/master.zip'>[link to .zip]</a>, or if this is incorrect, using <em>/getsource</em>. Scripts are available under the <em>GNU Affero General Public License</em> as published by the Free Software Foundation, version 3, or, at your option, any later version."
+                     "You may download these scripts for your own server at <a href=\'https://github.com/ArchZombie/zvxscripts\'>https://github.com/ArchZombie/zvxscripts</a> <a href='https://github.com/ArchZombie/zvxscripts/archive/master.zip'>[link to .zip]</a>. Scripts are available under the <em>GNU Affero General Public License</em> as published by the Free Software Foundation, version 3, or, at your option, any later version.<br/>For help with using the scripts, <a href='https://github.com/ArchZombie/ZVxScripts/raw/master/manual.pdf'>click here</a>."
              );
          }
          ,
