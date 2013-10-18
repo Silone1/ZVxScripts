@@ -39,10 +39,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             [{args: ["Super Admin", "Super Admin2"], flags: {level: "owner"} }, "Makes the users Super Admin and Super Admin2 both owners."]
         ]
         ,
-        perm: function (src)
-        {
-            return this.user.hasPerm(src, "AUTH");
-        }
+        perm: "AUTH"
         ,
         code: function (src, cmd, chan)
         {
