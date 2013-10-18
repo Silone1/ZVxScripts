@@ -70,12 +70,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     {
         server:true,
 
-        desc: "Mute user(s)",
+        desc: "Mute prevents users from talking in the main chat. Can mute usernames, IPs, regular expressions, or subnets. Users with PROTECTED permission are not affecte by mutes.",
 
         options:
         {
-            reason: "Reason for the mute"
-            ,
+            reason: "Reason for the mute",
             time: "Duration to mute for",
             ip: "Also mute the user's IP address."
         },
@@ -129,11 +128,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
             }
 
-            for (var x in names)
+            if (cmd.flags.ip) for (var x in names)
             {
                 if (sys.dbRegistered(names[x]))
                 {
-                    if (cmd.flags.ip) this.util.concatSets(ips, sys.ip(src));
+                     this.util.concatSets(ips, sys.ip(src));
                 }
             }
 

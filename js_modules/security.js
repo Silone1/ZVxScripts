@@ -40,6 +40,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
      },
 
+     chk: function ()
+     {
+         var q = this.user.users();
+
+         if (this.script.modules.gateway) for (var x in q)
+         {
+             this.script.modules.gateway.checkUser(q[x]);
+         }
+     },
+
+
      afflicted: function (src, object)
      {
          var lname, ip;

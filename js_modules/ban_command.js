@@ -85,7 +85,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     {
         server: true
         ,
-        desc: "Bans users from the server"
+        desc:  "Ban prevents users from joining the server. Can ban usernames, IPs, regular expressions, or subnets. Users with PROTECTED permission are not affecte by bans.",
         ,
         options:
         {
@@ -139,11 +139,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
             }
 
-            for (var x in names)
+            if (cmd.flags.ip) for (var x in names)
             {
                 if (sys.dbRegistered(names[x]))
                 {
-                    if (cmd.flags.ip) this.util.concatSets(ips, sys.ip(src));
+                     this.util.concatSets(ips, sys.ip(src));
                 }
             }
 
@@ -166,7 +166,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 nameRegex: regexes,
                 hostnames: hostnames,
                 expires: exp,
-                reason: cmd.flags.reason,
+                reason: cmd.flags.reason || null,
                 author: this.user.name(src)
             };
 

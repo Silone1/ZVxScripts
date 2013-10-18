@@ -30,10 +30,8 @@
          this.script.registerHandler("afterChangeTeam", this);
      },
 
-
-     beforeLogIn: function(src)
+     checkUser: function (src)
      {
-
 
          var banID = this.security.banID(src);
 
@@ -54,6 +52,7 @@
 
                  this.logs.logMessage(this.logs.WARN, "Banned user: " + sys.name(src) + " (IP: " + sys.ip(src) + ") (#: " + banID + ") tried to log in.");
                  sys.stopEvent();
+                 return false;
              }
              else
              {
@@ -61,6 +60,14 @@
              }
          }
 
+         return true;
+     },
+
+     beforeLogIn: function(src)
+     {
+
+
+         if (! this.checkUser(src)) return;
 
 
 
