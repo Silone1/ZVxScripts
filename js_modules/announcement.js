@@ -39,6 +39,19 @@
              };
 
          this.io.registerConfig(this, announcementObject, true);
+         this.commands.registerCommand("announcement", this);
+     },
+
+     announcement:
+     {
+         server: true,
+         desc: "Shortcut for /configure announcement.text .",
+         perm: "CONFIGURE[ANNOUNCEMENT.TEXT]",
+         code: function (src, cmd, chan)
+         {
+             if (!cmd.input) this.commands.issueCommand(src, "/configure announcement.text", chan);
+             else this.commands.issueCommand(src, "/configure announcement.text = " + JSON.stringify(cmd.input), chan);
+         }
      }
 
  });
