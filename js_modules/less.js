@@ -76,19 +76,20 @@
 
          function handle (_, msg)
          {
-             if (msg.toLowerCase() == "exit")
+             var lmsg = msg.toLowerCase();
+             if (lmsg === "exit" || lmsg === "e" || lmsg === "q" || lmsg === "quit")
              {
                  bind.com.message([src], "<span style='color:white;background-color:black'>EXITED VIEW MODE.</span>", -1, true);
                  return;
              }
 
-             if (msg.toLowerCase() == "next" || msg.toLowerCase() == "n")
+             if (lmsg === "next" || lmsg === "n")
              {
                  showPage();
                  return;
              }
 
-             bind.com.message([src], "<span style='color:white;background-color:black'>YOU ARE IN VIEW MODE. TYPE 'NEXT' TO GO TO THE NEXT PAGE, OR 'EXIT' TO EXIT VIEW MODE.</span>", -1, true);
+             bind.com.message([src], "<span style='color:white;background-color:black'>YOU ARE IN VIEW MODE. TYPE 'NEXT' TO GO TO THE NEXT PAGE, OR 'QUIT' TO EXIT VIEW MODE.</span>", -1, true);
              bind.chat.registerCapture(src, handle, bind);
          }
 
