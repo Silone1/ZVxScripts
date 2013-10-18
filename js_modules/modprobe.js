@@ -36,12 +36,10 @@
      /** The modprobe command loads and unloads modules. See the user manual.
       * @type commandDescriptor
       */
-     modprobe:
+     modulectrl:
      {
-         server: true
-         ,
-         desc: "Manages loadable modules."
-         ,
+         server: true,
+         desc: "Manages loadable modules. If run without any option, lists modules.",
          options :
          {
              "load": "Loads modules."
@@ -53,11 +51,7 @@
              "hotswap": "Hotswaps modules (does not reload if hotswapping is not possible.)"
          }
          ,
-         perm: function (src, cmd, chan)
-         {
-             return "MODPROBE" in this.user.groups(src);
-         }
-         ,
+         perm: "MODPROBE",
          /** The modprobe command will list all the modules, or --load, --unload, or --reload them */
          code: function (src, cmd, chan)
          {
@@ -65,6 +59,11 @@
 
              if (flags.length === 0)
              {
+                 var k = Object.keys(this.script.modules);
+
+                 this.com.message(src, "Loaded Modules: " + k.join(" , ") + " .");
+                 return;
+
                  if (cmd.args.length === 0)
                  {
                      this.com.message([src], "Statted modules:", this.theme.INFO);

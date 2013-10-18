@@ -7,7 +7,7 @@
 	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
 	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/*  ///////////////////////// LEGAL NOTICE ///////////////////////////////
 <span class='line'>  2</span> 
-<span class='line'>  3</span> This file is part of ZScripts,
+<span class='line'>  3</span> This file is part of ZVxScripts,
 <span class='line'>  4</span> a modular script framework for Pokemon Online server scripting.
 <span class='line'>  5</span> 
 <span class='line'>  6</span> Copyright (C) 2013  Ryan P. Nicholl, aka "ArchZombie" / "ArchZombie0x", &lt;archzombielord@gmail.com>
@@ -27,7 +27,7 @@
 <span class='line'> 20</span> 
 <span class='line'> 21</span> /////////////////////// END LEGAL NOTICE /////////////////////////////// */</span><span class="WHIT">
 <span class='line'> 22</span> </span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 23</span> </span><span class="WHIT">    </span><span class="NAME">require</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="STRN">"commands"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"text"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"security"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"profile"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"com"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"user"</span><span class="PUNC">]</span><span class="WHIT">
+<span class='line'> 23</span> </span><span class="WHIT">    </span><span class="NAME">require</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="STRN">"commands"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"text"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"security"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"com"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"user"</span><span class="PUNC">]</span><span class="WHIT">
 <span class='line'> 24</span> </span><span class="WHIT">    </span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'> 25</span> </span><span class="WHIT">    </span><span class="NAME">loadModule</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
 <span class='line'> 26</span> </span><span class="WHIT">    </span><span class="PUNC">{</span><span class="WHIT">
@@ -42,7 +42,7 @@
 <span class='line'> 35</span> </span><span class="WHIT">        </span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'> 36</span> </span><span class="WHIT">        </span><span class="NAME">perm</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">src</span><span class="PUNC">)</span><span class="WHIT">
 <span class='line'> 37</span> </span><span class="WHIT">        </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 38</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">this.security.profIsMuted</span><span class="PUNC">(</span><span class="NAME">this.profile.profileID</span><span class="PUNC">(</span><span class="NAME">src</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 38</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.user.hasPerm</span><span class="PUNC">(</span><span class="NAME">src</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"CHAT"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'> 39</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
 <span class='line'> 40</span> </span><span class="WHIT">        </span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'> 41</span> </span><span class="WHIT">        </span><span class="NAME">code</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">src</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">cmd</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">chan</span><span class="PUNC">)</span><span class="WHIT">

@@ -7,7 +7,7 @@
 	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
 	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/*  ///////////////////////// LEGAL NOTICE ///////////////////////////////
 <span class='line'>  2</span> 
-<span class='line'>  3</span> This file is part of ZScripts,
+<span class='line'>  3</span> This file is part of ZVxScripts,
 <span class='line'>  4</span> a modular script framework for Pokemon Online server scripting.
 <span class='line'>  5</span> 
 <span class='line'>  6</span> Copyright (C) 2013  Ryan P. Nicholl, aka "ArchZombie" / "ArchZombie0x", &lt;archzombielord@gmail.com>
@@ -27,7 +27,7 @@
 <span class='line'> 20</span> 
 <span class='line'> 21</span> /////////////////////// END LEGAL NOTICE /////////////////////////////// */</span><span class="WHIT">
 <span class='line'> 22</span> </span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 23</span> </span><span class="WHIT">    </span><span class="NAME">require</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="STRN">"io"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"com"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"logs"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"theme"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"commands"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"less"</span><span class="PUNC">]</span><span class="WHIT">
+<span class='line'> 23</span> </span><span class="WHIT">    </span><span class="NAME">require</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="STRN">"io"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"com"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"logs"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"theme"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"commands"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"less"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"user"</span><span class="PUNC">]</span><span class="WHIT">
 <span class='line'> 24</span> </span><span class="WHIT">    </span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'> 25</span> </span><span class="WHIT">    </span><span class="NAME">loadModule</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
 <span class='line'> 26</span> </span><span class="WHIT">    </span><span class="PUNC">{</span><span class="WHIT">
@@ -55,7 +55,7 @@
 <span class='line'> 48</span> </span><span class="WHIT">        </span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'> 49</span> </span><span class="WHIT">        </span><span class="NAME">perm</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">src</span><span class="PUNC">)</span><span class="WHIT">
 <span class='line'> 50</span> </span><span class="WHIT">        </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 51</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">sys.auth</span><span class="PUNC">(</span><span class="NAME">src</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NUMB">3</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 51</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="STRN">"IO"</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">this.user.groups</span><span class="PUNC">(</span><span class="NAME">src</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'> 52</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
 <span class='line'> 53</span> </span><span class="WHIT">        </span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'> 54</span> </span><span class="WHIT">        </span><span class="NAME">code</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">src</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">cmd</span><span class="PUNC">)</span><span class="WHIT">
@@ -110,11 +110,16 @@
 <span class='line'>103</span> 
 <span class='line'>104</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
 <span class='line'>105</span> 
-<span class='line'>106</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">cmd.flags.purge</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">x</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">dblist</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>106</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">cmd.flags.purge</span><span class="PUNC">)</span><span class="WHIT">
 <span class='line'>107</span> </span><span class="WHIT">            </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>108</span> </span><span class="WHIT">                </span><span class="NAME">this.io.purgeDB</span><span class="PUNC">(</span><span class="NAME">dblist</span><span class="PUNC">[</span><span class="NAME">x</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>109</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>110</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>111</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>112</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>113</span> </span></pre></body></html>
+<span class='line'>108</span> </span><span class="WHIT">                </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">x</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">dblist</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>109</span> </span><span class="WHIT">                </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>110</span> </span><span class="WHIT">                    </span><span class="NAME">this.io.purgeDB</span><span class="PUNC">(</span><span class="NAME">dblist</span><span class="PUNC">[</span><span class="NAME">x</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>111</span> 
+<span class='line'>112</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>113</span> </span><span class="WHIT">                </span><span class="NAME">this.script.reloadModule</span><span class="PUNC">(</span><span class="STRN">"io"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>114</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>115</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>116</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>117</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>118</span> </span></pre></body></html>

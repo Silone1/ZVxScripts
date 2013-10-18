@@ -227,6 +227,8 @@ ul.inheritsList
 	
 	<li><a href="../symbols/script.modules.io.html">script.modules.io</a></li>
 	
+	<li><a href="../symbols/script.modules.io2.html">script.modules.io2</a></li>
+	
 	<li><a href="../symbols/script.modules.less.html">script.modules.less</a></li>
 	
 	<li><a href="../symbols/script.modules.modprobe.html">script.modules.modprobe</a></li>
@@ -244,6 +246,8 @@ ul.inheritsList
 	<li><a href="../symbols/script.modules.user.html">script.modules.user</a></li>
 	
 	<li><a href="../symbols/script.modules.util.html">script.modules.util</a></li>
+	
+	<li><a href="../symbols/script.modules.zjdata.html">script.modules.zjdata</a></li>
 	
 </ul>
 <hr />
@@ -265,7 +269,7 @@ ul.inheritsList
 				
 				
 				
-					<br /><i>Defined in: </i> <a href="../symbols/src/js_modules_main.js.html">main.js</a>.
+					<br /><i>Defined in: </i> <a href="../symbols/src/main2.js.html">main2.js</a>.
 				
 			</p>
 
@@ -327,6 +331,16 @@ ul.inheritsList
 							</td>
 						</tr>
 					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								script.<b><a href="../symbols/script.html#.modInfo">modInfo</a></b>
+								</div>
+								<div class="description">Various information about modules</div>
+							</td>
+						</tr>
+					
 					</tbody>
 				</table>
 				
@@ -369,6 +383,15 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
+								<div class="fixedFont">script.<b><a href="../symbols/script.html#.evaluateModule">evaluateModule</a></b>(modname)
+								</div>
+								<div class="description">Changes a pending module into a ready module</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
 								<div class="fixedFont">script.<b><a href="../symbols/script.html#.loadModule">loadModule</a></b>(modname)
 								</div>
 								<div class="description">Loads a module</div>
@@ -405,7 +428,16 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont">script.<b><a href="../symbols/script.html#.unloadModule">unloadModule</a></b>(modname)
+								<div class="fixedFont">script.<b><a href="../symbols/script.html#.sourceModule">sourceModule</a></b>(modname)
+								</div>
+								<div class="description">Updates source code for the module</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">script.<b><a href="../symbols/script.html#.unloadModule">unloadModule</a></b>(modname, hot)
 								</div>
 								<div class="description">Unloads a module</div>
 							</td>
@@ -502,6 +534,9 @@ ul.inheritsList
 					<div class="description">
 						Holds some very basic configuration
 						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/js_modules_main.js.html">main.js</a>.
+						
 						
 					</div>
 					
@@ -523,6 +558,28 @@ ul.inheritsList
 					</div>
 					<div class="description">
 						Hooks to be added to all modules
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".modInfo"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">script.</span><b>modInfo</b>
+					
+					</div>
+					<div class="description">
+						Various information about modules
 						
 						
 					</div>
@@ -590,6 +647,9 @@ ul.inheritsList
 					<div class="description">
 						Does nothing
 						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/js_modules_main.js.html">main.js</a>.
+						
 						
 					</div>
 					
@@ -614,6 +674,42 @@ ul.inheritsList
 								Doesn't do anything
 							</dt>
 							</dl>
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".evaluateModule"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">script.</span><b>evaluateModule</b>(modname)
+					
+					</div>
+					<div class="description">
+						Changes a pending module into a ready module
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>modname</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
 						
 						
 						
@@ -789,11 +885,47 @@ ul.inheritsList
 
 					<hr />
 				
+					<a name=".sourceModule"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">script.</span><b>sourceModule</b>(modname)
+					
+					</div>
+					<div class="description">
+						Updates source code for the module
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>modname</b>
+									
+								</dt>
+								<dd>What module to update</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
 					<a name=".unloadModule"> </a>
 					<div class="fixedFont">&lt;static&gt; 
 					
 					<span class="light">{string[]}</span>
-					<span class="light">script.</span><b>unloadModule</b>(modname)
+					<span class="light">script.</span><b>unloadModule</b>(modname, hot)
 					
 					</div>
 					<div class="description">
@@ -813,6 +945,12 @@ ul.inheritsList
 									
 								</dt>
 								<dd>Name of module to remove.</dd>
+							
+								<dt>
+									<b>hot</b>
+									
+								</dt>
+								<dd></dd>
 							
 							</dl>
 						
@@ -899,7 +1037,7 @@ ul.inheritsList
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Mon Jul 15 2013 22:55:53 GMT-0400 (EDT)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Tue Oct 15 2013 13:45:19 GMT-0400 (EDT)
 		</div>
 	</body>
 </html>

@@ -19,7 +19,9 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
  /////////////////////// END LEGAL NOTICE /////////////////////////////// */
+// Command
 ({
+
      require: ["commands", "logs", "text", "theme", "com"],
 
      loadModule: function ()
@@ -33,7 +35,7 @@
           return;
           }*/
 
-         this.commands.registerCommand("getsource", this);
+         //this.commands.registerCommand("getsource", this);
      },
 
 

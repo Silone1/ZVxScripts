@@ -227,6 +227,8 @@ ul.inheritsList
 	
 	<li><a href="../symbols/script.modules.io.html">script.modules.io</a></li>
 	
+	<li><a href="../symbols/script.modules.io2.html">script.modules.io2</a></li>
+	
 	<li><a href="../symbols/script.modules.less.html">script.modules.less</a></li>
 	
 	<li><a href="../symbols/script.modules.modprobe.html">script.modules.modprobe</a></li>
@@ -245,6 +247,8 @@ ul.inheritsList
 	
 	<li><a href="../symbols/script.modules.util.html">script.modules.util</a></li>
 	
+	<li><a href="../symbols/script.modules.zjdata.html">script.modules.zjdata</a></li>
+	
 </ul>
 <hr />
 			<!-- end publish.classesIndex -->
@@ -260,6 +264,8 @@ ul.inheritsList
 <!-- ============================== class summary ========================== -->			
 			<p class="description">
 				
+				<br />Extends
+					<a href="../symbols/Module.html">Module</a>.<br />
 				
 			
 				
@@ -311,9 +317,99 @@ ul.inheritsList
 							<td class="attributes">&lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">
+								script.modules.io.<b><a href="../symbols/script.modules.io.html#.BACKUP">BACKUP</a></b>
+								</div>
+								<div class="description">On databse backup</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								script.modules.io.<b><a href="../symbols/script.modules.io.html#.CLOSE">CLOSE</a></b>
+								</div>
+								<div class="description">When database is closed</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								script.modules.io.<b><a href="../symbols/script.modules.io.html#.COMMIT">COMMIT</a></b>
+								</div>
+								<div class="description">On database commit</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								script.modules.io.<b><a href="../symbols/script.modules.io.html#.configs">configs</a></b>
+								</div>
+								<div class="description">Object that stores configuration objects.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								script.modules.io.<b><a href="../symbols/script.modules.io.html#.MARK">MARK</a></b>
+								</div>
+								<div class="description">On database mark</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								script.modules.io.<b><a href="../symbols/script.modules.io.html#.OPEN">OPEN</a></b>
+								</div>
+								<div class="description">When database is opened</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
 								script.modules.io.<b><a href="../symbols/script.modules.io.html#.openDBs">openDBs</a></b>
 								</div>
 								<div class="description">Object that contains all databases</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								script.modules.io.<b><a href="../symbols/script.modules.io.html#.PURGE">PURGE</a></b>
+								</div>
+								<div class="description">On database purge</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								script.modules.io.<b><a href="../symbols/script.modules.io.html#.schemas">schemas</a></b>
+								</div>
+								<div class="description">Object that stores configuration schemas.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								script.modules.io.<b><a href="../symbols/script.modules.io.html#.SYNC">SYNC</a></b>
+								</div>
+								<div class="description">On database sync</div>
 							</td>
 						</tr>
 					
@@ -321,6 +417,10 @@ ul.inheritsList
 				</table>
 				
 				
+				
+				<dl class="inheritsList">
+				<dt>Fields borrowed from class <a href="../symbols/Module.html">Module</a>: </dt><dd><a href="../symbols/Module.html#modname">modname</a></dd>
+				</dl>
 				
 			
 
@@ -337,6 +437,15 @@ ul.inheritsList
 						</tr>
 					</thead>
 					<tbody>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">script.modules.io.<b><a href="../symbols/script.modules.io.html#.callConfigureHooks">callConfigureHooks</a></b>(modname)
+								</div>
+								<div class="description">Calls the configure events.</div>
+							</td>
+						</tr>
 					
 						<tr>
 							<td class="attributes">&lt;static&gt; &nbsp;</td>
@@ -377,7 +486,7 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont">script.modules.io.<b><a href="../symbols/script.modules.io.html#.openDB">openDB</a></b>(dbname)
+								<div class="fixedFont">script.modules.io.<b><a href="../symbols/script.modules.io.html#.openDB">openDB</a></b>(dbname, dboptions)
 								</div>
 								<div class="description">Opens a database</div>
 							</td>
@@ -395,18 +504,18 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont">script.modules.io.<b><a href="../symbols/script.modules.io.html#.read">read</a></b>(dbname)
+								<div class="fixedFont">script.modules.io.<b><a href="../symbols/script.modules.io.html#.registerConfig">registerConfig</a></b>(module, defs)
 								</div>
-								<div class="description">Reads file data</div>
+								<div class="description">Registers the module's module.config property.</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont">script.modules.io.<b><a href="../symbols/script.modules.io.html#.write">write</a></b>(dbname, obj, fast)
+								<div class="fixedFont">script.modules.io.<b><a href="../symbols/script.modules.io.html#.registerConfig2">registerConfig2</a></b>(module, schema)
 								</div>
-								<div class="description">Reads file data</div>
+								<div class="description">(Unimplemented) Registeres a module's config and related schema information.</div>
 							</td>
 						</tr>
 					
@@ -415,8 +524,21 @@ ul.inheritsList
 				
 				
 				
+				<dl class="inheritsList">
+				<dt>Methods borrowed from class <a href="../symbols/Module.html">Module</a>: </dt><dd><a href="../symbols/Module.html#onUnloadModule">onUnloadModule</a></dd>
+				</dl>
+				
 			
 <!-- ============================== events summary ======================== -->
+			
+				
+				
+				
+				
+				<dl class="inheritsList">
+				<dt>Events borrowed from class <a href="../symbols/Module.html">Module</a>: </dt><dd><a href="../symbols/Module.html#event:configureEvent">configureEvent</a>, <a href="../symbols/Module.html#event:loadModule">loadModule</a>, <a href="../symbols/Module.html#event:unloadModule">unloadModule</a></dd>
+				</dl>
+				
 			
 
 <!-- ============================== constructor details ==================== -->		
@@ -455,6 +577,138 @@ ul.inheritsList
 					Field Detail
 				</div>
 				
+					<a name=".BACKUP"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">script.modules.io.</span><b>BACKUP</b>
+					
+					</div>
+					<div class="description">
+						On databse backup
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".CLOSE"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">script.modules.io.</span><b>CLOSE</b>
+					
+					</div>
+					<div class="description">
+						When database is closed
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".COMMIT"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">script.modules.io.</span><b>COMMIT</b>
+					
+					</div>
+					<div class="description">
+						On database commit
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".configs"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">script.modules.io.</span><b>configs</b>
+					
+					</div>
+					<div class="description">
+						Object that stores configuration objects.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".MARK"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">script.modules.io.</span><b>MARK</b>
+					
+					</div>
+					<div class="description">
+						On database mark
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".OPEN"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">script.modules.io.</span><b>OPEN</b>
+					
+					</div>
+					<div class="description">
+						When database is opened
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
 					<a name=".openDBs"> </a>
 					<div class="fixedFont">&lt;static&gt; 
 					
@@ -475,6 +729,72 @@ ul.inheritsList
 						
 						
 
+					<hr />
+				
+					<a name=".PURGE"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">script.modules.io.</span><b>PURGE</b>
+					
+					</div>
+					<div class="description">
+						On database purge
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".schemas"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">script.modules.io.</span><b>schemas</b>
+					
+					</div>
+					<div class="description">
+						Object that stores configuration schemas.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".SYNC"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">script.modules.io.</span><b>SYNC</b>
+					
+					</div>
+					<div class="description">
+						On database sync
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
 					
 				
 			
@@ -484,6 +804,42 @@ ul.inheritsList
 				<div class="sectionTitle">
 					Method Detail
 				</div>
+				
+					<a name=".callConfigureHooks"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">script.modules.io.</span><b>callConfigureHooks</b>(modname)
+					
+					</div>
+					<div class="description">
+						Calls the configure events.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>modname</b>
+									
+								</dt>
+								<dd>What module to call.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
 				
 					<a name=".closeDB"> </a>
 					<div class="fixedFont">&lt;static&gt; 
@@ -633,7 +989,7 @@ ul.inheritsList
 					<div class="fixedFont">&lt;static&gt; 
 					
 					<span class="light">{IOdatabase}</span>
-					<span class="light">script.modules.io.</span><b>openDB</b>(dbname)
+					<span class="light">script.modules.io.</span><b>openDB</b>(dbname, dboptions)
 					
 					</div>
 					<div class="description">
@@ -650,6 +1006,12 @@ ul.inheritsList
 							
 								<dt>
 									<b>dbname</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>dboptions</b>
 									
 								</dt>
 								<dd></dd>
@@ -708,15 +1070,15 @@ ul.inheritsList
 
 					<hr />
 				
-					<a name=".read"> </a>
+					<a name=".registerConfig"> </a>
 					<div class="fixedFont">&lt;static&gt; 
 					
 					
-					<span class="light">script.modules.io.</span><b>read</b>(dbname)
+					<span class="light">script.modules.io.</span><b>registerConfig</b>(module, defs)
 					
 					</div>
 					<div class="description">
-						Reads file data
+						Registers the module's module.config property.
 						
 						
 					</div>
@@ -728,20 +1090,19 @@ ul.inheritsList
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<b>dbname</b>
+									<b>module</b>
 									
 								</dt>
-								<dd></dd>
+								<dd>The "this" modules to apply the function to.</dd>
+							
+								<dt>
+									<b>defs</b>
+									
+								</dt>
+								<dd>The default configuration</dd>
 							
 							</dl>
 						
-						
-							<dl class="detailList">
-							<dt class="heading">Deprecated:</dt>
-							<dt>
-								Use openDB instead.
-							</dt>
-							</dl>
 						
 						
 						
@@ -751,15 +1112,15 @@ ul.inheritsList
 
 					<hr />
 				
-					<a name=".write"> </a>
+					<a name=".registerConfig2"> </a>
 					<div class="fixedFont">&lt;static&gt; 
 					
 					
-					<span class="light">script.modules.io.</span><b>write</b>(dbname, obj, fast)
+					<span class="light">script.modules.io.</span><b>registerConfig2</b>(module, schema)
 					
 					</div>
 					<div class="description">
-						Reads file data
+						(Unimplemented) Registeres a module's config and related schema information.
 						
 						
 					</div>
@@ -771,32 +1132,19 @@ ul.inheritsList
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<b>dbname</b>
+									<b>module</b>
 									
 								</dt>
 								<dd></dd>
 							
 								<dt>
-									<b>obj</b>
-									
-								</dt>
-								<dd></dd>
-							
-								<dt>
-									<b>fast</b>
+									<b>schema</b>
 									
 								</dt>
 								<dd></dd>
 							
 							</dl>
 						
-						
-							<dl class="detailList">
-							<dt class="heading">Deprecated:</dt>
-							<dt>
-								Use commitDB instead.
-							</dt>
-							</dl>
 						
 						
 						
@@ -818,7 +1166,7 @@ ul.inheritsList
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Mon Jul 15 2013 22:55:53 GMT-0400 (EDT)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Tue Oct 15 2013 13:45:20 GMT-0400 (EDT)
 		</div>
 	</body>
 </html>

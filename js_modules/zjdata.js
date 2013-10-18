@@ -22,6 +22,7 @@
 /** Implements fast data serialization, but slower parses
  * @name zjdata
  * @memberOf script.modules
+ * @augments Module
  * @namespace
  * */
 /** @scope script.modules.zjdata */
@@ -31,7 +32,7 @@
       * @param ordered If the object should be serialized in ordered mode.
       * @return Text marshal.
       */
-     stringify: function (variant, ordered)
+     marshal: function (variant, ordered)
      {
 
          var strings = [];
@@ -83,14 +84,20 @@
 
      },
 
-     parse: function (text, variant)
+
+     /** Parses zjdata streams.
+      * @param text The data to be pased, as a zjdata stream
+      * @param {Object} variant If truthy, the object to apply the stream to.
+      * @param {Boolean} cmode If true, return an object, with variant, versioning, and error (if any). Otherwise operate simply by returning variant on success or throwing an error on failure.
+      * @param {String} version If spooled and non-null, stop parsing when this version tag is reached.
+      * @param {Function} callback (Unimplemented) Function to be called when an exec statement is reached.
+      * @returns In normal-mode, return the variant after parsing. In c-mode, return an object with properties: variant, error, versions.
+      */
+     parse: function (text, variant, cmode, version, callback)
      {
-         var lines = text.split(/\n/g);
+         var lines = text.split(/\n/g), next = [], xv, verisons;
 
-         var nest = [];
-         var xv;
-
-         for (var x in lines)
+         for (var x in lines) try
          {
              var i = lines[x];
 
@@ -139,14 +146,44 @@
 
                  variant = variant[o[1]];
              }
-             else if (o[1] == "delete")
+             else if (o[0] == "delete")
              {
                  delete variant[o[1]];
              }
 
+             else if (o[0] == "version")
+             {
+                 if (version && version == o[1])
+                 {
+                     if (cmode)
+                     {
+                         return {variant: variant,  error: e};
+                     }
+                     else throw e;
+                 }
+                 else if (cmode)
+                 {
+                     versions.push(o[1]);
+                 }
+             }
+
+             else if (o[0] == "exec")
+             {
+                 //
+             }
+
+         }
+         catch (e)
+         {
+             if (cmode)
+             {
+                 return {variant: variant,  error: e};
+             }
+             else throw e;
          }
 
-         return variant;
+         if (cmode) return {variant: variant, error: null};
+         else return variant;
 
      },
 

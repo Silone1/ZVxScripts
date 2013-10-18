@@ -22,20 +22,26 @@
 /** Implements I/O layer
  * @name io
  * @memberOf script.modules
+ * @augments Module
  * @namespace
  * */
 /** @scope script.modules.io */
 ({
      require: ["dmp", "logs", "util", "zsrx", "zjdata"],
 
-
-     // IOPS
+     /** When database is opened */
      OPEN: 1,
+     /** When database is closed */
      CLOSE: 2,
+     /** On database commit */
      COMMIT: 3,
+     /** On database sync */
      SYNC: 4,
+     /** On databse backup */
      BACKUP: 5,
+     /** On database purge */
      PURGE: 6,
+     /** On database mark */
      MARK: 7,
 
      // DB types
@@ -47,12 +53,11 @@
       */
      openDBs: null,
 
-
-     diskRO: false,
-
-
+     /** Object that stores configuration objects. */
      configs: null,
 
+     /** Object that stores configuration schemas. */
+     schemas: null,
 
 
      loadModule: function ()
@@ -71,7 +76,10 @@
          this.registerIOWatcher = this.util.generateRegistor(this, this.util.UNARY_REGISTOR, "IOWatchers");
      },
 
-
+     /** Registers the module's module.config property.
+      * @param module The "this" modules to apply the function to.
+      * @param defs The default configuration
+      */
      registerConfig: function (module, defs)
      {
          if (!this.configs[module.modname]) this.configs[module.modname] = this.openDB(module.modname + ".config");
@@ -81,11 +89,22 @@
              if (! (x in this.configs[module.modname]) ) this.configs[module.modname][x] = defs[x];
          }
 
-
          module.config = this.configs[module.modname];
 
      },
 
+     /** (Unimplemented) Registeres a module's config and related schema information.
+      *
+      */
+     registerConfig2: function (module, schema)
+     {
+         //
+     },
+
+
+     /** Calls the configure events.
+      * @param modname What module to call.
+      */
      callConfigureHooks: function (modname)
      {
          if (this.script.modules[modname].configureEvent)
@@ -94,70 +113,9 @@
          }
      },
 
-     /** Reads file data
-      * @deprecated Use openDB instead.
-      */
-     read: function (dbname)
-     {
-         if (sys.fileExists("js_databases/" + dbname + ".jsqz"))
-         {
-             return sys.readObject("js_databases/" + dbname + ".jsqz");
-         }
-
-         return new Object;
-     },
-
-
-     /** Reads file data
-      * @deprecated Use commitDB instead.
-      */
-     write: function (dbname, obj, fast)
-     {
-         sys.writeObject("js_databases/" +dbname + ".jsqz", obj, (fast?1:3));
-     },
-
-
-     readConfig: function (cfgname, defaults)
-     {
-         if (cfgname in this.configs) return this.configs[cfgname].object;
-
-         if (!sys.fileExists(cfgname + ".config.json"))
-         {
-             sys.write(cfgname+".config.json", JSON.stringify(defaults));
-             return JSON.parse(JSON.stringify(defaults));
-         }
-
-
-
-         var o = JSON.parse (sys.read(cfgname + ".config.json"));
-         var changed = false;
-
-         for (var x in defaults)
-         {
-             if (!(x in o))
-             {
-                 o[x] = defaults[x];
-                 changed = true;
-             }
-         }
-
-         if (changed)
-         {
-             sys.write(cfgname+".config.json", JSON.stringify(o));
-         }
-
-         return o;
-     },
-
-
-     writeConfig: function (cfgname, val)
-     {
-         sys.write(cfgname + ".config.json", JSON.stringify(val));
-     },
-
      registerDB: function (module, dbname, dboptions)
      {
-         var io = this;
+         var io = this, dataText, db;
 
          module.onUnloadModule(
              function()
@@ -170,30 +128,50 @@
 
          // v2
 
+
+
+         //return this.openDB(dbname, dboptions);
+     },
+
+     registerDatabase2: function (module, dbname, dboptions)
+     {
+         var dataText, db, test;
+
          if (this.openDBs[dbname]) throw new Error("??");
+
+         if (sys.fexists("js_databases/" + dbname + ".jsdb"))
+         {
+             dataText = sys.read("js_databases/" + dbname + ".jsdb");
+
+             test = this.zjdata.parse(dataText, null, true);
+
+             db = test.variant;
+
+             if (test.error)
+             {
+                 this.script.error(test.error);
+             }
+
+         }
 
          if (!dboptions)
          {
-             dboptions =
-                 {
-                     journal: false,
-                     transactional: false
-                 };
-         }
-
-         var db = null;
-
-         if (sys.fileExists("js_databases/" + dbname + ".jsdb"))
-         {
-             db = this.zjdata.parse(sys.read("js_databases/" + dbname + ".jsdb"));
+             dboptions = {
+                 journaled: true,
+                 transactional: false
+             };
          }
 
          this.openDBs[dbname] =
              {
-
+                 db: db,
+                 dataText: dataText,
+                 type: type,
+                 lastSave: +new Date,
+                 lastCommit: +new Date
              };
 
-         //return this.openDB(dbname, dboptions);
+         return db;
      },
 
 
@@ -409,3 +387,9 @@
      }
 
  });
+
+/** The event run post-configure.
+ * @event
+ * @memberOf Module.prototype
+ * @name configureEvent
+ */

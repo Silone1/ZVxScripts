@@ -7,7 +7,7 @@
 	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
 	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/*  ///////////////////////// LEGAL NOTICE ///////////////////////////////
 <span class='line'>  2</span> 
-<span class='line'>  3</span> This file is part of ZScripts,
+<span class='line'>  3</span> This file is part of ZVxScripts,
 <span class='line'>  4</span> a modular script framework for Pokemon Online server scripting.
 <span class='line'>  5</span> 
 <span class='line'>  6</span> Copyright (C) 2013  Ryan P. Nicholl, aka "ArchZombie" / "ArchZombie0x", &lt;archzombielord@gmail.com>
@@ -26,38 +26,54 @@
 <span class='line'> 19</span> along with this program.  If not, see &lt;http://www.gnu.org/licenses/>.
 <span class='line'> 20</span> 
 <span class='line'> 21</span> /////////////////////// END LEGAL NOTICE /////////////////////////////// */</span><span class="WHIT">
-<span class='line'> 22</span> </span><span class="COMM">/*
-<span class='line'> 23</span> ({
-<span class='line'> 24</span>     require: ["profile"]
-<span class='line'> 25</span>     ,
-<span class='line'> 26</span>     parseArgs: function (args)
-<span class='line'> 27</span>     {
-<span class='line'> 28</span>     var retval = {
-<span class='line'> 29</span>         profs: []
-<span class='line'> 30</span>         ,
-<span class='line'> 31</span>         uids: []
-<span class='line'> 32</span>     };
-<span class='line'> 33</span> 
-<span class='line'> 34</span>     for (var x in args)
-<span class='line'> 35</span>     {
-<span class='line'> 36</span>         if (args[x].length == 0) continue;
-<span class='line'> 37</span> 
-<span class='line'> 38</span>         if (args[x][0] == ":")
-<span class='line'> 39</span>         {
-<span class='line'> 40</span>             var m = args[x].match(/^\?(\w+):(.+)$/);
-<span class='line'> 41</span>             
-<span class='line'> 42</span>             if (!m) continue;
-<span class='line'> 43</span>             
-<span class='line'> 44</span>             if (m[1] == "prof")
-<span class='line'> 45</span>             {
-<span class='line'> 46</span>                 if ( m[2] in this.profile.database.profiles)
-<span class='line'> 47</span>                 {
-<span class='line'> 48</span>                         profs.push (m[2]);
-<span class='line'> 49</span>                 }
-<span class='line'> 50</span>             }
-<span class='line'> 51</span>         }
-<span class='line'> 52</span>         return retval;
-<span class='line'> 53</span>     }
-<span class='line'> 54</span> });
-<span class='line'> 55</span> */</span><span class="WHIT">
-<span class='line'> 56</span> </span></pre></body></html>
+<span class='line'> 22</span> 
+<span class='line'> 23</span> </span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 24</span> </span><span class="WHIT">    </span><span class="NAME">require</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="STRN">"profile"</span><span class="PUNC">]</span><span class="WHIT">
+<span class='line'> 25</span> </span><span class="WHIT">    </span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 26</span> </span><span class="WHIT">    </span><span class="NAME">parseArgs</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">args</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 27</span> </span><span class="WHIT">    </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 28</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">retval</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT">
+<span class='line'> 29</span> </span><span class="WHIT">            </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 30</span> </span><span class="WHIT">                </span><span class="NAME">profs</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 31</span> </span><span class="WHIT">                </span><span class="NAME">uids</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 32</span> </span><span class="WHIT">                </span><span class="NAME">names</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="WHIT">
+<span class='line'> 33</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 34</span> </span><span class="WHIT">        
+<span class='line'> 35</span>         </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">x</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">args</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 36</span> </span><span class="WHIT">        </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 37</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">args</span><span class="PUNC">[</span><span class="NAME">x</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">length</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">continue</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 38</span> </span><span class="WHIT">            
+<span class='line'> 39</span>             </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">args</span><span class="PUNC">[</span><span class="NAME">x</span><span class="PUNC">]</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">":"</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 40</span> </span><span class="WHIT">            </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 41</span> </span><span class="WHIT">                </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">m</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">args</span><span class="PUNC">[</span><span class="NAME">x</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">match</span><span class="PUNC">(</span><span class="REGX">/^:\?(\w+)\.(.+)$/</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 42</span> </span><span class="WHIT">                
+<span class='line'> 43</span>                 </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">m</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">continue</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 44</span> </span><span class="WHIT">                
+<span class='line'> 45</span>                 </span><span class="PUNC">(</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 46</span> </span><span class="WHIT">                      </span><span class="NAME">ip</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 47</span> </span><span class="WHIT">                      </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 48</span> </span><span class="WHIT">                          </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">prof</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.profile.profileByIP</span><span class="PUNC">(</span><span class="NAME">m</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 49</span> 
+<span class='line'> 50</span> </span><span class="WHIT">                          </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">prof</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="NUMB">1</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 51</span> 
+<span class='line'> 52</span> </span><span class="WHIT">                          </span><span class="NAME">retval.profs.push</span><span class="PUNC">(</span><span class="NAME">prof</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 53</span> 
+<span class='line'> 54</span> </span><span class="WHIT">                          </span><span class="NAME">this.profile.idsOfProf</span><span class="PUNC">(</span><span class="NAME">prof</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">forEach</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'> 55</span> </span><span class="WHIT">                              </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">elm</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 56</span> </span><span class="WHIT">                              </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 57</span> </span><span class="WHIT">                                  </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">retval.uids.indexOf</span><span class="PUNC">(</span><span class="NAME">elm</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="NUMB">1</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">retval.uids.push</span><span class="PUNC">(</span><span class="NAME">elm</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 58</span> </span><span class="WHIT">                              </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 59</span> </span><span class="WHIT">                          </span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 60</span> </span><span class="WHIT">                      </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 61</span> 
+<span class='line'> 62</span> </span><span class="WHIT">                      </span><span class="NAME">id</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 63</span> </span><span class="WHIT">                      </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 64</span> </span><span class="WHIT">                          </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">profs</span><span class="WHIT"> 
+<span class='line'> 65</span>                       </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 66</span> </span><span class="WHIT">                  </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">[</span><span class="NAME">m</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">this.util.nil</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">call</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 67</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 68</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 69</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 70</span> </span><span class="WHIT"> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 71</span> </span><span class="WHIT"> 
+<span class='line'> 72</span>  </span></pre></body></html>
