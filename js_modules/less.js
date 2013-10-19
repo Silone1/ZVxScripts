@@ -94,12 +94,12 @@
 
              if (p*cfg.lessLength >= lines.length)
              {
-                 bind.com.message([src], this.config.fmtEnd, -1, true);
+                 bind.com.message([src], bind.config.fmtEnd, -1, true);
                  return;
              }
              var maxpages =  Math.ceil(lines.length / cfg.lessLength);
 
-             bind.com.message([src], this.config.fmtPage.replace(/<pagenumber\s*\/\s*>/g, p).replace(/<pagecount\s*\/\s*>/g, maxpages), -1, true);
+             bind.com.message([src], bind.config.fmtPage.replace(/<pagenumber\s*\/\s*>/g, p).replace(/<pagecount\s*\/\s*>/g, maxpages), -1, true);
 
              bind.chat.registerCapture(src, handle, bind);
 
@@ -120,7 +120,7 @@
                  return;
              }
              var maxpages =  Math.ceil(lines.length / cfg.lessLength);
-             bind.com.message([src], this.config.fmtError.replace(/<pagenumber\s*\/\s*>/g, p).replace(/<pagecount\s*\/\s*>/g, maxpages), -1, true);
+             bind.com.message([src], bind.config.fmtError.replace(/<pagenumber\s*\/\s*>/g, p).replace(/<pagecount\s*\/\s*>/g, maxpages), -1, true);
              bind.chat.registerCapture(src, handle, bind);
          }
 
