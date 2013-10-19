@@ -26,9 +26,34 @@
  * */
 /** @scope script.modules.less */
 ({
-     require: ["chat", "com", "theme"],
+     require: ["chat", "com", "theme", "io", "user"],
 
-     LESS_LENGTH: 30,
+
+
+
+     loadModule: function ()
+     {
+         this.io.registerConfig(
+             this,
+             {
+                 fmtEnd: "<span style='color:white;background-color:black'>END OF TEXT. EXITED VIEW MODE.</span>",
+                 fmtPage: "<span style='color:white;background-color:black'>END OF PAGE <pagenumber/> OF <pagecount/>. TYPE 'NEXT' TO GO FORWARD, 'EXIT' TO QUIT.</span>",
+                 fmtError: "<span style='color:white;background-color:black'>YOU ARE IN VIEW MODE. TYPE 'NEXT' TO GO TO THE NEXT PAGE, OR 'QUIT' TO EXIT VIEW MODE.</span>",
+                 defaultLessLength: 30,
+                 defaultLessEnabled: true
+
+             });
+
+         this.user.registerConfigHook(this, "configuration");
+     },
+
+
+     configuration: function (c)
+     {
+         if (!c.lessLength) c.lessLength = this.config.defaultLessLength;
+
+         if (!( "lessEnabled" in c)) c.lessEnabled = this.config.defaultLessEnabled;
+     },
 
      /** Less function
       * @param {Number} src User to send less to
@@ -39,11 +64,15 @@
      {
          var lines;
 
+         var cfg = this.user.userConfig(src);
+
+         if (!cfg.lessEnabled) this.com.message(src, msg, -1, html);
+
          if (!html) lines = msg.split(/\n/g);
          else lines = msg.split(/<\s*br\s*\/?>/g);
 
 
-         if (src == 0 || this.LESS_LENGTH >= lines.length) {
+         if (src == 0 || cfg.lessLength >= lines.length) {
              this.com.message(src, msg, -1, html);
              return;
          }
@@ -55,20 +84,22 @@
          function showPage()
          {
 
-             for (var i = 0; ((i < bind.LESS_LENGTH) && (i+(bind.LESS_LENGTH*p) < lines.length)); i++)
+             for (var i = 0; ((i < cfg.lessLength) && (i+(cfg.lessLength*p) < lines.length)); i++)
              {
-                 bind.com.message(src, lines[i+bind.LESS_LENGTH*p], -1, html);
+                 bind.com.message(src, lines[i+cfg.lessLength*p], -1, html);
              }
+
 
              p++;
 
-             if (p*bind.LESS_LENGTH >= lines.length)
+             if (p*cfg.lessLength >= lines.length)
              {
-                 bind.com.message([src], "<span style='color:white;background-color:black'>END OF TEXT. EXITED VIEW MODE.</span>", -1, true);
+                 bind.com.message([src], this.config.fmtEnd, -1, true);
                  return;
              }
+             var maxpages =  Math.ceil(lines.length / cfg.lessLength);
 
-             bind.com.message([src], "<span style='color:white;background-color:black'>END OF PAGE " + (p) +" OF "+ Math.ceil(lines.length / bind.LESS_LENGTH) + ". TYPE 'NEXT' TO GO FORWARD, 'EXIT' TO QUIT.</span>", -1, true);
+             bind.com.message([src], this.config.fmtPage.replace(/<pagenumber\s*\/\s*>/g, p).replace(/<pagecount\s*\/\s*>/g, maxpages), -1, true);
 
              bind.chat.registerCapture(src, handle, bind);
 
@@ -79,7 +110,7 @@
              var lmsg = msg.toLowerCase();
              if (lmsg === "exit" || lmsg === "e" || lmsg === "q" || lmsg === "quit")
              {
-                 bind.com.message([src], "<span style='color:white;background-color:black'>EXITED VIEW MODE.</span>", -1, true);
+                 bind.com.message([src], this.config.fmtEnd, -1, true);
                  return;
              }
 
@@ -88,8 +119,8 @@
                  showPage();
                  return;
              }
-
-             bind.com.message([src], "<span style='color:white;background-color:black'>YOU ARE IN VIEW MODE. TYPE 'NEXT' TO GO TO THE NEXT PAGE, OR 'QUIT' TO EXIT VIEW MODE.</span>", -1, true);
+             var maxpages =  Math.ceil(lines.length / cfg.lessLength);
+             bind.com.message([src], this.config.fmtError.replace(/<pagenumber\s*\/\s*>/g, p).replace(/<pagecount\s*\/\s*>/g, maxpages), -1, true);
              bind.chat.registerCapture(src, handle, bind);
          }
 
