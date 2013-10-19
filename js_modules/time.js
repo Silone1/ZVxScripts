@@ -111,7 +111,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     ,
     strToDiff: function (str)
     {
-        var chunks = str.replace(/\.|\!/g,"").split(/\s*(?:,\s*and|and|,|\b)\s*/g);
+        var chunks = str.replace(/\.|\!/g,"").split(/\s*(?:,\s*and|and|,)\s*/g);
         var total = 0;
 
         for (var x in chunks)
