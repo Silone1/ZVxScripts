@@ -53,16 +53,17 @@
      {
 
          this.script.registerHandler("beforeLogIn", this);
-         var db = this.io.openDB("user");
+         /*var db = this.io.openDB("user");
          db.invisble = db.invisible || new Object;
          db.usergroups = db.usergroups || new Object;
-
-         this.database = db;
-
-         this.database.majorgroupinfo = this.database.majorgroupinfo || new Object;
+          */
+         this.database = {
+             usergroups: this.io.registerDB(this, "user.perms"),
+             majorgroupinfo: this.io.registerDB(this, "user.groups"),
+             userconf: this.io.registerDB(this, "user.userconf")
+         };
+         
          this.relMajors = new Object;
-
-	 if (!this.database.userconf) this.database.userconf = new Object;
 
          this.cache = new Object;
 

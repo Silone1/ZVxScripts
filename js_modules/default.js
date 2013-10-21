@@ -32,7 +32,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 
-         this.io.registerConfig(this, { modules: ["me_command", "info_command", "serverimp", "authlist_command", "readlogs_command", "automute", "logmessager", "rules", "die", "announcement", "clearchat", "antiproxy", "motd" ] });
+         this.io.registerConfig(this, { modules: ["me_command", "channels","info_command", "serverimp", "authlist_command", "readlogs_command", "automute", "logmessager", "rules", "die", "announcement", "clearchat", "antiproxy", "motd" ] });
 
          for (x in this.DEFAULTS)
          {

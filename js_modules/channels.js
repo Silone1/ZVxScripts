@@ -185,6 +185,7 @@
 
      channelinfo:
      {
+         desc: "Returns information about a channel",
          perm: function ()
          {
              return true;
@@ -215,10 +216,15 @@
      {
          desc: "Modifies a channel's mode options.",
          category: "channel",
+         examples:
+         [
+             [{flags:{perm:true}, args: []}, "Makes the channel permanent."]
+         ],
          options:
          {
              "private": "Only voiced members may join.",
-             silent: "Only voiced members may talk."
+             silent: "Only voiced members may talk.",
+             permanent: "Channel will not be closed."
          },
          aliases: ["cctrl"],
          perm: function (src, cmd, chan)
@@ -432,6 +438,7 @@
 
      channelunmute:
      {
+         desc: "Unmutes a user in a channel",
          aliases: ["cunmute"],
          perm: function (src, cmd, chan)
          {
@@ -478,6 +485,11 @@
 
      channelauth:
      {
+         desc: "Sets auth for a user(s) in a channel.",
+         examples:
+         [
+             [{ args: ["User name"], flags: {level:"voice"}}, "Makes 'User name' a voiced member of the channel."]
+         ],
          aliases: ["cauth"],
          server: true,
          perm: function (src)
