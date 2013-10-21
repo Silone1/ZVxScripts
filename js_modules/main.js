@@ -94,6 +94,7 @@
          registerHandler: function registerHandler (handlername, object, propname)
          {
              if (!propname) propname = handlername;
+             var bind = this;
 
              if (! (handlername in script))
              {
@@ -109,7 +110,7 @@
 
                      catch (err)
                      {
-                         this.error(err);
+                         bind.error(err);
                      }
                  };
 

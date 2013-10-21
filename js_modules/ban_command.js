@@ -142,8 +142,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             if (cmd.flags.ip) for (var x in names)
             {
 
-                this.util.concatSets(ips, sys.dbIp(names[x]));
-                
+               ips = this.util.concatSets(ips, [sys.dbIp(names[x])]);
+
             }
 
 

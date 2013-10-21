@@ -20,7 +20,7 @@
 
  /////////////////////// END LEGAL NOTICE /////////////////////////////// */
 ({
-     require: ["chat", "theme", "com", "user"],
+     require: ["chat", "theme", "com", "user", "server", "commands"],
 
      counter:null,
 
@@ -33,14 +33,14 @@
      },
 
 
-     autoFilter: function (src, msg)
+     autoFilter: function (src, msg, chan)
      {
-         if ("SERVEROP" in this.user.groups(src)) return msg;
+         if (this.user.hasPerm(src, "PROTECTED")) return msg;
          var ip = sys.ip(src);
 
          if (! (ip in this.counter)) this.counter[ip] = 0;
 
-         this.counter[ip] += 2;
+         this.counter[ip]++;
 
          var bind = this.counter;
 
@@ -48,21 +48,42 @@
                            bind[ip]--;
                        }, 2000, false);
 
-         sys.setTimer( function () {
-                           bind[ip]--;
-                       }, 15000, false);
+
+         var l = msg.length;
+
+         print(l);
+
+         for (var i = 0; i*30 <= l; i++)
+         {
+
+             this.counter[ip]++;
+             sys.setTimer( function () {
+                               bind[ip]--;
+                           }, 15000, false);
+
+         }
+
+
+         if (this.counter[ip] >= 25)
+         {
+             this.commands.tryCommand(this.server.SERVER, {name:"mute", args:[this.user.name(src)], flags: {ip:true, time: Math.round((+this.counter[ip])/5) + " minutes.", reason: "Anti spam counter is " +this.counter[ip]+ "."}}, chan);
+             this.commands.tryCommand(this.server.SERVER, {name:"kick", args:[this.user.name(src)], flags: {reason: "Anti spam counter is " +this.counter[ip]+ "."}}, chan);
+             return "";
+         }
 
          if (this.counter[ip] >= 10)
          {
              this.com.message(src, "You are flooding, please message less.");
              return "";
          }
-         else if (this.counter[ip] >= 15)
+
+         if (this.counter[ip] >= 15)
          {
-             this.com.broadcast("~Script~ has kicked " + sys.name(src) + "! Reason: Flood", this.theme.WARN);
-             sys.kick(src);
+             this.commands.tryCommand(this.server.SERVER, {name:"kick", args:[this.user.name(src)], flags: {reason: "Anti spam counter is " +this.counter[ip]+ "."}}, chan);
              return "";
          }
+
+
 
          return msg;
      }

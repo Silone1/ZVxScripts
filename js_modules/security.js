@@ -50,10 +50,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
          }
      },
 
-
-     afflicted: function (src, object)
+     parseAfflictedArgs: function (args)
      {
-         var lname, ip;
+
+     },
+
+
+     afflicted: function (src, object, expire)
+     {
+         var lname, ip, now;
 
          ip = (src == 0? "0.0.0.0" : sys.ip(src));
 
@@ -64,6 +69,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
          for (var x in object)
          {
              var ban = object[x];
+             if (ban.expires && ban.expires !== true && ban.expires <= now)
+             {
+                 if (expire) expire(x);
+                 delete object[x];
+
+                 continue;
+             }
 
              if (ban.names) for (var x2 in ban.names)
              {
@@ -79,7 +91,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
              {
                  var m = ban.nameRegex[x2].match(/^\/(.+)\/(\w+)$/);
-                 if (lname.match(new RegExp(m[1], m[2]))) return x;
+                 if (lname.match(new RegExp(m[1], m[2])))
+                     return x;
 
              }
 
@@ -102,6 +115,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
          return null;
      },
 
+     prune: function (object)
+     {
+         var k = Object.keys(object);
+         for (var i in k)
+         {
+             var x = k[i];
+             if (object[x].expires && +new Date >= object.expires) delete object[x];
+         }
+     },
+
      removeAfflicted: function (param, object)
      {
          var lname, ip;
@@ -113,7 +136,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
          loop1: for (var x in object)
          {
+             if (lname.match(/^#\d+$/) && x === lname.match(/^#(\d+)$/)[1])
+             {
+                 rs.push(x);
+                 delete object[x];
+                 continue loop1;
+             }
              var ban = object[x];
+
 
              if (ban.names) for (var x2 in ban.names)
              {

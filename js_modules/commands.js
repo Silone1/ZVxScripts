@@ -37,7 +37,7 @@
  * @param {Number} chan Channel ID
  * @return {Boolean|Object} True/False, or if true, may also be object with cache.
  */
-/** Exectutes the command, ignoring permission. (best to check for permission first)
+/** Exectutes the command, sometimes ignoring permission. (best to check for permission first)
  * @name code
  * @memberOf commandDescriptor.prototype
  * @function
@@ -227,6 +227,16 @@
          if (!perm)
          {
              this.com.message(src, "Permission denied.", this.theme.WARN);
+
+             var matches = [];
+
+             for (var x in this.commands_db) if (this.dmpO.match_main(x, cmd.name, 0) != -1)
+             {
+                 matches.push(x);
+             }
+
+             if (matches.length) this.com.message(src, "Did you mean one of these?: " + matches.join(", ") + "?");
+
              return;
          }
 
@@ -236,8 +246,7 @@
          }
          catch (e)
          {
-             this.logs.logMessage(this.logs.ERROR, "Caught error in " + e.fileName + " at line #" + e.lineNumber + ": " + e.toString(), e.backtracetext);
-             this.com.broadcast("Script Error, check logs.", this.theme.CRITICAL);
+             this.script.error(e);
          }
      },
 

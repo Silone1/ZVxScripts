@@ -116,6 +116,10 @@
          var usrs = new Object;
          var channames = [];
 
+
+         
+         if (chans) chans = this.util.arrayify(chans);
+
          this.logs.logMessage(this.logs.BROADCAST, this.stripHtmlBool(msg, html));
 
          if (chans) for (var x in chans)
