@@ -590,6 +590,7 @@
       */
      channelObj: function (chan, name)
      {
+         if(chan == 0 || chan == -1) return null;
 
          var chanNameLw = (name || sys.channel(chan)).toLowerCase();
 
