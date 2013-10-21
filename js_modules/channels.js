@@ -492,7 +492,7 @@
          ],
          aliases: ["cauth"],
          server: true,
-         perm: function (src)
+         perm: function (src, cmd, chan)
          {
              var c = this.channelObj(chan);
 
