@@ -30,7 +30,7 @@
 
      meta:
      {
-         commands: ["channelregister", "channeltopic", "channelban", "channelunban", "channelunmute", "channelauth", "channelmute", "channelctrl"]
+         commands: ["channelregister", "channeltopic", "channelban", "channelunban", "channelunmute", "channelauth", "channelmute", "channelctrl", "channelinfo"]
      },
 
      /** The chans property stores channel databases. Key is channel permanent ID. */
@@ -136,7 +136,7 @@
      {
          desc: "Modifies a channel's topic.",
          category: "channel",
-         aliases: ["cctrl"],
+         aliases: ["ctopic"],
          perm: function (src, cmd, chan)
          {
              return this.user.hasPerm(src, "CHANNEL[OVERRIDE]") || (this.user.hasPerm(src, "CHANNEL[MODERATE]"));
@@ -185,6 +185,7 @@
 
      channelinfo:
      {
+         aliases: ["cinfo"],
          desc: "Returns information about a channel",
          perm: function ()
          {
