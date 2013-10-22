@@ -497,14 +497,7 @@
          ],
          aliases: ["cauth"],
          server: true,
-         perm: function (src, cmd, chan)
-         {
-             var c = this.channelObj(chan);
-
-             if (!c) return false;
-
-             return true;
-         },
+         perm: "CHANNEL[MODERATE]",
          code: function (src, cmd, chan)
          {
              var level, x, lname;
