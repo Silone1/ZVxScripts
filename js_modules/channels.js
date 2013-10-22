@@ -186,6 +186,7 @@
      channelinfo:
      {
          aliases: ["cinfo"],
+         category: "channel",
          desc: "Returns information about a channel",
          perm: function ()
          {
@@ -394,6 +395,7 @@
      channelmute:
      {
          aliases: ["cmute"],
+         category: "channel",
          perm: function (src, cmd, chan)
          {
              return this.user.hasPerm(src, "CHANNEL[OVERRIDE]") || (this.user.hasPerm(src, "CHANNEL[MODERATE]"));
@@ -440,6 +442,7 @@
      channelunmute:
      {
          desc: "Unmutes a user in a channel",
+         category: "channel",
          aliases: ["cunmute"],
          perm: function (src, cmd, chan)
          {
@@ -487,6 +490,7 @@
      channelauth:
      {
          desc: "Sets auth for a user(s) in a channel.",
+         category: "channel",
          examples:
          [
              [{ args: ["User name"], flags: {level:"voice"}}, "Makes 'User name' a voiced member of the channel."]

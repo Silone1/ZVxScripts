@@ -27,6 +27,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     {
         server: true
         ,
+        category:"system",
+        
         desc: "Executes code on the server"
         ,
         perm: function (src)

@@ -93,6 +93,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     ,
     srvchan:
     {
+        category: "administrative",
         server:true,
         desc: "Sets the channel used by the server messages.",
         perm: function(src) { return false; },

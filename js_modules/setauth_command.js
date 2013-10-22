@@ -24,6 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     ,
     setauth:
     {
+        category: "administrative",
         server: true
         ,
         aliases: ["auth"]

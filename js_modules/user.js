@@ -139,7 +139,6 @@
 
      unloadModule: function ()
      {
-         this.io.closeDB("user");
      },
 
      name: function (id)

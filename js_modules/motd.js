@@ -9,6 +9,8 @@
     },
     motd:
     {
+        category: "basic",
+        desc: "Shows the server's MOTD",
         perm: function ()
         {
             return true; // all users shoudl be able to use /motd so don't check anything

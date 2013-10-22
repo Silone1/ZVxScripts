@@ -32,7 +32,7 @@
      usermod:
      {
          server: true,
-
+	 category: "administrative",
          desc: "Adds or removes users from MajorGroups.",
 
          options:
@@ -61,6 +61,7 @@
 
              if (!this.user.majorGroupExists(cmd.flags.group))
              {
+                 this.com.message(src, "Group does not exist...", this.theme.WARN);
                  return;
              }
 
@@ -120,7 +121,7 @@
      permmod:
      {
          server: true,
-
+         category: "administrative",
          desc: "Modifies MinorGroups directly. Normally you will want to use MajorGroups instead of this command. As each change is manual, this command can make your server difficult to manage.",
 
          perm: function (src, cmd, chan)
@@ -207,8 +208,20 @@
 
      groupmod:
      {
+         desc: "Modifies user groups",
+         options:
+         {
+             group: "Name of group to modify",
+             create: "Creates group.",
+             "delete": "Deletes group.",
+             addperms: "Add permissions, comma separated.",
+             dropperms: "Drop permissions, comma separated.",
+             inherits: "Set inheritance, comma separated.",
+             add: "Add arguments as users of the group.",
+             drop: "Remove arguments as users from the group."
+         },
          perm: "GROUPMOD",
-
+         category: "administrative",
          code: function (src, cmd, chan)
          {
              if (!cmd.flags.group)

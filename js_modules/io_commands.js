@@ -29,8 +29,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     ,
     ioctrl:
     {
-        server: true
-        ,
+        server: true,
+        category: "system",
+        
         desc: "Controls I/O Layer"
         ,
         options:

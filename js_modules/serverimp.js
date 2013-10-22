@@ -33,6 +33,7 @@
     serversay:
     {
         server: false,
+        category: "system",
 
         perm: function (src)
         {

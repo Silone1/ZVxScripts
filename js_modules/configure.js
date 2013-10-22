@@ -31,6 +31,7 @@
      configure:
      {
          server: true,
+         category: "administrative",
 
          code: function (src, cmd, chan, cache)
          {

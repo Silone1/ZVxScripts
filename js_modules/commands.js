@@ -122,6 +122,12 @@
          this.commands_db[name] = object[prop || name];
          //this.commands_db[name].config = this.config.commands[name];
 
+         if (!comnd.category)
+         {
+             print("WARN: Command /"+comnd.name+ " has no category!");
+             comnd.category = "other";
+         }
+
          if (comnd.aliases) for (var x in comnd.aliases)
          {
              this.commands_db[comnd.aliases[x]] = comnd;

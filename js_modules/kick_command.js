@@ -24,6 +24,7 @@
 
      kick:
      {
+         category: "security",
          server: true,
 
          desc: "Kicks user(s) off the server",

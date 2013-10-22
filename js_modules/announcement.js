@@ -44,6 +44,7 @@
 
      announcement:
      {
+         category: "alias",
          server: true,
          desc: "Shortcut for /configure announcement.text .",
          perm: "CONFIGURE[ANNOUNCEMENT.TEXT]",

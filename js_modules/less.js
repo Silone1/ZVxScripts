@@ -36,9 +36,9 @@
          this.io.registerConfig(
              this,
              {
-                 fmtEnd: "<span style='color:white;background-color:black'>END OF TEXT. EXITED VIEW MODE.</span>",
-                 fmtPage: "<span style='color:white;background-color:black'>END OF PAGE <pagenumber/> OF <pagecount/>. TYPE 'NEXT' TO GO FORWARD, 'EXIT' TO QUIT.</span>",
-                 fmtError: "<span style='color:white;background-color:black'>YOU ARE IN VIEW MODE. TYPE 'NEXT' TO GO TO THE NEXT PAGE, OR 'QUIT' TO EXIT VIEW MODE.</span>",
+                 fmtEnd: "<b><span style='color:green;background-color:black'>END OF TEXT. EXITED VIEW MODE.</span></b>",
+                 fmtPage: "<b><span style='color:green;background-color:black'>END OF PAGE <pagenumber/> OF <pagecount/>. TYPE 'NEXT' TO GO FORWARD, 'EXIT' TO QUIT.</span></b>",
+                 fmtError: "<b><span style='color:green;background-color:black'>YOU ARE IN VIEW MODE. TYPE 'NEXT' TO GO TO THE NEXT PAGE, OR 'QUIT' TO EXIT VIEW MODE.</span></b>",
                  defaultLessLength: 30,
                  defaultLessEnabled: true
 

@@ -39,6 +39,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
      die:
      {
          server: true,
+         category: "fun",
 
          desc: "Leave the server with style.",
 

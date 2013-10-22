@@ -35,15 +35,15 @@
          this.LEVEL_ORDER = this.util.keyify([3,2,1,0]);
      },
 
-     authlist: 
+     authlist:
      {
-         desc: "Lists the auth on the server."
-         ,
-         aliases: ["auths"]
-         ,
+         desc: "Lists the auth on the server.",
+         aliases: ["auths"],
+         category: "basic",
+         
          perm: function () { return true; }
          ,
-         code: function (src) 
+         code: function (src)
          {
              this.com.message([src], "Authlist:", this.theme.INFO);
              var auths = sys.dbAuths();
@@ -54,28 +54,28 @@
              {
                  var lv = void 0;
 
-                 if (sys.id(auths[x])) lv = sys.auth(sys.id(auths[x])); 
+                 if (sys.id(auths[x])) lv = sys.auth(sys.id(auths[x]));
                  else lv = sys.dbAuth(auths[x]);
-                 
+
                  if ((""+lv) in this.LEVELS) lvs[lv].push(auths[x]);
-              
+
                  else lvs[0].push(auths[x]);
-                 
+
              }
 
              lvs.forEach(
-                 function (e) 
+                 function (e)
                  {
                      e.sort();
                  }
              );
-              
+
              for (var y in this.LEVEL_ORDER) for (x in lvs[y])
              {
                  this.com.message(src, "<b>" + ([null, "Moderator", "Admin", "Owner"][sys.dbAuth(lvs[y][x])] || "?") + "</b> " + this.text.escapeHTML(this.user.nameToProper(lvs[y][x])) +
-                                  (sys.id(lvs[y][x])?" <span style='color:green'>online ("+sys.id(lvs[y][x])+")</span>":" <span style='color:red'>offline</span>"), this.theme.RAW, true);                
+                                  (sys.id(lvs[y][x])?" <span style='color:green'>online ("+sys.id(lvs[y][x])+")</span>":" <span style='color:red'>offline</span>"), this.theme.RAW, true);
              }
 
-         }    
-     }   
+         }
+     }
  });

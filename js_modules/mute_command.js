@@ -20,11 +20,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /////////////////////// END LEGAL NOTICE /////////////////////////////// */
 ({
-    require: ["commands", "security",  "text", "com", "theme", "time", "user", "util"]
-    ,
+    require: ["commands", "security",  "text", "com", "theme", "time", "user", "util"],
+     
     unmuteall:
     {
         server:true,
+        category: "security/mute",
         desc: "Clear the mute list"
         ,
         perm:"MUTE",
@@ -45,12 +46,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     ,
     unmute:
     {
-        server: true
-        ,
-        desc: "Remove mute(s) from user(s)"
-        ,
+        server: true,
+        category: "security/mute",
+        desc: "Remove mute(s) from user(s)",
         perm: "MUTE",
-
         code: function (src, cmd, chan)
         {
             var removes = [];
@@ -69,24 +68,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     mute:
     {
         server:true,
-
         desc: "Mute prevents users from talking in the main chat. Can mute usernames, IPs, regular expressions, or subnets. Users with PROTECTED permission are not affecte by mutes.",
-
         options:
         {
             reason: "Reason for the mute",
             time: "Duration to mute for",
             ip: "Also mute the user's IP address."
         },
-
+        category: "security/mute",
         examples:
         [
             [{args:["spammer", "spammer2"], flags:{reason:"spamming", time:"1 hour, 30 minutes, 20 seconds"}}, "Mutes the players spammer and spammer2 for a while. Also puts in a log as to why they were muted."]
         ],
-
         perm: "MUTE",
-
-
         code: function (src, cmd, chan)
         {
             var b = new Object;
@@ -180,9 +174,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     mutelist:
     {
         server:true,
-
-        perm: "LIST[MUTES]"
-        ,
+        category: "security/mute",
+        perm: "LIST[MUTES]",
         code: function (src)
         {
             var mutes = [];
@@ -198,7 +191,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
             this.com.message([src], "Mute list:<br/>" + mutes.join("<br/><br/>"), this.theme.INFO, true);
         }
-
     }
     ,
     loadModule: function()

@@ -38,6 +38,7 @@
       */
      modulectrl:
      {
+         category: "system",
          aliases: ["modprobe", "modctrl"],
          server: true,
          desc: "Manages loadable modules. If run without any option, lists modules.",

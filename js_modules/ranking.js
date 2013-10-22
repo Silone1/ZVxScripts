@@ -9,6 +9,7 @@
      ranking:
      {
          aliases: ["rating"],
+         category: "pokemon",
          desc: "Shows your ranking in the ladder. May add tiers.",
          options:
          {

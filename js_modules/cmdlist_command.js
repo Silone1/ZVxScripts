@@ -33,8 +33,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
      * */
     commandlist:
     {
-        server: true
-        ,
+        server: true,
+        category: "basic",
         aliases: ["commands", "cmdlist"]
         ,
         desc: "Lists the commands available to the user."
@@ -52,7 +52,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         {
             "all": "Also list commands the user doesn't have permission to use",
             "nodesc": "Do not show the long description of the commands",
-            "examples": "Show examples"
+            "noexamples": "Don't show examples"
         }
         ,
         perm: function ()
@@ -68,12 +68,34 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             var msg = [];
             var sys_auth$src = sys.auth(src);
 
-            if (0&& src != 0 && !cmd.flags.nodesc) msg.push("<table border=1><tr><td><b>Command Name</b>"+(cmd.flags.all?"<td><b>Permission</b></td>":"")+"</td><td><b>Description</b></td><td><b>Options</b></td></tr>");
 
-            if (!cmd.flags.nodesc) for (var x in cmds)
+
+            var cmdtab = Object.keys(cmds);
+
+            function cmpstr (a,b)
             {
+                if (a === b) return 0;
+                if ([a,b].sort()[0] === a) return -1;
+                return 1;
+            }
 
+            function catsort(a, b)
+            {
+                return cmpstr(cmds[a].category, cmds[b].category);
+            }
+
+            print(cmdtab);
+            cmdtab.sort(catsort);
+            print(cmdtab);
+
+            var lastcat = null;
+
+            if (!cmd.flags.nodesc) for (var i in cmdtab)
+            {
+                var x = cmdtab[i];
                 if (cmds[x].name != x) continue;
+
+
 
                 var canuse = this.commands.commandPerm(src, {name:cmds[x].name}, chan);
 
@@ -81,6 +103,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                 if (!cmd.flags.nodesc)
                 {
+                    if (lastcat !== (lastcat = cmds[x].category))
+                    {
+                        msg.push("<font color=blue><b>"+lastcat[0].toUpperCase() + lastcat.substr(1) + "</b></font>");
+
+                    }
 
                     msg.push("<b>/" + text.escapeHTML(x) +"</b>" + (canuse?"":" [NO PERMISSION]") + this.text.escapeHTML(cmds[x].desc?" "+cmds[x].desc:"") );
 
@@ -95,7 +122,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         }
                     }
 
-                    if (cmd.flags.examples && cmds[x].examples)
+                    if (!cmd.flags.noexamples && cmds[x].examples)
                     {
                         msg.push("<em>Examples:</em>");
 

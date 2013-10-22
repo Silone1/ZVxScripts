@@ -13,6 +13,8 @@
 
     rules:
     {
+        category: "basic",
+        desc: "Shows the server's rules.",
         perm: function ()
         {
             return true; // all users should be able to use /rules so don't check anything

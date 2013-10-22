@@ -32,6 +32,7 @@
 
      help:
      {
+         category: "basic",
          desc: "Type /help <command name> for help with a command, or /help <topic> for other things(e.g. /help source).",
 
          examples:

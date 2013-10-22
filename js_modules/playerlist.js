@@ -28,12 +28,13 @@
          this.commands.registerCommand("playerlist", this);
      },
 
-     playerlist: 
+     playerlist:
      {
          desc: "Lists all the online players.",
+         category: "basic",
 
 
-         options: 
+         options:
          {
              chan: "Lists players in the current channel."
          },
@@ -46,14 +47,14 @@
          code: function (src, cmd, chan)
          {
              var pids;
-             if (cmd.flags.chan) 
+             if (cmd.flags.chan)
              {
                  pids = sys.playersOfChannel(chan);
              }
 
              else
              {
-                 pids = sys.playerIds();
+                 pids = this.user.users();
              }
 
              var msgs = [];
@@ -63,12 +64,12 @@
                  var i = pids[x];
                  msgs.push("<b>" + i + "</b> " + this.text.escapeHTML(this.user.name(i)));
              }
-             
+
              this.com.message(src, "Online Players:", this.theme.INFO);
 
              this.less.less(src, msgs.join("<br />"), true);
 
-             
+
          }
 
      }
