@@ -31,7 +31,7 @@
 /** Check for permission.
  * @name perm
  * @memberOf commandDescriptor.prototype
- * @function
+ * @type {Function|String}
  * @param {Number} src User ID
  * @param {Object} cmd Parsed command
  * @param {Number} chan Channel ID
@@ -55,11 +55,17 @@
  * @name server
  * @memberOf commandDescriptor.prototype
  * @type Boolean
+ * @deprecated
  */
 /** Describes the command's options. Key is option name, value is description.
  * @name options
  * @memberOf commandDescriptor.prototype
- * @type {Object.<String>}
+ * @type {Object.String}
+ */
+/** Category for /commands
+ * @name commands
+ * @memberOf commandDescriptor.prototype
+ * @type {String}
  */
 /** @scope script.modules.commands */
 ({
@@ -84,16 +90,10 @@
      {
 
          this.dmpO = new this.dmp.constructor();
-
          this.dmpO.Match_Threshold = 0.5;
-
          this.dmpO.Match_Distance = 0;
-
-         //this.io.registerConfig(this, { ownerHasAllCommands: false });
-
-         //if (!this.config.commands) this.config.commands = new Object;
-
 	 this.user.registerConfigHook(this, "userConfiguration");
+         
      },
 
 

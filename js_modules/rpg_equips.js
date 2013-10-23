@@ -62,8 +62,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             amount: 25,
             base: 10,
             materials: ["hide", "scale"]
-        }
-        ,
+        },
+
         hat:
         {
             name: "Hat",
@@ -71,8 +71,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             amount: 5,
             base: 20,
             materials: ["cloth", "hide"]
-        }
-        ,
+        },
+
         helmet:
         {
             name: "Helmet",
@@ -80,8 +80,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             materials: ["metal", "scale", "bone"],
             amount: 5,
             base: 25
-        }
-        ,
+        },
+
         cloak:
         {
             name: "Cloak",
@@ -89,8 +89,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             amount: 30,
             base: 5,
             materials: ["cloth", "hide"]
-        }
-        ,
+        },
+
         clothes:
         {
             name: "Casual Wear",
@@ -98,8 +98,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             amount: 30,
             base: 25,
             materials:  ["cloth"]
-        }
-        ,
+        },
+
         suit:
         {
             name: "Suit",
@@ -107,8 +107,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             amount: 45,
             base: 30,
             materials: ["cloth"]
-        }
-        ,
+        },
+
         larmor:
         {
             name: "Light Armor",
@@ -116,8 +116,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             amount: 40,
             materials: ["metal", "scale", "wood"],
             base: 20
-        }
-        ,
+        },
+
         armor:
         {
             name: "Armor",
@@ -125,8 +125,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             amount: 60,
             base: 40,
             materials: ["metal", "scale"]
-        }
-        ,
+        },
+
         harmor:
         {
             name: "Heavy Armor",
@@ -134,16 +134,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             amount: 200,
             materials: ["metal"],
             base: 80
-        }
-        ,
+        },
+
         sharmor:
         {
             name: "Superheavy Armor",
             type: "body",
             amount: 1250,
             base: 180
-        }
-        ,
+        },
+
         shortsword:
         {
             name: "Shortsword",
@@ -153,8 +153,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             amount: 5,
             material: ["bone", "metal", "wood"],
             base: 20
-        }
-        ,
+        },
 
         sword:
         {
@@ -166,8 +165,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             material: ["bone", "metal", "wood"],
             base: 40,
             magic: 30
-        }
-        ,
+        },
 
         longsword:
         {
@@ -178,8 +176,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             amount: 20,
             material: ["bone", "metal", "wood"],
             base: 65
-        }
-        ,
+        },
 
         broadsword:
         {
@@ -190,8 +187,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             amount: 70,
             material: ["bone", "metal", "wood"],
             base: 150
-        }
-        ,
+        },
+
         wand:
         {
             name: "Wand",
@@ -202,8 +199,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             materials: ["bone", "wood", "metal"],
             base: 5,
             magic: 50
-        }
-        ,
+        },
+
         staff:
         {
             name: "Staff",
@@ -211,7 +208,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             hands: 2,
             subtype: "magic",
             amount: 15,
-            materials: ["wood", "bone"],
+            materials: ["wood", "bone", "metal"],
             base: 15,
             magic: 110
 

@@ -13,8 +13,7 @@ else
     else
         if test -d ${install_to}/js_modules
         then
-            echo wtf error
-            exit
+            rm -r ${install_to}/js_modules
         fi
     fi
     ln -s `pwd`/js_modules ${install_to}/js_modules

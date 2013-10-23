@@ -34,19 +34,24 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         {
             name: "Town West Side",
             adjc: ["town1"],
-            digs: 
+            digs:
             {
-                ironore: 0.5                
+                ironore: 0.5
             }
         }
         ,
         cliff1:
         {
             name: "A cliff",
-            adjc: ["town1"],
-            mobs: 
+            adjc: ["town1", "proto"],
+        },
+        proto:
+        {
+            name: "Sie werden kämpfen, den Zorn mein Huhn!",
+            adjc: ["cliff1"],
+            mobs:
             {
-                chicken: 1
+                testchicken:1
             }
         }
     }

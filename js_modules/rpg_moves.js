@@ -21,67 +21,62 @@
  /////////////////////// END LEGAL NOTICE /////////////////////////////// */
 /** @scope script.modules.rpg_game */
 ({
-    /**
-     * @namespace
-     */
-    moves:
-    {
-        /** Instakill kills all enemies instantly, no damage calculation
-         * @param {rpgContext} ctx
-         */
-        instakill: function (ctx)
-        {
-            for (var x in targets)
-            {
-                targets[x].hp = 0;
-            }
-        }
-        ,
-        /** Physical does physical damage
-         * @param {rpgContext} ctx
-         */
-        physical: function (ctx)
-        {
-            var offense = ctx.attacker.offense;
-            var base = ctx.component.base;
+     /**
+      * @namespace
+      */
+     moves:
+     {
+         /** Instakill kills all enemies instantly, no damage calculation
+          * @param {rpgContext} ctx
+          */
+         instakill: function (ctx)
+         {
+             ctx.target.hp = 0;
+         },
 
-            var defense = target.defense;
+         /** Physical does physical damage
+          * @param {rpgContext} ctx
+          */
+         physical: function (ctx)
+         {
+             var offense = ctx.attacker.offense;
+             var base = ctx.component.base;
 
-            var damage = base + base * Math.min(Math.max(-0.90, Math.log(offense/defense)), 9);
-
-            target.hp -= damage | 0;
-            }
-        }
-        ,
-        /** Heal reverses damage.
-         * @param {rpgContext} ctx
-         */
-        heal: function (ctx)
-        {
-            var base = ctx.movepower;
-
-            for (var x in targets)
-            {
+             var defense = ctx.target.defense;
 
 
-             }
-        }
-    }
-    ,
-    pickMove: function (e)
-    {
-        return {
-            name: "attack",
-            components:[{ target: "opp", base:20, move: "physical", desc: "%s attacked %t!"}]
-        };
+             var damage = base + base * Math.min(Math.max(-0.90, Math.log(offense/defense)), 9);
 
-        var plan = e.plan;
+             ctx.target.hp -= damage | 0;
 
-        var list = plan.list;
-        var total = plan.total;
-        var idx = Math.floor(Math.random()*(plan.total));
-        for (var i = 0; list[i].pri <= idx; i++, idx -= list[i].pri) {}
-
-        return list[i];
+             return damage | 0;
+         }
      }
-});
+     ,
+     /** Heal reverses damage.
+      * @param {rpgContext} ctx
+      */
+     heal: function (ctx)
+     {
+         var base = ctx.movepower;
+
+         //
+     }
+     ,
+     pickMove: function (e)
+     {
+         return {
+             name: "attack",
+             components:[{ target: "opp", base:20, move: "physical", desc: "%s attacked %t!", count: 1}]
+         };
+
+         var plan = e.plan;
+
+         var list = plan.list;
+         var total = plan.total;
+         var idx = Math.floor(Math.random()*(plan.total));
+         for (var i = 0; list[i].pri <= idx; i++, idx -= list[i].pri) {}
+
+         return list[i];
+     }
+ });

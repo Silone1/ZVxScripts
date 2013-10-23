@@ -30,7 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         walk: function (src, sub, chan, ctx)
         {
             for (var i = 1; i < sub.length; i++)
-            {                
+            {
                 var to = sub[i];
 
                 if (this.areas[ctx.player.area].adjc.indexOf(to) !== -1)
@@ -49,13 +49,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             this.com.message([src], "You are at: " + this.areas[ctx.player.area].name + ". From here you can go to:", this.theme.GAME, false, [chan]);
 
 
-            
+
             for (var i = 0; i < this.areas[ctx.player.area].adjc.length; i++)
             {
                 this.com.message([src], this.areas[this.areas[ctx.player.area].adjc[i]].name + " (" + this.areas[ctx.player.area].adjc[i] + ")", -1, false, chan);
-            }        
+            }
 
-            
+
         }
         ,
         dig: function (src, sub, chan, ctx)
@@ -66,11 +66,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         dequip: function (src, sub, chan, ctx)
         {
             var slot = (sub[1]||"").toLowerCase();
-            
-            if (! (slot in {"lhand":null, "rhand":null, "head":null, "feet":null, "body":null, "back":null})) 
+
+            if (! (slot in {"lhand":null, "rhand":null, "head":null, "feet":null, "body":null, "back":null}))
             {
                 this.com.message([src], "Unknown slot to dequip");
-                return; 
+                return;
             }// add error message
 
             var item = ctx.player[slot];
@@ -83,7 +83,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 slot = "rhand";
             }
 
-            if (item === null) 
+            if (item === null)
             {
                 this.com.message(src, "No item in that slot.");
                 return; // nothing to dequip
@@ -94,7 +94,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             ctx.player.equips.unshift(item); // Add to equips
 
             this.com.message([src], "Item removed.");
-            
+
         }
         ,
         view: function (src, sub, chan, ctx)
@@ -132,7 +132,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 {
                     this.com.message(src, "" + (+x+1) + ": " + this.equipName(ctx.player.equips[x]));
                 }
-                
+
                 return;
             }
 
@@ -145,7 +145,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
             var slot = kind.type;
 
-            if (slot === "hand") 
+            if (slot === "hand")
             {
                 if (sub[2] === "lhand") slot = "lhand";
                 else if (sub[2] === "rhand") slot = "rhand";
@@ -185,7 +185,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
             return;
         }
-        
+
     }
     ,
     actions:
@@ -206,14 +206,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         {
             for (var x in this.areas[ctx.player.area].mobs)
             {
-                this.com.message([src], "You started battle with " + JSON.stringify(this.areas[ctx.player.area].mobs[x]), this.theme.GAME);
+                this.com.message(sys.id(ctx.player.name), "You started battle with " + JSON.stringify(this.areas[ctx.player.area].mobs[x]), this.theme.GAME);
             }
         }
         ,
         digTick: function (actionObj, ctx)
         {
-            var src = sys.id(ctx.player.name);            
+            var src = sys.id(ctx.player.name);
             this.com.message([src], "You are digging a hole.", this.theme.GAME);
         }
-    } 
+    }
 });

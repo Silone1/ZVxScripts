@@ -19,31 +19,23 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /////////////////////// END LEGAL NOTICE /////////////////////////////// */
+
+
+
+
+/* /////////////////////// WARNING TO GAMERS /////////////////////////////
+
+ These values are SUBJECT TO CHANGE. Source code viewer beware! They wont
+ stay like this!
+
+ /////////////////////////////////////////////////////////////////////// */
+
+
+
+
 ({
-    /*
-      Ideally these should be (relatively) realistic:
 
-      hardness (Vickers) / 10 
-      density (g/cm^3) *10
-      resistance (nΩ·m) / 5
-      thermal 100/(W·m−1·K−1)
-      opacity (opaque%)
-
-      Mark details where this has been looked up with //(*)
-
-      Put //fictional for non-real materials, e.g.:
-
-      dragontooth: 
-      {
-      // fictional
-          hardness: ...
-          ...       
-      }
-      
-      
-
-    */
-    materials: 
+    materials:
     {
         birch:
         {
@@ -51,27 +43,30 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             type: "wood",
             strength: 7,
             sharpness: 5,
-            density: 5
-        }
-        ,
+            density: 5,
+            magic: 20
+        },
+
         ebony:
         {
             name: "Ebony Wood",
             type: "wood",
             strength: 35,
             sharpness: 10,
-            density: 14
-        }
-        ,
+            density: 14,
+            magic: 25
+        },
+
         oak:
         {
             name: "Oak Wood",
             type: "wood",
             strength: 20,
             sharpness: 8,
-            density: 8
-        }
-        ,
+            density: 8,
+            magic: 10
+        },
+
         ivory:
         {
             name: "Ivory",
@@ -79,8 +74,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             strength: 30,
             sharpness: 80,
             density: 15,
-        }
-        ,
+            magic: 35
+        },
+
         wdscale:
         {
             name: "White Dragon Scale",
@@ -88,8 +84,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             strength: 70,
             sharpness: 20,
             density: 15
-        }
-        ,
+        },
+
         wdfang:
         {
             name: "White Dragon Fang",
@@ -97,8 +93,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             strength: 10,
             sharpness: 60,
             density: 20
-        }
-        ,
+        },
+
         firedscale:
         {
             name: "Fire Dragon Scale",
@@ -106,26 +102,26 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             strength: 120,
             sharpness: 20,
             density: 35
-        }
-        ,
+        },
+
         firedfang:
         {
             name: "Fire Dragon Fang",
             type: "bone",
             strength: 30,
             sharpness: 80,
-            density: 45            
-        }
-        ,
+            density: 45
+        },
+
         sdscale:
         {
             name: "Sky Dragon Scale",
             type: "scale",
             strength: 50,
             sharpness: 15,
-            density: 8,
-        }
-        ,
+            density: 8
+        },
+
         sdfang:
         {
             name: "Sky Dragon Fang",
@@ -133,26 +129,38 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             strength: 15,
             sharpness: 40,
             density: 12
-        }
-        ,
+        },
+
         iron:
         {
             name: "Iron",
             type: "metal",
             strength: 60,
             sharpness: 40,
-            density: 80
-        }
-        ,
+            density: 80,
+            magic: 5
+
+        },
+
         copper:
         {
             name: "Copper",
             type: "metal",
             strength: 40,
             sharpness: 30,
-            density: 70
-        }
-        ,
+            density: 70,
+            magic: 5
+        },
+
+        zinc:
+        {
+            name: "Zinc",
+            type: "metal",
+            strength: 30,
+            sharpness: 20,
+            density: 40,
+            magic: 7
+        },
 
         gold:
         {
@@ -160,42 +168,58 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             type: "metal",
             strength: 20,
             sharpness: 10,
-            density: 40
-        }
-        ,
+            density: 40,
+            magic: 60
+        },
+
         silver:
         {
             name: "Silver",
             type: "metal",
             strength: 25,
             sharpness: 10,
-            density: 40
-        }
-        ,
+            density: 40,
+            magic: 60
+        },
+
+        electrum:
+        {
+            name: "Electrum",
+            type: "metal",
+            strength: 22,
+            sharpness: 10,
+            density: 40,
+            magic: 120
+        },
+
         steel:
         {
             name: "Steel",
             type: "metal",
             strength: 120,
             sharpness: 60,
-            density: 95
-        }
-        ,
+            density: 95,
+            magic: 2
+        },
+
         hgsteel:
         {
             name: "High-Grade Steel",
             type: "metal",
             strength: 150,
             sharpness: 70,
-            density: 100
-        }
-        ,
+            density: 100,
+            magic: 1
+
+        },
+
         ti:
         {
             name: "Titanium",
             strength: 90,
             sharpness: 50,
-            density: 40
+            density: 40,
+            magic: 5
         }
         ,
         ametal:
@@ -204,7 +228,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             type: "metal",
             strength: 125,
             sharpness: 350,
-            density: 85
+            density: 85,
+            magic: 85
         }
         ,
         diamond:
@@ -213,7 +238,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             type: "gem",
             strength: 200,
             sharpness: 250,
-            density: 40
+            density: 40,
+            magic: 50
         }
         ,
         brass:
@@ -222,7 +248,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             type: "metal",
             strength: 140,
             sharpness: 60,
-            density: 90
+            density: 90,
+            magic: 5
         }
         ,
         ruby:
@@ -240,7 +267,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             type: "hide",
             strenth: 30,
             sharpness: 0,
-            density: 5         
+            density: 5
         }
         ,
         snakeskin:
@@ -262,4 +289,27 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         }
     }
 
-})
+});
+    /*
+      Ideally these should be (relatively) realistic:
+
+      hardness (Vickers) / 10
+      density (g/cm^3) *10
+      resistance (nΩ·m) / 5
+      thermal 100/(W·m−1·K−1)
+      opacity (opaque%)
+
+      Mark details where this has been looked up with //(*)
+
+      Put //fictional for non-real materials, e.g.:
+
+      dragontooth:
+      {
+      // fictional
+          hardness: ...
+          ...
+      }
+
+
+
+    */

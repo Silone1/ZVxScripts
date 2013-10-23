@@ -39,7 +39,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         if (e.sp > e.maxsp / 3)
             // Has a fairly large amount of stamina
         {
-            hp += maxhp/600;
+            e.hp += e.maxhp/20;
             // Recover some HP
         }
         if (e.sp > e.maxsp)
@@ -47,8 +47,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         {
             e.sp = e.maxsp;
             // Remove overflow
-            
-            hp += maxhp/300;
+
+            e.hp += e.maxhp/30;
             // recover extra hp!
         }
 
@@ -86,7 +86,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         {
             if (e.mana > e.maxmana *1.1) e.hp += e.maxmana*1.1 - e.mana;
             // Decrease HP by overflow, uncontrolable mana damages body!
-            
+
             e.mana = e.maxmana;
             // Reset
         }
@@ -95,7 +95,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         if (e.hp <= 0 && !e.invincible && (!e.undead && e.hp > -e.maxhp*5))
             // check for death
         {
-            this.entityDie(e);
+           // this.entityDie(e);
         }
         else if (e.hp > e.maxhp)
             // overflow
@@ -103,9 +103,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             e.hp = e.maxhp;
             // reset
         }
-        
 
-        
+
+
     }
-    
+
 });

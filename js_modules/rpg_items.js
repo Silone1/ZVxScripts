@@ -22,16 +22,63 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ({
     items:
     {
+
+        /* METALS */
         ironore:
         {
             name: "Lump of Iron Ore",
             material: "iron",
             base: 2
-        }
-        ,
+        },
+
+        goldore:
+        {
+            name: "Lump of Gold Ore",
+            material: "gold",
+            base: 2
+        },
+
+        tinore:
+        {
+            name: "Lump of Tin Ore",
+            material: "tin",
+            base: 2
+        },
+
+        tinore:
+        {
+            name: "Lump of Tin Ore",
+            material: "tin",
+            base: 2
+        },
+
+        silverore:
+        {
+            name: "Lump of Silver Ore",
+            material: "tin",
+            base: 2
+        },
+
+        tiore:
+        {
+            name: "Lump of Titanium Ore",
+            material: "ti",
+            base: 2
+        },
+
+        tinore:
+        {
+            name: "Lump of Tin Ore",
+            material: "tin",
+            base: 2
+        },
+
+
+
+
         shroomcap:
         {
             name: "Mushroom Cap"
-        }
+        },
     }
 });

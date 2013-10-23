@@ -400,3 +400,11 @@
  * @memberOf Module.prototype
  * @name configureEvent
  */
+
+/** Implements configuration schemas
+ * @name Schema
+ * @class
+ */
+/**
+ * @name
+ */
