@@ -64,7 +64,7 @@
          }
 
 
-         if (this.counter[ip] >= 25)
+         if (this.counter[ip] >= 45)
          {
              this.commands.tryCommand(this.server.SERVER, {name:"mute", args:[this.user.name(src)], flags: {ip:true, time: Math.round((+this.counter[ip])/5) + " minutes.", reason: "Anti spam counter is " +this.counter[ip]+ "."}}, chan);
              this.commands.tryCommand(this.server.SERVER, {name:"kick", args:[this.user.name(src)], flags: {reason: "Anti spam counter is " +this.counter[ip]+ "."}}, chan);
