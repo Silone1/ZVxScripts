@@ -53,7 +53,7 @@
 
          print(l);
 
-         for (var i = 0; i*30 <= l; i++)
+         for (var i = 0; i*100 <= l; i++)
          {
 
              this.counter[ip]++;
