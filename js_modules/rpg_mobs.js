@@ -23,15 +23,18 @@
      mkMob: function (mb)
      {
          var m = JSON.parse(JSON.stringify(this.mobs[mb]));
+
          if (!m.maxhp) m.maxhp = 1;
-         if (!m.maxmana) m.maxmana = 1;
-         if (!m.maxsta) m.maxhp = 1;
-         if (!m.maxmsta) m.maxhp = 1;
+         if (!m.maxmp) m.maxmp = 1;
+         if (!m.maxsp) m.maxsp = 1;
+         if (!m.maxmsp) m.maxmsp = 1;
 
          m.hp = m.maxhp;
-         m.mana = m.maxhp;
-         m.msta = m.maxmsta;
+         m.mp = m.maxmp;
+         m.msp = m.maxmsp;
          m.sp = m.maxsp;
+
+         m.type = "mob";
 
          return m;
      },
@@ -40,11 +43,11 @@
      {
          testchicken:
          {
-             name: "__proto__ $('Chicken') \" DROP TABLE LOGS; INSTERT ADMINS \"lol\"; LOG \">mfw too lazy to learn real sql\" ^D",
+             name: "TESTCHICKEN __proto__ $('Chicken')",
              desc: "",
              offense: 100,
-             maxhp: 9e7,
-             defense: 9e7,
+             maxhp: 200,
+             defense: 100,
              drops: [{
                          prob: 1,
                          item: "shroomcap",

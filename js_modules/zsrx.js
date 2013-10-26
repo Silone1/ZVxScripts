@@ -40,7 +40,7 @@
 
          function srsz (variant)
          {
-             if (typeof variant == "number") strlt.push(""+ variant);
+             if (typeof variant == "number") strlt.push(JSON.stringify(variant));
 
              else if (typeof variant == "string") strlt.push(JSON.stringify(variant));
 

@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ({
     newPlayer: function ()
     {
-        var newp = 
+        var newp =
             {
                 type: null,
                 area: "town1",
@@ -33,15 +33,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 mag: 100,
                 psy: 100,
                 spr: 100,
+                
 
-                hp: 100, 
+                hp: 100,
                 mana: 100,
                 men: 100,
                 lp: 100,
 
+                type: "player",
+
                 items: {},
                 // Bulk items, e.g., iron ore (50)
-                
+
                 equips: [],
                 // Single items
 
@@ -60,19 +63,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 // Like bulkEffects, but an object instead of array.
 
                 head: null,
-                
+
                 body:
                 // Cotton clothing.
                 {
-                    
+
                     material: "cotton",
                     type: "clothes",
                     quality: 600
                 }
                 ,
                 lhand: null,
-                
-                rhand: 
+
+                rhand:
                 // A wooden sword.
                 {
                     material: "birch",
@@ -89,7 +92,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     type: "shoes",
                     quality: 600
                 }
-                
+
             };
         return newp;
     }
