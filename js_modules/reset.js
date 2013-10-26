@@ -34,10 +34,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
      {
          category: "system",
          server: true,
-         perm: function(src)
-         {
-             return sys.auth(src) == 3;
-         },
+         perm: "RESETSCRIPT",
 
          code: function (src, cmd, chan)
          {
