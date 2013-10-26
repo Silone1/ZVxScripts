@@ -60,6 +60,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
      {
          var lname, ip, now;
 
+         now = +new Date;
          ip = (src == 0? "0.0.0.0" : sys.ip(src));
 
          lname = this.user.name(src).toLowerCase();
