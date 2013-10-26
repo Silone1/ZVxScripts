@@ -40,7 +40,6 @@ js_modules/modloader.js
 js_modules/modprobe.js
 js_modules/motd.js
 js_modules/mute_command.js
-js_modules/new_rpg.js
 js_modules/old.profile.js
 js_modules/parseargs.js
 js_modules/parsecommand.js
