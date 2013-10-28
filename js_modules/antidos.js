@@ -43,16 +43,19 @@
 
 
 
-         print("timer register");
+         var t =  (this.ipdata[ipaddr] <= this.config.wayOverLimit ?  this.config.time :  this.config.wayOverTime );
+
+
          sys.setTimer(
              function ()
              {
-                 print("timer drop");
+                
                  that.ipdata[ipaddr]--;
 
              },
+             t
 
-             (this.ipdata[ipaddr] <= this.config.overLimit ?  this.config.time :  this.config.wayOverTime ),
+             ,
 
              false
          );
