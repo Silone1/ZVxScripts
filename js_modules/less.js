@@ -66,7 +66,7 @@
 
          var cfg = this.user.userConfig(src);
 
-         if (!cfg.lessEnabled) this.com.message(src, msg, -1, html);
+         if (!cfg.lessEnabled){ this.com.message(src, msg, -1, html); return; }
 
          if (!html) lines = msg.split(/\n/g);
          else lines = msg.split(/<\s*br\s*\/?>/g);
