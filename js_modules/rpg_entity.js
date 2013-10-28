@@ -40,7 +40,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         if (e.sp > e.maxsp / 3)
             // Has a fairly large amount of stamina
         {
-            e.hp += e.maxhp/20;
+            e.hp += e.maxhp/40;
             // Recover some HP
         }
         if (e.sp > e.maxsp)
@@ -112,6 +112,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    }
+    },
+
+     entityUpdateStats: function (e)
+     {
+         e.maxmp =  (e.mag*0.13 + (Math.log(e.mag+Math.E)*10 | 0));
+         e.maxsp = (e.str*0.02 + e.res*0.02 + (Math.log(e.res/100+Math.E)*150 | 0));
+         e.maxmsp = (e.res*0.01 + e.mag*0.01 + e.psy*0.12 + e.spr*0.01 + (Math.log(e.psy/1000+Math.E)*50 | 0));
+         e.maxhp = (e.str*0.01 + e.res*0.03 + (Math.log(e.res/100+Math.E)*100 | 0));
+         //e.power = Math.floor(800*Math.log(3/2*e.str+e.psy/3+Math.E)+e.psy/25000+300);
+         //e.offense = Math.floor(e.power / 10000 * (100 + this.equipAtk(e.lhand) + this.equipAtk(e.rhand)));
+         //e.defense = Math.floor(e.power / 10000 * (100 + this.equipDef(e.lhand)/2 + this.equipDef(e.rhand)/2 + this.equipDef(e.body) + this.equipDef(e.feet) + this.equipDef(e.head) + this.equipDef(e.back)));
+     }
 
 });

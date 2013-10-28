@@ -27,17 +27,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 type: null,
                 area: "town1",
                 name: null,
-                str: 100,
-                res: 100,
-                spd: 100,
-                mag: 100,
-                psy: 100,
-                spr: 100,
-                
+
+
+                str: 100,                res: 100,
+                spd: 100,                mag: 100,
+                psy: 100,                spr: 100,
+                men: 100,
 
                 hp: 100,
-                mana: 100,
-                men: 100,
                 lp: 100,
 
                 type: "player",
@@ -71,8 +68,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     material: "cotton",
                     type: "clothes",
                     quality: 600
-                }
-                ,
+                },
+
+
                 lhand: null,
 
                 rhand:
@@ -81,10 +79,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     material: "birch",
                     type: "sword",
                     quality: 600
-                }
+                },
 
-                ,
-
+                
                 feet:
                 // Leather shoes
                 {

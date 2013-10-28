@@ -24,6 +24,8 @@
      {
          var m = JSON.parse(JSON.stringify(this.mobs[mb]));
 
+         
+
          if (!m.maxhp) m.maxhp = 1;
          if (!m.maxmp) m.maxmp = 1;
          if (!m.maxsp) m.maxsp = 1;
@@ -47,7 +49,7 @@
              desc: "",
              offense: 100,
              maxhp: 200,
-             defense: 100,
+             defense: 6000,
              drops: [{
                          prob: 1,
                          item: "shroomcap",

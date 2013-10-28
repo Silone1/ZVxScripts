@@ -44,52 +44,62 @@
 
      entHtml:  function (e)
      {
+         var that = this;
 
-
-         function bar (val, max)
+         function bar (val, max, colorfull, colorempty)
          {
              var hpBar = "";
              var d;
 
              var hpFract = (val/max*8*10) >> 0;
+             if (hpFract < 0) hpFract = 0;
              var hpTenths = (hpFract - hpFract%8)/8;
              var hpEightiths = (hpFract-hpTenths*8) % 8;
 
              for (var x = 0; x < hpTenths; x++) hpBar += "\u2588";
              var hpSlivers = ["", "\u258f", "\u258e", "\u258d", "\u258c", "\u258b", "\u258a", "\u2589"];
-             hpBar += hpSlivers[hpEightiths];
+
+             if ("" + hpSlivers[hpEightiths] == "undefined") print( "UNDEFINED " + JSON.stringify([hpSlivers, hpEightiths]));
              while(hpBar.length < 10) hpBar += "\u259e";
 
-             if (hpFract >= 40)
-
-             {
-                 d = 0xff - (((hpFract - 40)/40*0xff) |0);
-                 d = d.toString(16);
-                 if (d.length == 1) d = "0" + d;
-                 d ="#"+ d + "FF00";
-             }
-             else
-             {
-                 d = ( ((hpFract)/40)*0xff) |0;
-                 d = d.toString(16);
-                 if (d.length == 1) d = "0" + d;
-                 d ="#FF"+ d + "00";
-             }
-
-             return "<code>[<span style='color:" + d+ "'>" + hpBar + "</span>]</code> ("+String(val/max*100).substring(0, 5)+"%)";
+             return "<code>[<span style='color:" + that.color.colorTriadToString(that.color.neonify(that.color.colorMixProp(colorfull, colorempty, val/max)))+ "'>" + hpBar + "</span>]</code> ("+String(val/max*100).substring(0, 5)+"%)";
          }
 
          return "<table><tr><td></td><td>" + e.name + "</td></tr>" +
-             "<tr><td><b>HP</b></td><td>" + bar(e.hp, e.maxhp) + "</td></tr>"+
-             "<tr><td><b>SP</b></td><td>" + bar(e.sp, e.maxsp) +"</td></tr>"+
-             "<tr><td><b>MP</b></td><td>" + bar(e.mp, e.maxmp) +"</td></tr>"+
-             "<tr><td><b>MSP</b></td><td>" + bar(e.msp, e.maxmsp) +"</td></tr></table>";
+             "<tr><td><b>HP</b></td><td>" + bar(e.hp, e.maxhp, [0, 0xee, 0], [0xff, 00, 00]) + "</td></tr>"+
+             "<tr><td><b>SP</b></td><td>" + bar(e.sp, e.maxsp,  [0x20, 0xff, 0x20], [0, 00, 00]) +"</td></tr>"+
+             "<tr><td><b>MP</b></td><td>" + bar(e.mp, e.maxmp, [0, 0, 0xff], [0, 00, 00]) +"</td></tr>"+
+             "<tr><td><b>MSP</b></td><td>" + bar(e.msp, e.maxmsp,  [0xaa, 0xaa, 0xff], [00, 00, 00]) +"</td></tr></table>";
+
+     },
+
+     printOutStatus: function (pids, entities)
+     {
+         var player_htmls = [];
+         var mob_htmls= [];
+         for (x in entities)
+         {
+             (entities[x].type == "player" ? player_htmls : mob_htmls).push(this.entHtml(entities[x]));
+         }
+
+         var outhtml = "<p align='center'><table><tr><td><h1>Players</h1></td><td><h1>&nbsp;&nbsp;&nbsp;&nbsp;V.S.&nbsp;&nbsp;&nbsp;&nbsp;</h1></td><td><h1>Mobs</h1></td></tr>";
+
+         for (var i = 0; i < player_htmls.length || i < mob_htmls.length; i++)
+         {
+             outhtml += "<tr><td>" + (player_htmls[i]||"-") + "</td><td></td><td>" + (mob_htmls[i]||"-") + "</td></tr>";
+         }
+
+         outhtml += "</table></p>";
+
+         print(outhtml);
+
+         this.com.message(pids, outhtml, -1, true);
 
      },
 
      battleStep: function (ctx)
      {
-         var x, x2, x3;
+         var x, x2, x3, i;
          var rpg = ctx.rpg;
 
          var battle = ctx.battle;
@@ -134,12 +144,14 @@
 
          this.com.message(pids, "Battle: Start Round.");
 
+
          for (x in entities)
          {
              this.entityTick(entities[x]);
 
-             this.com.message(pids, this.entHtml(entities[x]), -1, true);
          }
+
+         this.printOutStatus(pids, entities);
 
          battleLoop: for (x in entities)
          {
@@ -192,21 +204,17 @@
 
                  if (count > 0)
                  {
-                     print("counter");
-
-                     print(JSON.stringify(targets));
                      for (x3 in targets)
                      {
-                         print('z');
                          if (count-- === 0) break;
 
 
                          // ["\u2588","\u2593", "\u2592","\u2591"];
-                         print('a');
+                         //print('a');
                          var dmg = this.moves[cmp.move]({attacker: entities[x], target:targets[x3], component:cmp});
 
                          this.com.message(pids, cmp.desc.replace(/%s/g, ctx.attacker.name).replace(/%t/,targets[x3].name) + " (-"+dmg+")", this.theme.RPG);
-                         print('b');
+                         //print('b');
 
 
                      }
@@ -226,13 +234,39 @@
 
          }
 
+         for (i = 0; i < entities.length; i++)
+         {
+             if (entities[i].hp <= 0)
+             {
+                 this.com.message(pids, entities[i].name + " was slain!");
+                 if (entities[i].type == "player")
+                 {
+                     battle.players.splice(battle.players.indexOf(entities[i].name), 1);
+                 }
+
+                 else
+                 {
+                     battle.mobs.splice(battle.mobs.indexOf(entities[i]));
+                 }
+
+                 entities.splice(i, 1);
+
+
+                 i--;
+             }
+
+         }
+
          this.com.message(pids, "Battle: End Round.");
 
-         for (x in entities)
-         {
-             this.entityTick(entities[x]);
 
-             this.com.message(pids, this.entHtml(entities[x]), -1, true);
+
+         this.printOutStatus(pids, entities);
+
+          if (battle.players.length == 0 || battle.mobs.length == 0)
+         {
+             this.com.message(pids, "Battle ended");
+             delete rpg.battles[ctx.battleId];
          }
      }
 

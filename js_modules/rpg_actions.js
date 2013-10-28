@@ -22,11 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ({
     rpgActions:
     {
-        test: function (src, cmd, chan, rpg, subactions)
-        {
-            this.com.message([src], "test", this.theme.GAME, false, [chan]);
-        }
-        ,
+       
         walk: function (src, sub, chan, ctx)
         {
             for (var i = 1; i < sub.length; i++)
@@ -95,6 +91,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
             this.com.message([src], "Item removed.");
 
+        },
+
+        test: function (src, sub, chan, ctx)
+        {
+            ctx.rpg.battles[ctx.rpg.battleCounter++] = {players: [ctx.player.name], mobs: [this.mkMob("testchicken")]};
+
+            for (var x in this.areas[ctx.player.area].mobs)
+            {
+                this.com.message(sys.id(ctx.player.name), "You started battle with " + JSON.stringify(this.areas[ctx.player.area].mobs[x]), this.theme.GAME);
+            }
         }
         ,
         view: function (src, sub, chan, ctx)
@@ -204,6 +210,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         ,
         explore: function (actionObj, ctx)
         {
+            ctx.rpg.battles[ctx.rpg.battleCounter++] = {players: [ctx.player.name], mobs: [this.mkMob("testchicken")]};
+
             for (var x in this.areas[ctx.player.area].mobs)
             {
                 this.com.message(sys.id(ctx.player.name), "You started battle with " + JSON.stringify(this.areas[ctx.player.area].mobs[x]), this.theme.GAME);

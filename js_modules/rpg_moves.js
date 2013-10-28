@@ -43,11 +43,11 @@
              var base = ctx.component.base;
 
              var defense = ctx.target.defense;
-             print("phy " + offense+  " " + defense);;
+
 
              var mult = Math.min(Math.max(-0.90, Math.log(offense/defense)), 9);
 
-             print("mult " + mult);
+
              var damage = base + base * mult;
 
              damage = Math.max(damage | 0, 1);

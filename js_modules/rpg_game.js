@@ -30,7 +30,7 @@
      /** List of modules to be required.
       * @type {string[]}
       */
-     require: ["io", "com", "theme", "commands", "util", "logs", "less"],
+     require: ["io", "com", "theme", "commands", "util", "logs", "less", "color"],
 
 
      /** List of files to be included in this module.
@@ -93,7 +93,7 @@
 
          if (rpg.tick % 10 == 0) for (x in rpg.battles)
          {
-             this.battleStep( {rpg:rpg, battle: rpg.battles[x] });
+             this.battleStep( {rpg:rpg, battle: rpg.battles[x], battleId: x });
          }
      },
 
