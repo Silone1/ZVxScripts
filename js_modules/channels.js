@@ -507,6 +507,8 @@
                  chan = sys.channelId(cmd.flags.chan);
              }
 
+             var cobj = this.channelObj(chan);
+
              if (chan == 0 || !cobj || chan == -1)
              {
                  this.com.message(src, "That channel is not registered!", this.theme.ERROR);
