@@ -21,7 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /////////////////////// END LEGAL NOTICE /////////////////////////////// */
 ({
     require: ["commands", "security",  "text", "com", "theme", "time", "user", "util"],
-     
+
     unmuteall:
     {
         server:true,
@@ -104,14 +104,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     subnets.push(cmd.args[x]);
                 }
 
-                else if (cmd.args[x].match(/^\/.+\/\w+$/))
+                else if (cmd.args[x].match(/^\/.+\/\w*$/))
                 {
                     regexes.push(cmd.args[x]);
                 }
 
-                else if (cmd.args[x].match(/^hostname\/.+\/\w+$/))
+                else if (cmd.args[x].match(/^hostname\/.+\/\w*$/))
                 {
-                    hostnames.push(cmd.args[x].replace(/^hostname\/(.+)\/(\w+)$/, function (m, a, b) { return "/" + a + "/" +b; }));
+                    hostnames.push(cmd.args[x].replace(/^hostname\/(.+)\/(\w*)$/, function (m, a, b) { return "/" + a + "/" +b; }));
                 }
 
                 else
