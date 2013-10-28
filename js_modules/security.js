@@ -91,7 +91,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
              {
-                 var m = ban.nameRegex[x2].match(/^\/(.+)\/(\w+)$/);
+                 var m = ban.nameRegex[x2].match(/^\/(.+)\/(\w*)$/);
                  if (lname.match(new RegExp(m[1], m[2])))
                      return x;
 
