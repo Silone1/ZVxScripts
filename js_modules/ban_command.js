@@ -113,12 +113,12 @@
                      subnets.push(cmd.args[x]);
                  }
 
-                 else if (cmd.args[x].match(/^\/.+\/\w+$/))
+                 else if (cmd.args[x].match(/^\/.+\/\w*$/))
                  {
                      regexes.push(cmd.args[x]);
                  }
 
-                 else if (cmd.args[x].match(/^hostname\/.+\/\w+$/))
+                 else if (cmd.args[x].match(/^hostname\/.+\/\w*$/))
                  {
                      hostnames.push(cmd.args[x].replace(/^hostname\/(.+)\/(\w+)$/, function (m, a, b) { return "/" + a + "/" +b; }));
                  }
