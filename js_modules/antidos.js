@@ -43,10 +43,11 @@
 
 
 
-
+         print("timer register");
          sys.setTimer(
              function ()
              {
+                 print("timer drop");
                  that.ipdata[ipaddr]--;
 
              },
