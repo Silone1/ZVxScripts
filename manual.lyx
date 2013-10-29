@@ -147,7 +147,7 @@ Keep in mind that the default configuration for the owner group does not
 \end_layout
 
 \begin_layout LyX-Code
-/groupmod --group=Owner --addperms=SERVEROP
+/groupmod --group=Owner --addperms=ALLPERMS
 \end_layout
 
 \begin_layout Paragraph

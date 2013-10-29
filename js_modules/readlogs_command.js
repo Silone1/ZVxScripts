@@ -52,7 +52,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             var trace = cmd.flags.trace;
             var types = [];
 
-            if (! ("SERVEROP" in g || "LOGS[*]" in g) ) for (var x in ptypes)
+            if (! ("ALLPERMS" in g || "LOGS[*]" in g) ) for (var x in ptypes)
             {
                 if (("LOGS[" + ptypes[x].toUpperCase() + "]") in g)
                 {

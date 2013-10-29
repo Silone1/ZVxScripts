@@ -48,9 +48,19 @@
          return a;
      },
 
+     updateGroupObj: function (g)
+     {
+         if (g.perms.indexOf("SERVEROP") != -1)
+         {
+             g.perms.splice(g.perms.indexOf("SERVEROP"), 1);
+             g.perms.push("ALLPERMS");
+         }
+     },
+
 
      loadModule: function ()
      {
+         var x;
 
          this.script.registerHandler("beforeLogIn", this);
          /*var db = this.io.openDB("user");
@@ -87,7 +97,7 @@
          if (Object.keys(this.database.majorgroupinfo).length == 0)
              // config deleted/new server, add defaults that are not "required"
          {
-             declMajor("ServerOperator", ["SERVEROP"], "User");
+             declMajor("ServerOperator", ["ALLPERMS"], "User");
 
              declMajor("Scripter", ["LOGS[SCRIPTERROR]"], "User");
              declMajor("VIP", ["PROTECTED"], "User");
@@ -102,6 +112,11 @@
 
 
          this.updateRelationalDB();
+
+         for (x in this.database.majorgroupinfo)
+         {
+             this.updateGroupObj(this.database.majorgroupinfo[x]);
+         }
 
 
 
@@ -398,7 +413,7 @@
 
      groups: function (src)
      {
-         if (src == 0) return {"SERVEROP": null};
+         if (src == 0) return {"ALLPERMS": null};
 
          else return this.nameGroups(this.name(src));
      },
@@ -430,7 +445,7 @@
 
          var g = this.groups(id);
 
-         if ("SERVEROP" in g) return true;
+         if ("ALLPERMS" in g) return true;
 
          var _;
          return (perm in g) || ((_ = perm.match(/^([A-Z]+)\[([^\]]+)\]$/)) && ((_[1]+"[*]") in g));
@@ -442,7 +457,7 @@
          name = name.toLowerCase();
 
 
-         if (name == "~~server~~") return {"SERVEROP": null};
+         if (name == "~~server~~") return {"ALLPERMS": null};
 
          else
          {
@@ -507,7 +522,7 @@
                  }
              }
 
-             if ("SERVEROP" in groups) return {"SERVEROP":null};
+             if ("ALLPERMS" in groups) return {"ALLPERMS":null};
 
 
              return groups;

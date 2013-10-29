@@ -55,7 +55,7 @@
 
                  var g = this.user.groups(players[x]);
 
-                 if ("SERVEROP" in g || "LOGS" in g)
+                 if ("ALLPERMS" in g || "LOGS" in g)
                  {
                      var cfg = this.user.userConfig(players[x]).recieveLogTypes;
 
@@ -63,7 +63,7 @@
                      if (cfg.indexOf("*") !== -1 || cfg.indexOf(level) !== -1)
                      {
                          //Check if the user has permission to view this type of log message.
-                         if ("LOGS[*]" in g || "SERVEROP" in g || ("LOGS[" + level.toUpperCase()+"]") in g)
+                         if ("LOGS[*]" in g || "ALLPERMS" in g || ("LOGS[" + level.toUpperCase()+"]") in g)
                          {
                              this.com.message(players[x], log.msg, this.theme.LOG);
                          }

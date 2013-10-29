@@ -48,7 +48,7 @@ Permission Configuration
   does not have a lot of permissions! If you want to give members 
   of the Owner group all permissions, type:
 
-/groupmod --group=Owner --addperms=SERVEROP
+/groupmod --group=Owner --addperms=ALLPERMS
 
   You can add more groups with the create option:
 
