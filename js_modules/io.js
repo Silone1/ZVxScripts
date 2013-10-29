@@ -59,6 +59,15 @@
      /** Object that stores configuration schemas. */
      schemas: null,
 
+     unloadModule: function ()
+     {
+         for (var x in this.openDBs)
+         {
+            this.closeDB(x);
+         }
+     },
+
+
 
      loadModule: function ()
      {
@@ -67,11 +76,11 @@
          this.configs = new Object;
          this.script.registerHandler("step", this);
 
-         if (!this.configs.io) this.configs.io = {autosave:60000, autosavemethod: "commit"};
-
          this.config = this.configs.io;
 
-
+         this.configs.io = this.openDB("io.config");
+         if (!this.configs.io.autosave) this.configs.io.autosave = 3600000;
+         if (!this.configs.io.autosavemethod) this.configs.io.autosavemethod = "commit";
 
          this.registerIOWatcher = this.util.generateRegistor(this, this.util.UNARY_REGISTOR, "IOWatchers");
      },
