@@ -74,7 +74,7 @@
                          //Check if the user has permission to view this type of log message.
                          if (this.user.hasPerm(players[x], "LOGS[" + level.toUpperCase()+"]"))
                          {
-                             this.com.message(players[x], log.msg, this.theme.LOG, false, [(c == -1? undefined : c)]);
+                             this.com.message(players[x], log.msg, this.theme.LOG, false, (c == -1? undefined : c));
                          }
                      }
 
