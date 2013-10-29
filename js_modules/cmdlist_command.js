@@ -44,8 +44,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         [
             [{args:[], flags:{all:true}}, "Shows all of the commands."],
             [{args:[], flags:{nodesc:true}}, "Be brief."],
-            [{args:[], flags:{examples:true}}, "Shows examples when available."],
-            [{args:[], flags:{examples:true, all:true}}, "Shows examples when available, and shows all commands."]
+            [{args:[], flags:{noexamples:true}}, "Don't show the examples."]
 
         ],
         options:

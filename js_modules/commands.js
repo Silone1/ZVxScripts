@@ -93,7 +93,7 @@
          this.dmpO.Match_Threshold = 0.5;
          this.dmpO.Match_Distance = 0;
 	 this.user.registerConfigHook(this, "userConfiguration");
-         
+
      },
 
 
@@ -248,7 +248,17 @@
 
          try
          {
-             cmd_obj.code.call(cmd_obj.bind, src, cmd, chan, (perm === true ? void 0 : perm));
+             var retval = cmd_obj.code.call(cmd_obj.bind, src, cmd, chan, (perm === true ? void 0 : perm));
+             if (retval)
+             {
+                 if (retval.status === this.PERMISSION_ERROR)
+                 {
+
+                     this.com.message(src, "Error: No permission for " + (retval.perm || "?")  + "!");
+                     
+                 }
+
+             }
          }
          catch (e)
          {

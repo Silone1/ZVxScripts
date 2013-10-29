@@ -289,6 +289,11 @@
          return;
      },
 
+     getGroup: function (groupname)
+     {
+         return this.database.majorgroupinfo[groupname];
+     },
+
      majorGroupDropMember: function (groupname, user)
      {
          return this.majorGroupDropMemberName(groupname, this.name(user));
