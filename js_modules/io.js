@@ -76,9 +76,13 @@
          this.configs = new Object;
          this.script.registerHandler("step", this);
 
-         this.config = this.configs.io;
+
 
          this.configs.io = this.openDB("io.config");
+
+         this.config = this.configs.io;
+
+
          if (!this.configs.io.autosave) this.configs.io.autosave = 3600000;
          if (!this.configs.io.autosavemethod) this.configs.io.autosavemethod = "commit";
 
