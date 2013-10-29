@@ -26,11 +26,15 @@
      {
          server: true,
          category: "security",
-         desc: "Shows information about users",
+         options:
+         {
+             group: "Take info about groups instead of users."
+         },
+         desc: "Shows information about users/groups",
          perm: "INFO",
          code: function (src, cmd)
          {
-             var names = cmd.args;
+             var names = cmd.args, x, m = [];
 
 
              var se_group_perm = this.user.hasPerm(src, "INFO[PERMS]");
@@ -38,16 +42,45 @@
              var auth_perm = this.user.hasPerm(src, "INFO[AUTH]");
              var ip_perm = this.user.hasPerm(src, "INFO[IP]");
 
-             var m = [];
-
-             for (var x in names)
+             if (cmd.flags.group)
              {
-                 m.push("<b>Info about user: " + names[x] +"</b>");
-                 if (auth_perm) m.push("Auth level: " + this.user.nameAuth(names[x]));
-                 if (ip_perm) m.push("IP Address: " + sys.dbIp(names[x]));
-                 if (mj_group_perm) m.push("Major Groups: " + Object.keys(this.user.nameMajorGroups(names[x])).join (", ") + ".");
-                 if (se_group_perm) m.push("Permissions: " + Object.keys(this.user.nameGroups(names[x])));
-                 //m.push("Registered: " + sys.dbRegistered(names[x]));
+                 if (!mj_group_perm)
+                 {
+                     return { status: this.commands.PERMISSION_ERROR, perm: "INFO[GROUPS]"};
+                 }
+
+                 if (Object.keys(names).length === 0)
+                 {
+                     names = Object.keys(this.user.database.majorgroupinfo);
+                 }
+                 for (x in names)
+                 {
+                     var g = this.user.getGroup(names[x]);
+
+                     m.push("<b>Info about group: </b>" + names[x]);
+
+                     if (!g) {m.push("<i>Does not exist.</i>"); continue;}
+
+                     m.push("Inherits: </b>" + JSON.stringify(g.inherits));
+                     m.push("Members: " + g.members.join(", "));
+                     if (se_group_perm) m.push("Permissions: </b>" + g.perms.join(", "));
+
+                 }
+             }
+             else
+             {
+
+
+                 for (x in names)
+                 {
+                     m.push("<b>Info about user: " + names[x] +"</b>");
+                     if (auth_perm) m.push("Auth level: " + this.user.nameAuth(names[x]));
+                     if (ip_perm) m.push("IP Address: " + sys.dbIp(names[x]));
+                     if (mj_group_perm) m.push("Major Groups: " + Object.keys(this.user.nameMajorGroups(names[x])).join (", ") + ".");
+                     if (se_group_perm) m.push("Permissions: " + Object.keys(this.user.nameGroups(names[x])));
+                 }
+
+
              }
 
              this.com.message([src], "<br/>"+m.join("<br/>"), this.theme.INFO, true);
