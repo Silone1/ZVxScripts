@@ -66,6 +66,7 @@
                      var cfg = this.user.userConfig(players[x]),
                      lt = cfg.recieveLogTypes,
                      c = (cfg.logsChannel == "" ? -1 : (sys.channelId(cfg.logsChannel)|0));
+                     if (sys.channelsOfPlayer(players[x]).indexOf(c) == -1) continue l0;
 
                      // Check if the user wants to recieve this tpe of log
                      if (lt.indexOf("*") !== -1 || lt.indexOf(level) !== -1)
