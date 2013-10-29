@@ -210,7 +210,7 @@
 
          if (!cmd_obj)
          {
-             this.com.message([src], "Command does not exist.", this.theme.WARN);
+             this.com.message([src], "Command \""+cmd.name+"\": Command does not exist.", this.theme.WARN);
 
              if (1) // bugfix
              {
@@ -232,11 +232,11 @@
 
          if (!perm)
          {
-             this.com.message(src, "Permission denied.", this.theme.WARN);
+             this.com.message(src, "Command \""+cmd.name+"\": Permission denied.", this.theme.WARN);
 
              var matches = [];
 
-             for (var x in this.commands_db) if (this.dmpO.match_main(x, cmd.name, 0) != -1)
+             for (var x in this.commands_db) if (x != cmd.name && this.dmpO.match_main(x, cmd.name, 0) != -1 && this.commandPerm(src, {name:x, flags: {}, args: []}, chan))
              {
                  matches.push(x);
              }
@@ -255,7 +255,7 @@
                  {
 
                      this.com.message(src, "Error: No permission for " + (retval.perm || "?")  + "!");
-                     
+
                  }
 
              }

@@ -30,42 +30,50 @@
          this.user.registerConfigHook(this, "configuration");
 
          this.logs.registerLogHandler(this, "logMessage");
+
+         this.script.registerHandler("afterLogIn", this);
      },
 
 
      configuration: function (c)
      {
          if (!c.recieveLogTypes) c.recieveLogTypes = ["script", "io", "scripterror", "user", "command", "security"];
+         if (!("logsChannel" in c)) c.logsChannel = "Watch";
+     },
+
+     afterLogIn: function (src)
+     {
+         var cfg;
+         if (this.user.hasPerm(src, "LOGS") && (cfg = this.user.userConfig(src)).logsChannel)
+         {
+             sys.putInChannel(src, sys.channelId(cfg.logsChannel));
+
+         }
      },
 
 
      logMessage: function(log)
      {
-         var level = log.level;
+         var level = log.level, msg = log.msg, players = sys.playerIds().concat([0]);
 
-         var msg = log.msg;
-
-         var players = sys.playerIds().concat([0]);
-
-
-	 try {
-             for (var x in players)
+	 try
+         {
+             l0: for (var x in players)
              {
 
-
-                 var g = this.user.groups(players[x]);
-
-                 if ("ALLPERMS" in g || "LOGS" in g)
+                 if (this.user.hasPerm(players[x], "LOGS"))
                  {
-                     var cfg = this.user.userConfig(players[x]).recieveLogTypes;
+                     var cfg = this.user.userConfig(players[x]),
+                     lt = cfg.recieveLogTypes,
+                     c = (cfg.logsChannel == "" ? -1 : (sys.channelId(cfg.logsChannel)|0));
 
                      // Check if the user wants to recieve this tpe of log
-                     if (cfg.indexOf("*") !== -1 || cfg.indexOf(level) !== -1)
+                     if (lt.indexOf("*") !== -1 || lt.indexOf(level) !== -1)
                      {
                          //Check if the user has permission to view this type of log message.
-                         if ("LOGS[*]" in g || "ALLPERMS" in g || ("LOGS[" + level.toUpperCase()+"]") in g)
+                         if (this.user.hasPerm(players[x], "LOGS[" + level.toUpperCase()+"]"))
                          {
-                             this.com.message(players[x], log.msg, this.theme.LOG);
+                             this.com.message(players[x], log.msg, this.theme.LOG, false, [(c == -1? undefined : c)]);
                          }
                      }
 
@@ -73,7 +81,7 @@
              }
          } catch(e)
          {
-             print(e);//  this.script.error(e);
+             print(e + "\n\n" + e.backtracetext);//  this.script.error(e);
          }
      }
  });

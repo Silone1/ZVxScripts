@@ -67,10 +67,19 @@
          this.script.registerHandler("beforeChannelJoin", this);
          this.script.registerHandler("afterChannelJoin", this);
          this.script.registerHandler("beforeChannelDestroyed", this);
+         this.script.registerHandler("afterLogIn", this);
+         this.user.registerConfigHook(this, "configuration");
 
          this.chat.registerFilter(this.chanMuteFilter, this);
      }
      ,
+     configuration: function (c)
+     {
+         if (!c.autoJoinChannels) c.autoJoinChannels = [];
+     },
+
+
+
      unloadModule: function ()
      {
          for (var x in this.chans)
@@ -652,6 +661,17 @@
 
 
 
+     },
+
+     afterLogIn: function (src)
+     {
+         var cfg = this.user.userConfig(src);
+
+         for (x in cfg.autoJoinChannels)
+         {
+             this.com.message(src, "Autojoin #" + cfg.autoJoinChannels[x]);
+             sys.putInChannel(src, sys.channelId(cfg.autoJoinChannels));
+         }
      },
 
      afterChannelJoin: function (src, chan)

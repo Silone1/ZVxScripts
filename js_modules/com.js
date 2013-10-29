@@ -41,12 +41,13 @@
       */
      message: function (usrs, msg, type, html, chans, servercode )
      {
+         var x, x2, x1;
          usrs = this.util.arrayify(usrs);
          chans = this.util.arrayify(chans);
          var fmt_msg = this.theme.formatAs(this.escapeHtmlBool(msg, html), type || 0);
          if (!chans)
          {
-             for (var x in usrs)
+             for ( x in usrs)
              {
                  if (usrs[x] === 0) print(this.text.stripHTML(fmt_msg));
                  else sys.sendHtmlMessage(usrs[x], fmt_msg );
@@ -54,9 +55,12 @@
          }
          else
          {
-             for (var x1 in usrs)
+             for ( x1 in usrs)
              {
-                 if (usrs[x1] == 0) print("[#" + chans.join(", #")+"]"+this.text.stripHTML(fmt_msg));
+                 var cnames = [];
+
+                 for ( x2 in chans) cnames.push(sys.channel(chans[x2]));
+                 if (usrs[x1] == 0) print("[#" + cnames.join(", #")+"] "+this.text.stripHTML(fmt_msg));
                  else for (var x2 in chans)
                  {
                      sys.sendHtmlMessage(usrs[x1], fmt_msg, chans[x2]);
@@ -117,7 +121,7 @@
          var channames = [];
 
 
-         
+
          if (chans) chans = this.util.arrayify(chans);
 
          this.logs.logMessage(this.logs.BROADCAST, this.stripHtmlBool(msg, html));
