@@ -15,12 +15,13 @@
          var res=  [(a[0]*p + b[0]*(1-p)) >> 0, (a[1]*p + b[1]*(1-p)) >> 0, (a[2]*p + b[2]*(1-p)) >> 0];
 
 
-          print("Mix " + JSON.stringify([a, b, p]) + " -> " + JSON.stringify(res));
+         // print("Mix " + JSON.stringify([a, b, p]) + " -> " + JSON.stringify(res));
          return res;
      },
 
      neonify: function (c, level)
      {
+         return c;
          if (!level) level = 1;
          level = level*0xff;
 
@@ -30,7 +31,7 @@
 
          var q = level/m;
 
-         return [(c[0]*q >> 0), (c[1]*q >> 0), (c[2]*q >> 0)];
+         return [((c[0]*q) >> 0), ((c[1]*q) >> 0), ((c[2]*q) >> 0)];
      },
 
      colorTriadToString: function (triad)
