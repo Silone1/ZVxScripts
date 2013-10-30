@@ -10,6 +10,7 @@ js_modules/channels.js
 js_modules/chat.js
 js_modules/clearchat.js
 js_modules/cmdlist_command.js
+js_modules/color.js
 js_modules/com.js
 js_modules/commands.js
 js_modules/common_commands.js
@@ -60,12 +61,14 @@ js_modules/rpg_equips.js
 js_modules/rpg_game.js
 js_modules/rpg_items.js
 js_modules/rpg_materials.js
+js_modules/rpg_mixins.js
 js_modules/rpg_mobs.js
 js_modules/rpg_moves.js
 js_modules/rpg_player.js
 js_modules/rpg_skills.js
 js_modules/rules.js
 js_modules/sched.js
+js_modules/schema.js
 js_modules/security.js
 js_modules/server.js
 js_modules/serverimp.js
