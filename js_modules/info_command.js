@@ -61,9 +61,13 @@
 
                      if (!g) {m.push("<i>Does not exist.</i>"); continue;}
 
-                     m.push("Inherits: </b>" + JSON.stringify(g.inherits));
+
                      m.push("Members: " + g.members.join(", "));
-                     if (se_group_perm) m.push("Permissions: </b>" + g.perms.join(", "));
+                     if (se_group_perm)
+                     {
+                         m.push("Permissions: </b>" + g.perms.join(", "));
+                         m.push("Inherits: </b>" + g.inherits.join(", "));
+                     }
 
                  }
              }
