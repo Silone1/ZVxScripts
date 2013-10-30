@@ -12,7 +12,7 @@
 
 
 
-         var res=  [(a[0]*p + b[0]*(1-p)) >> 0, (a[1]*p + b[1]*(1-p)) >> 0, (a[2]*p + b[2]*(1-p)) >> 0];
+         var res=  [Math.floor(a[0]*p + b[0]*(1-p)), Math.floor(a[1]*p + b[1]*(1-p)) >> 0, Math.floor(a[2]*p + b[2]*(1-p)) >> 0];
 
 
          // print("Mix " + JSON.stringify([a, b, p]) + " -> " + JSON.stringify(res));
