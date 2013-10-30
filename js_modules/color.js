@@ -23,15 +23,20 @@
      {
         // return c;
          if (!level) level = 1;
+
+
          level = level*0xff;
 
          var m = Math.max(c[0], c[1], c[2]);
 
-         if (m >= level) return c;
+         if (m >= level) {if (script.__debug_mode__) print ("neonify " + JSON.stringify({c:c,level:level,m:m,q:q, out:out })); return c;}
 
          var q = level/m;
 
-         return [((c[0]*q) >> 0), ((c[1]*q) >> 0), ((c[2]*q) >> 0)];
+
+         var out = [((c[0]*q) >> 0), ((c[1]*q) >> 0), ((c[2]*q) >> 0)];
+         if (script.__debug_mode__) print ("neonify " + JSON.stringify({c:c,level:level,m:m,q:q, out:out }));
+         return out;
      },
 
      colorTriadToString: function (triad)
