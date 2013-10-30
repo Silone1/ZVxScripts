@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ({
     rpgActions:
     {
-       
+
         walk: function (src, sub, chan, ctx)
         {
             for (var i = 1; i < sub.length; i++)
@@ -95,6 +95,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         test: function (src, sub, chan, ctx)
         {
+            if (! ctx.rpg.battleCounter) ctx.rpg.battleCounter = 0;
+
+
             ctx.rpg.battles[ctx.rpg.battleCounter++] = {players: [ctx.player.name], mobs: [this.mkMob("testchicken")]};
 
             for (var x in this.areas[ctx.player.area].mobs)
