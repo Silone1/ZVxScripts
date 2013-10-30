@@ -153,10 +153,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
             this.com.broadcast(
                  this.text.escapeHTML(
-                     "Posted ban #" +this.security.database.banCtr
+                     "Posted mute #" +this.security.database.banCtr
                  ) +
-                     "<hr/>" + this.theme.issuehtml(o) +
-                     "<hr/>"
+                     "" + this.theme.issuehtml(o) +
+                     ""
                  ,
                  this.theme.CRITICAL,
                  true
