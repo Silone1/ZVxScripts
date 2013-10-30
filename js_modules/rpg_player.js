@@ -34,8 +34,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 psy: 100,                spr: 100,
                 men: 100,
 
-                hp: 100,
-                lp: 100,
+                hp: 100, mp:0,
+                lp: 100, sp: 0,
+                msp: 0,
 
                 type: "player",
 
@@ -81,7 +82,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     quality: 600
                 },
 
-                
+
                 feet:
                 // Leather shoes
                 {

@@ -46,7 +46,7 @@
      {
          var that = this;
 
-         function bar (val, max, colorfull, colorempty)
+         function bar (val, max, colorfull, colorempty, neon)
          {
              var hpBar = "";
              var d;
@@ -65,14 +65,14 @@
              //else hpBar += hpSlivers[hpEightiths];
              while(hpBar.length < 10) hpBar += "\u259e";
 
-             return "<code>[<span style='color:" + that.color.colorTriadToString(that.color.neonify(that.color.colorMixProp(colorfull, colorempty, val/max)))+ "'>" + hpBar + "</span>]</code> ("+String(val/max*100).substring(0, 5)+"%)";
+             return "<code>[<span style='color:" + that.color.colorTriadToString(that.color.neonify(that.color.colorMixProp(colorfull, colorempty, val/max), neon))+ "'>" + hpBar + "</span>]</code> ("+String(val/max*100).substring(0, 5)+"%)";
          }
 
          return "<table><tr><td></td><td>" + e.name + "</td></tr>" +
-             "<tr><td><b>HP</b></td><td>" + bar(e.hp, e.maxhp, [0, 0xee, 0], [0xff, 00, 00]) + "</td></tr>"+
-             "<tr><td><b>SP</b></td><td>" + bar(e.sp, e.maxsp,  [0x20, 0xff, 0x20], [0, 00, 00]) +"</td></tr>"+
-             "<tr><td><b>MP</b></td><td>" + bar(e.mp, e.maxmp, [0, 0, 0xff], [0, 00, 00]) +"</td></tr>"+
-             "<tr><td><b>MSP</b></td><td>" + bar(e.msp, e.maxmsp,  [0xaa, 0xaa, 0xff], [00, 00, 00]) +"</td></tr></table>";
+             "<tr><td><b>HP</b></td><td>" + bar(e.hp, e.maxhp, [0, 0xee, 0], [0xff, 00, 00], 1) + "</td></tr>"+
+             "<tr><td><b>SP</b></td><td>" + bar(e.sp, e.maxsp,  [0x20, 0xff, 0x20], [0, 00, 00], 0) +"</td></tr>"+
+             "<tr><td><b>MP</b></td><td>" + bar(e.mp, e.maxmp, [0, 0, 0xff], [0, 00, 00], 0) +"</td></tr>"+
+             "<tr><td><b>MSP</b></td><td>" + bar(e.msp, e.maxmsp,  [0xaa, 0xaa, 0xff], [00, 00, 00], 0) +"</td></tr></table>";
 
      },
 
@@ -85,11 +85,11 @@
              (entities[x].type == "player" ? player_htmls : mob_htmls).push(this.entHtml(entities[x]));
          }
 
-         var outhtml = "<p align='center'><table><tr><td><h1>Players</h1></td><td><h1>&nbsp;&nbsp;&nbsp;&nbsp;V.S.&nbsp;&nbsp;&nbsp;&nbsp;</h1></td><td><h1>Mobs</h1></td></tr>";
+         var outhtml = "<p align='center'><table><tr><td><h1></h1></td><td><h1>&nbsp;&nbsp;&nbsp;&nbsp;V.S.&nbsp;&nbsp;&nbsp;&nbsp;</h1></td><td><h1></h1></td></tr>";
 
          for (var i = 0; i < player_htmls.length || i < mob_htmls.length; i++)
          {
-             outhtml += "<tr><td>" + (player_htmls[i]||"-") + "</td><td></td><td>" + (mob_htmls[i]||"-") + "</td></tr>";
+             outhtml += "<tr><td>" + (player_htmls[i]||"&nbsp;") + "</td><td></td><td>" + (mob_htmls[i]||"&nbsp;") + "</td></tr>";
          }
 
          outhtml += "</table></p>";
@@ -106,6 +106,10 @@
          var rpg = ctx.rpg;
 
          var battle = ctx.battle;
+
+         if (!battle.round) battle.round = 0;
+
+
 
          // team_players is an array of all the players that are playing
          // we make it from battle.players
@@ -150,6 +154,7 @@
 
          for (x in entities)
          {
+             if (battle.round == 0) this.entityUpdateStats(entities[x]);
              this.entityTick(entities[x]);
 
          }

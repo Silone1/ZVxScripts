@@ -39,10 +39,10 @@
           */
          physical: function (ctx)
          {
-             var offense = ctx.attacker.offense;
+             var offense = ctx.attacker.physpower;
              var base = ctx.component.base;
 
-             var defense = ctx.target.defense;
+             var defense = ctx.target.physpower;
 
 
              var mult = Math.min(Math.max(-0.90, Math.log(offense/defense)), 9);

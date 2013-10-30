@@ -24,12 +24,17 @@
      {
          var m = JSON.parse(JSON.stringify(this.mobs[mb]));
 
-         
+         if (!m.sta) m.sta = 100;
+         if (!m.str) m.str = 100;
+         if (!m.res) m.res = 100;
+         if (!m.men) m.men = 100;
+         if (!m.psy) m.psy = 100;
+         if (!m.spd) m.spd = 100;
+         if (!m.mag) m.mag = 100;
+         if (!m.spr) m.spr = 100;
 
-         if (!m.maxhp) m.maxhp = 1;
-         if (!m.maxmp) m.maxmp = 1;
-         if (!m.maxsp) m.maxsp = 1;
-         if (!m.maxmsp) m.maxmsp = 1;
+         this.entityUpdateStats(m);
+
 
          m.hp = m.maxhp;
          m.mp = m.maxmp;
@@ -74,7 +79,7 @@
          dkfrog:
          {
              name: "Dark Frog",
-             desc: "A frog that is controled by the powers of evil.",
+             desc: "You can ask this frog is he's read any well-known gririmore, and his responce, more than likely, will be 'read-it read-it'.",
              maxhp: 30,
              offense: 450,
              defense: 200
