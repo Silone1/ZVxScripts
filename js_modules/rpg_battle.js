@@ -51,7 +51,7 @@
              var hpBar = "";
              var d;
 
-             var hpFract = (val/max*8*10) >> 0;
+             var hpFract = Math.floor(val/max*8*10);
              if (hpFract < 0) hpFract = 0;
              var hpTenths = (hpFract - hpFract%8)/8;
              var hpEightiths = (hpFract-hpTenths*8) % 8;
@@ -91,7 +91,7 @@
 
          outhtml += "</table></p>";
 
-         print(outhtml);
+        
 
          this.com.message(pids, outhtml, -1, true);
 
