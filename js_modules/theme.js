@@ -74,7 +74,7 @@
              }
          }
 
-         if (issued.author) outtext.push("Issued by: " + issued.reason);
+         if (issued.author) outtext.push("Issued by: " + issued.author);
          if (issued.reason) outtext.push("Reason: " + issued.reason);
 
          outtext.push("Expires: " + ( issued.expires?  this.time.diffToStr(issued.expires - +new Date) + " (" +  new Date(issued.expires).toString() +")" : "indefinite"));
@@ -104,6 +104,8 @@
              }
          }
 
+
+         if (issued.author) outtext.push("<b>Issued by:</b> " + issued.author);
          if (issued.reason) outtext.push("<b>Reason:</b> " + issued.reason);
 
          outtext.push("<b>Expires:</b> " + ( issued.expires?  this.time.diffToStr(issued.expires - +new Date) + " (" +  new Date(issued.expires).toString() +")" : "indefinite"));
