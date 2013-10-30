@@ -1,97 +1,100 @@
-/*  ///////////////////////// LEGAL NOTICE ///////////////////////////////
-
- This file is part of ZVxScripts,
- a modular script framework for Pokemon Online server scripting.
-
- Copyright (C) 2013  Ryan P. Nicholl, aka "ArchZombie" / "ArchZombie0x", <archzombielord@gmail.com>
-
- This program is free software: you can redistribute it and/or modify
- it under the terms of the GNU Affero General Public License as
- published by the Free Software Foundation, either version 3 of the
- License, or (at your option) any later version.
-
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU Affero General Public License for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
- /////////////////////// END LEGAL NOTICE /////////////////////////////// */
-({
-     mkMob: function (mb)
-     {
-         var m = JSON.parse(JSON.stringify(this.mobs[mb]));
-
-         if (!m.sta) m.sta = 100;
-         if (!m.str) m.str = 100;
-         if (!m.res) m.res = 100;
-         if (!m.men) m.men = 100;
-         if (!m.psy) m.psy = 100;
-         if (!m.spd) m.spd = 100;
-         if (!m.mag) m.mag = 100;
-         if (!m.spr) m.spr = 100;
-
-         this.entityUpdateStats(m);
-
-
-         m.hp = m.maxhp;
-         m.mp = m.maxmp;
-         m.msp = m.maxmsp;
-         m.sp = m.maxsp;
-
-         m.type = "mob";
-
-         return m;
-     },
-
-     mobs:
-     {
-         testchicken:
-         {
-             name: "TESTCHICKEN __proto__ $('Chicken')",
-             desc: "",
-             offense: 100,
-             maxhp: 200,
-             defense: 6000,
-             drops: [{
-                         prob: 1,
-                         item: "shroomcap",
-                         count: 1
-                     }]
-         },
-
-         eshroom:
-         {
-             name: "Evil Mushroom",
-             desc: "One day, a mushroom turned into a monster... but... it didn't get any larger when that happened.",
-             offense: 100,
-             maxhp: 20,
-             defense: 100,
-             drops: [{
-                         prob: 1,
-                         item: "shroomcap",
-                         count: 1
-                     }]
-         }
-         ,
-         dkfrog:
-         {
-             name: "Dark Frog",
-             desc: "You can ask this frog is he's read any well-known gririmore, and his responce, more than likely, will be 'read-it read-it'.",
-             maxhp: 30,
-             offense: 450,
-             defense: 200
-         }
-         ,
-         dsquirl:
-         {
-             name: "Deadly Squirl",
-             desc: "Nuts with evil, this squirl is as dangerous as squirls get!",
-             maxhp: 40,
-             offense: 1300,
-             defense: 1600
-         }
-     }
- });
+/*/////////////////////////LEGALNOTICE///////////////////////////////ThisfileispartofZVxScripts,
+amodularscriptframeworkforPokemonOnlineserverscripting.Copyright(C)2013RyanP.Nicholl,
+aka"ArchZombie"/"ArchZombie0x",
+<archzombielord@gmail.com>Thisprogramisfreesoftware: youcanredistributeitand/ormodifyitunderthetermsoftheGNUAfferoGeneralPublicLicenseaspublishedbytheFreeSoftwareFoundation,
+eitherversion3oftheLicense,
+or(atyouroption)anylaterversion.Thisprogramisdistributedinthehopethatitwillbeuseful,
+butWITHOUTANYWARRANTY;withouteventheimpliedwarrantyofMERCHANTABILITYorFITNESSFORAPARTICULARPURPOSE.SeetheGNUAfferoGeneralPublicLicenseformoredetails.YoushouldhavereceivedacopyoftheGNUAfferoGeneralPublicLicensealongwiththisprogram.Ifnot,
+see<http: //www.gnu.org/licenses/>.///////////////////////ENDLEGALNOTICE///////////////////////////////*/({
+    mkMob: function(mb){
+        varm=JSON.parse(JSON.stringify(this.mobs[
+            mb
+        ]));if(!m.maxhp)m.maxhp=1;if(!m.maxmp)m.maxmp=1;if(!m.maxsp)m.maxsp=1;if(!m.maxmsp)m.maxmsp=1;m.hp=m.maxhp;m.mp=m.maxmp;m.msp=m.maxmsp;m.sp=m.maxsp;m.type="mob";returnm;
+    },
+    mobs: {
+        testchicken: {
+            name: "TESTCHICKEN __proto__ $('Chicken')",
+            desc: "",
+            offense: 100,
+            maxhp: 200,
+            defense: 6000,
+            drops: [
+                {
+                    prob: 1,
+                    item: "shroomcap",
+                    count: 1
+                }
+            ]
+        },
+        ebunny: {
+            name: "Evil Bunny",
+            desc: "A cute little bunny got hit with an evil staff and turn in a Evil Bunny.",
+            offence: 100,
+            maxhp50,
+            defence: 120,
+            
+        },
+        eshroom: {
+            name: "Evil Mushroom",
+            desc: "One day, a mushroom turned into a monster... but... it didn't get any larger when that happened.",
+            offense: 100,
+            maxhp: 20,
+            defense: 100,
+            drops: [
+                {
+                    prob: 1,
+                    item: "shroomcap",
+                    count: 1
+                }
+            ]
+        },
+        dummy: {
+            name: "Dummy",
+            desc: "A training dummy used to practice your skills.",
+            maxhp: ,
+            offence: ,
+            defence: 
+        },
+        giant{
+            name: "Giant",
+            desc: "Enormous creatures that tramples their foes with their feet.",
+            maxhp: ,
+            offence: ,
+            defence: 
+        },
+        troll: {
+            name: "Troll",
+            desc: "Ugly creatures that have no sence of humor and take everything seriously.",
+            maxhp: ,
+            offence: ,
+            defence: 
+        },
+        dkfrog: {
+            name: "Dark Frog",
+            desc: "A frog that is controled by the powers of evil.",
+            maxhp: 30,
+            offense: 450,
+            defense: 200
+        },
+        rbrat: {
+            name: "Rabid Rat",
+            desc: "Rats that foam at the mouth and are utterly ugly. They crooked teeth and red eyes.",
+            maxhp: ,
+            offence: ,
+            defence: 
+        },
+        skeletonwar: name: "Skeleton Warriors",
+        desc: "Bones and more bones. They use their swords to try to chop you in half",
+        maxhp: ,
+        offence: ,
+        defence: 
+    },
+    dsquirl: {
+        name: "Deadly Squirl",
+        desc: "Nuts with evil, this squirl is as dangerous as squirls get!",
+        maxhp: 40,
+        offense: 1300,
+        defense: 1600
+    }
+}
+});
