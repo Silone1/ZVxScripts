@@ -5,7 +5,7 @@
 #echo -n / > bin/slash
 #echo -n https://raw.github.com/ArchZombie/ZVxScripts/ > bin/basepath
 #cat bin/basepath bin/commit-stable bin/slash > bin/baseurl
-#git ls-files js_modules/* > bin/filelist
+git ls-files js_modules/* > bin/filelist
 
 cd tools
 nodejs packager.js
