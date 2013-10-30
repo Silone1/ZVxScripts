@@ -35,7 +35,7 @@
 
 
          var out = [((c[0]*q) >> 0), ((c[1]*q) >> 0), ((c[2]*q) >> 0)];
-         if (script.__debug_mode__) print ("neonify " + JSON.stringify({c:c,level:level,m:m,q:q, out:out }));
+         if (script.__debug_mode__) print ("neonify " + JSON.stringify({c:c,level:level,m:m,q:q, out:out, c1_x_q: c[1]*q }));
          return out;
      },
 
