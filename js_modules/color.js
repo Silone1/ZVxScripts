@@ -21,7 +21,7 @@
 
      neonify: function (c, level)
      {
-         return c;
+        // return c;
          if (!level) level = 1;
          level = level*0xff;
 

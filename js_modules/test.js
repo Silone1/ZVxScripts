@@ -19,33 +19,34 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
  /////////////////////// END LEGAL NOTICE /////////////////////////////// */
-(function () {
-     return (
+({
+     require: ["color", "com", "theme"],
+
+     runTests: function (src)
+     {
+         var red = [0xff, 00, 00];
+
+         var green = [0, 0xff, 0];
+
+         this.com.message(src, "Mixing test...");
+
+         for (var i = 0; i <= 1; i += 1/21)
          {
-             require: ["com", "parsecommand", "profile", "logs", "util"],
+             var c = this.color.colorMixProp(red, green, i);
+             var cd = this.color.colorTriadToString(c);
+             this.com.message(src, "<font color="+cd+">Mix " + JSON.stringify(red) + " and " + JSON.stringify(green) + " @ p = " + i + " for " + JSON.stringify(c) + "</font>", this.theme.INFO, true);
+         }
 
+         this.com.message(src, "Neonify test...");
 
-             loadModule: function ()
-             {
-                 this.logs.logMessage(this.logs.DEBUG);
+         for (var i = 0; i <= 1; i += 1/20)
+         {
+             var c = this.color.colorMixProp(red, green, i);
+             var c2 = this.color.neonify(c, 1);
+             var cd = this.color.colorTriadToString(c2);
+             this.com.message(src, "<font color="+cd+">Neonify " + JSON.stringify(c) + " for " + JSON.stringify(c2) + "</font>", this.theme.INFO, true);
+         }
 
-                 print(sys.backtrace());
+     }
 
-                 this.registerTest = this.util.generateRegistor(this, this.util.UNARY_REGISTOR, "testers", false);
-             },
-
-             xxtest: function q ()
-             {
-                 print("xx " + this.xxtest.caller());
-                 print(arguments.caller);
-             },
-
-             unloadModule: function ()
-             {
-                 this.registerTest = null;
-
-                 this.testers = null;
-             }
-         });
- }
-)();
+ });
