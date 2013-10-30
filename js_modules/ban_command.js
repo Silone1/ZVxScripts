@@ -162,11 +162,10 @@
              };
 
              this.com.broadcast(
-                 "<hr/>" +
-                     this.text.escapeHTML(
-                         this.user.name(src) + " issued ban #" +this.security.database.banCtr
-                     ) +
-                     "<br/>" + this.theme.issuehtml(o) +
+                 this.text.escapeHTML(
+                     "Posted ban #" +this.security.database.banCtr
+                 ) +
+                     "<hr/>" + this.theme.issuehtml(o) +
                      "<hr/>"
                  ,
                  this.theme.CRITICAL,
