@@ -155,7 +155,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                  this.text.escapeHTML(
                      "Posted mute #" +this.security.database.banCtr
                  ) +
-                     "" + this.theme.issuehtml(o) +
+                     "<br/>" + this.theme.issuehtml(o) +
                      ""
                  ,
                  this.theme.CRITICAL,
