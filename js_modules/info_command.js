@@ -62,7 +62,7 @@
                      if (!g) {m.push("<i>Does not exist.</i>"); continue;}
 
 
-                     m.push("Members: " + g.members.join(", "));
+                     if (! (g.name in {"User": null, "Registered": null} )) m.push("Members: " + g.members.join(", "));
                      if (se_group_perm)
                      {
                          m.push("Permissions: </b>" + g.perms.join(", "));
