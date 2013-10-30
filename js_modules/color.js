@@ -12,7 +12,7 @@
 
 
 
-         var res=  [Math.floor(a[0]*p + b[0]*(1-p)), Math.floor(a[1]*p + b[1]*(1-p)) >> 0, Math.floor(a[2]*p + b[2]*(1-p)) >> 0];
+         var res=  [(a[0]*p + b[0]*(1-p)) >> 0, (a[1]*p + b[1]*(1-p)) >> 0, (a[2]*p + b[2]*(1-p)) >> 0];
 
 
          // print("Mix " + JSON.stringify([a, b, p]) + " -> " + JSON.stringify(res));
@@ -34,7 +34,7 @@
          var q = level/m;
 
 
-         var out = [((c[0]*q) >> 0), ((c[1]*q) >> 0), ((c[2]*q) >> 0)];
+         var out = [Math.floor(c[0]*q), Math.floor(c[1]*q), Math.floor(c[2]*q)];
          if (script.__debug_mode__) print ("neonify " + JSON.stringify({c:c,level:level,m:m,q:q, out:out, c1_x_q: c[1]*q, c1_x_q_shift:  (c[1]*q) >> 0}));
          return out;
      },
