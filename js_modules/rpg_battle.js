@@ -59,7 +59,7 @@
              for (var x = 0; x < hpTenths; x++) hpBar += "\u2588";
              var hpSlivers = ["", "\u258f", "\u258e", "\u258d", "\u258c", "\u258b", "\u258a", "\u2589"];
 
-             if ("" + hpSlivers[hpEightiths] == "undefined") print( "UNDEFINED " + JSON.stringify([hpSlivers, hpEightiths, hpFract, hpTengths, hpTenght*8, hpFract - hpTenths]));
+             if ("" + hpSlivers[hpEightiths] == "undefined") print( "UNDEFINED " + JSON.stringify([hpSlivers, hpEightiths, hpFract, hpTenths, hpTenhts*8, hpFract - hpTenths]));
              while(hpBar.length < 10) hpBar += "\u259e";
 
              return "<code>[<span style='color:" + that.color.colorTriadToString(that.color.neonify(that.color.colorMixProp(colorfull, colorempty, val/max)))+ "'>" + hpBar + "</span>]</code> ("+String(val/max*100).substring(0, 5)+"%)";
