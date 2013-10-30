@@ -152,16 +152,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             };
 
             this.com.broadcast(
-                "<hr/>" +
-                    this.text.escapeHTML(
-                        this.user.name(src) + " issued mute #" +this.security.database.muteCtr
-                    ) +
-                    "<br/>" + this.theme.issuehtml(o) +
-                    "<hr/>"
-                ,
-                this.theme.CRITICAL,
-                true
-            );
+                 this.text.escapeHTML(
+                     "Posted ban #" +this.security.database.banCtr
+                 ) +
+                     "<hr/>" + this.theme.issuehtml(o) +
+                     "<hr/>"
+                 ,
+                 this.theme.CRITICAL,
+                 true
+             );
 
 
 
